@@ -223,7 +223,7 @@
     .presentation-container {
       position: relative;
       width: 100vw;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 60px - 64px);
       margin-top: 60px;
       overflow: hidden;
     }
@@ -234,7 +234,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      padding: 30px 48px;
+      padding: 24px 48px;
       display: flex;
       flex-direction: column;
       opacity: 0;
@@ -265,7 +265,7 @@
 
     /* כותרות ופתיחי שקף */
     .slide-header {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       position: relative;
       flex-shrink: 0;
     }
@@ -934,24 +934,65 @@
     .detail-val { color: #fff; font-weight: 500; }
 
     /* ==========================================================================
-       סרגל בקרי ניווט תחתון (Floating Navigation Bar & Indicators)
+       סרגל תחתון ייעודי ובקרי ניווט (Dedicated Presentation Footer Dock)
+       מופרד לחלוטין משטח השקופיות כדי למנוע הסתרת מלל או כפתורים
        ========================================================================== */
-    .nav-bar-bottom {
+    .presentation-footer {
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(14, 21, 38, 0.85);
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(7, 10, 18, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-subtle);
-      padding: 8px 18px;
-      border-radius: 40px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .footer-side-info {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 220px;
+    }
+
+    .footer-side-topic {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: left;
+      min-width: 220px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .footer-topic-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--democracy-blue);
+      box-shadow: 0 0 8px var(--democracy-glow);
+    }
+
+    .nav-bar-bottom {
       display: flex;
       align-items: center;
       gap: 16px;
-      z-index: 1000;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background: rgba(14, 21, 38, 0.85);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 18px;
+      border-radius: 40px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     }
 
     .btn-nav-circle {
@@ -1170,6 +1211,35 @@
       .floating-side-arrow { display: none; }
       .slide-title { font-size: 1.6rem; }
       .hero-title { font-size: 2.2rem; }
+      .presentation-footer {
+        padding: 0 16px;
+        justify-content: center;
+      }
+      .footer-side-info, .footer-side-topic {
+        display: none;
+      }
+      .presentation-container {
+        height: calc(100vh - 60px - 64px);
+      }
+    }
+
+    /* התאמה להדפסה ולייצוא PDF ללא פסי ניווט מפריעים */
+    @media print {
+      header.presentation-header, .presentation-footer, .floating-side-arrow {
+        display: none !important;
+      }
+      .presentation-container {
+        height: auto !important;
+        margin-top: 0 !important;
+        overflow: visible !important;
+      }
+      .slide {
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        page-break-after: always;
+        height: 100vh !important;
+      }
     }
   </style>
 </head>
@@ -1228,26 +1298,6 @@
   <button class="floating-side-arrow arrow-left" id="arrow-next" title="לשקף הבא (חץ שמאלה)">
     <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
   </button>
-
-  <!-- ==========================================================================
-       סרגל בקרי ניווט תחתון
-       ========================================================================== */
-  -->
-  <nav class="nav-bar-bottom">
-    <button class="btn-nav-circle" id="nav-btn-prev" title="הקודם">
-      <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-    </button>
-    
-    <div class="slide-dots-container" id="slide-dots"></div>
-
-    <div class="slide-counter" id="slide-counter-display">
-      שקף <strong>1</strong> מתוך <strong>10</strong>
-    </div>
-
-    <button class="btn-nav-circle" id="nav-btn-next" title="הבא">
-      <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-    </button>
-  </nav>
 
   <!-- ==========================================================================
        מיכל השקפים הראשי
@@ -1725,7 +1775,7 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
               <button class="layer-btn" id="layer-btn-topo" data-layer="topo">🗺️ מפה טופוגרפית (Topology)</button>
             </div>
             <canvas id="globe-main-canvas"></canvas>
-            <div class="canvas-overlay-tip" style="bottom: 54px;">גרור לסיבוב • גלגל לזום • לחץ על סמן מדינה לפרטים</div>
+            <div class="canvas-overlay-tip">גרור לסיבוב • גלגל לזום • לחץ על סמן מדינה לפרטים</div>
           </div>
 
           <!-- כרטיסיית מידע על מדינה נבחרת -->
@@ -1847,11 +1897,11 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
             החירות אינה מובנת מאליה: <br>
             <span class="hero-highlight">עתיד המשטרים בידי אזרחיהם</span>
           </h2>
-          <p class="hero-subtitle" style="margin: 0 auto 30px; font-size: 1.15rem;">
+          <p class="hero-subtitle" style="margin: 0 auto 18px; font-size: 1.1rem;">
             משטרים פוליטיים אינם גזרת גורל קבועה. הם תוצר מתמיד של מאבקים היסטוריים, תרבות פוליטית ועירנות אזרחית. שמירה על הפרדת רשויות, שלטון החוק וחופש הביטוי היא תנאי הכרחי לקיומה של חברה חופשית ומשגשגת.
           </p>
 
-          <div class="grid-3col" style="text-align: right; margin-bottom: 30px;">
+          <div class="grid-3col" style="text-align: right; margin-bottom: 20px;">
             <div class="card-glass glow-blue" style="padding: 16px;">
               <h4 style="color:#fff; font-size: 1rem; margin-bottom: 6px;">EIU Democracy Index</h4>
               <p style="font-size: 0.8rem; color: var(--text-muted);">
@@ -1889,6 +1939,37 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
     </section>
 
   </main>
+
+  <!-- ==========================================================================
+       סרגל תחתון קבוע וייעודי לבקרי ניווט (Presentation Footer Dock)
+       מופרד לחלוטין ממיכל השקפים כדי שלא יסתיר שום טקסט או כפתורים
+       ========================================================================== -->
+  <footer class="presentation-footer" id="presentation-footer">
+    <div class="footer-side-info">
+      <span class="kbd-key">Space</span> או <span class="kbd-key">←</span> <span class="kbd-key">→</span> לניווט
+    </div>
+
+    <nav class="nav-bar-bottom" aria-label="בקרי ניווט שקפים">
+      <button class="btn-nav-circle" id="nav-btn-prev" title="הקודם (חץ ימינה)">
+        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </button>
+      
+      <div class="slide-dots-container" id="slide-dots"></div>
+
+      <div class="slide-counter" id="slide-counter-display">
+        שקף <strong>1</strong> מתוך <strong>10</strong>
+      </div>
+
+      <button class="btn-nav-circle" id="nav-btn-next" title="הבא (חץ שמאלה / רווח)">
+        <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+      </button>
+    </nav>
+
+    <div class="footer-side-topic">
+      <span class="footer-topic-dot"></span>
+      <span id="footer-topic-title">שער ומבוא</span>
+    </div>
+  </footer>
 
   <!-- ==========================================================================
        חלון מודל: מפת שקפים (Overview Drawer)
@@ -1994,6 +2075,8 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         
         const topic = currentSlide.getAttribute('data-topic') || 'גיאופוליטיקה';
         document.getElementById('header-active-topic').innerText = topic;
+        const footerTopic = document.getElementById('footer-topic-title');
+        if (footerTopic) footerTopic.innerText = topic;
 
         // עדכון מונה שקפים
         document.getElementById('slide-counter-display').innerHTML = 
