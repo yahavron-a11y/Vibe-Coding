@@ -848,6 +848,42 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
 
+    .globe-layer-selector {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(14, 21, 38, 0.88);
+      backdrop-filter: blur(10px);
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      z-index: 5;
+    }
+
+    .layer-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .layer-btn.active, .layer-btn:hover {
+      background: rgba(0, 210, 255, 0.15);
+      color: #fff;
+      border-color: var(--democracy-blue);
+      box-shadow: 0 0 10px var(--democracy-glow);
+    }
+
     .globe-country-details {
       background: var(--bg-surface-elevated);
       backdrop-filter: blur(12px);
@@ -1683,8 +1719,13 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
               <button class="filter-btn" data-filter="authoritarian">דיקטטורות</button>
               <button class="filter-btn" data-filter="hybrid">משטרי כלאיים</button>
             </div>
+            <div class="globe-layer-selector">
+              <button class="layer-btn active" id="layer-btn-satellite" data-layer="satellite">🌍 לוויין ויבשות (NASA Blue Marble)</button>
+              <button class="layer-btn" id="layer-btn-night" data-layer="night">🌌 אורות לילה (Earth at Night)</button>
+              <button class="layer-btn" id="layer-btn-topo" data-layer="topo">🗺️ מפה טופוגרפית (Topology)</button>
+            </div>
             <canvas id="globe-main-canvas"></canvas>
-            <div class="canvas-overlay-tip">גרור לסיבוב • גלגל לזום • לחץ על סמן מדינה לפרטים</div>
+            <div class="canvas-overlay-tip" style="bottom: 54px;">גרור לסיבוב • גלגל לזום • לחץ על סמן מדינה לפרטים</div>
           </div>
 
           <!-- כרטיסיית מידע על מדינה נבחרת -->
@@ -2138,6 +2179,203 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
       }
 
       /* ----------------------------------------------------------------------
+         מחולל טקסטורת כדור הארץ (יבשות, אדמה, מדבריות ואוקיינוסים)
+         ---------------------------------------------------------------------- */
+      createProceduralEarthTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 2048;
+        canvas.height = 1024;
+        const ctx = canvas.getContext('2d');
+
+        // 1. אוקיינוסים עמוקים (גרדיאנט ימי עשיר)
+        const oceanGrad = ctx.createLinearGradient(0, 0, 0, 1024);
+        oceanGrad.addColorStop(0, '#061325');
+        oceanGrad.addColorStop(0.25, '#0b2748');
+        oceanGrad.addColorStop(0.5, '#081c34');
+        oceanGrad.addColorStop(0.75, '#0b2748');
+        oceanGrad.addColorStop(1, '#061325');
+        ctx.fillStyle = oceanGrad;
+        ctx.fillRect(0, 0, 2048, 1024);
+
+        // פונקציות עזר להמרת קואורדינטות (אורך/רוחב) לפיקסלים בקנבס
+        const toX = (lon) => (lon + 180) * (2048 / 360);
+        const toY = (lat) => (90 - lat) * (1024 / 180);
+
+        const drawPoly = (coords, fill, stroke = null, strokeW = 1.5) => {
+          ctx.beginPath();
+          ctx.moveTo(toX(coords[0][0]), toY(coords[0][1]));
+          for (let i = 1; i < coords.length; i++) {
+            ctx.lineTo(toX(coords[i][0]), toY(coords[i][1]));
+          }
+          ctx.closePath();
+          ctx.fillStyle = fill;
+          ctx.fill();
+          if (stroke) {
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = strokeW;
+            ctx.stroke();
+          }
+        };
+
+        const drawShelf = (coords) => {
+          ctx.beginPath();
+          ctx.moveTo(toX(coords[0][0]), toY(coords[0][1]));
+          for (let i = 1; i < coords.length; i++) {
+            ctx.lineTo(toX(coords[i][0]), toY(coords[i][1]));
+          }
+          ctx.closePath();
+          ctx.strokeStyle = 'rgba(20, 80, 110, 0.45)';
+          ctx.lineWidth = 14;
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        };
+
+        // 1. אפריקה (יבשת אפריקה, סוואנה ומדבר סהרה)
+        const africaCoords = [
+          [-17, 21], [-17, 15], [-12, 10], [-5, 5], [2, 6], [9, 4], [12, -6],
+          [12, -18], [15, -28], [18, -34], [26, -34], [33, -26], [36, -20],
+          [40, -5], [51, 10], [43, 12], [37, 22], [35, 30], [25, 32], [10, 37],
+          [-2, 36], [-6, 36], [-10, 30], [-17, 21]
+        ];
+        drawShelf(africaCoords);
+        drawPoly(africaCoords, '#2d6a4f', '#52b788', 2);
+
+        // סהרה ומדבר חצי האי ערב
+        const saharaCoords = [
+          [-17, 21], [-17, 16], [-5, 14], [10, 12], [25, 12], [35, 12],
+          [43, 12], [35, 30], [25, 32], [10, 37], [-2, 36], [-6, 36], [-10, 30]
+        ];
+        drawPoly(saharaCoords, '#d4a373');
+
+        // 2. אירופה
+        const europeCoords = [
+          [-9, 36], [-9, 43], [-1, 43], [3, 47], [-4, 48], [2, 51], [8, 55],
+          [10, 58], [5, 62], [15, 68], [28, 70], [35, 65], [40, 55], [35, 45],
+          [26, 40], [20, 37], [15, 38], [12, 44], [0, 40], [-5, 36]
+        ];
+        drawShelf(europeCoords);
+        drawPoly(europeCoords, '#40916c', '#74c69d', 2);
+
+        // 3. אסיה
+        const asiaCoords = [
+          [35, 45], [40, 55], [50, 58], [60, 68], [75, 74], [100, 77], [130, 75],
+          [170, 70], [180, 65], [170, 60], [140, 50], [130, 42], [122, 30],
+          [108, 20], [105, 10], [100, 2], [96, 17], [88, 22], [80, 10], [70, 22],
+          [60, 25], [55, 25], [50, 15], [43, 12], [35, 30], [35, 35], [30, 42], [35, 45]
+        ];
+        drawShelf(asiaCoords);
+        drawPoly(asiaCoords, '#386641', '#52b788', 2);
+
+        // חצי האי ערב
+        const arabiaCoords = [
+          [35, 30], [55, 25], [60, 22], [55, 15], [45, 13], [43, 12], [35, 30]
+        ];
+        drawPoly(arabiaCoords, '#e0a96d');
+
+        // מדבר גובי
+        const gobiCoords = [
+          [65, 38], [80, 42], [105, 42], [110, 36], [85, 32], [65, 38]
+        ];
+        drawPoly(gobiCoords, '#c29b68');
+
+        // הודו
+        const indiaCoords = [
+          [70, 22], [80, 10], [88, 22], [78, 28], [70, 22]
+        ];
+        drawPoly(indiaCoords, '#2d6a4f');
+
+        // 4. צפון אמריקה
+        const naCoords = [
+          [-168, 65], [-160, 71], [-130, 70], [-100, 72], [-80, 70], [-65, 60],
+          [-55, 50], [-65, 45], [-75, 35], [-80, 25], [-82, 23], [-85, 30],
+          [-97, 26], [-90, 20], [-85, 15], [-77, 8], [-85, 10], [-95, 17],
+          [-105, 20], [-110, 30], [-120, 35], [-125, 40], [-125, 50], [-140, 60],
+          [-165, 60], [-168, 65]
+        ];
+        drawShelf(naCoords);
+        drawPoly(naCoords, '#3d6b45', '#74c69d', 2);
+
+        // מדבר מערב ארה"ב ומקסיקו
+        const swDesertCoords = [
+          [-115, 35], [-100, 32], [-102, 22], [-112, 25], [-115, 35]
+        ];
+        drawPoly(swDesertCoords, '#ddb892');
+
+        // 5. דרום אמריקה (אגן האמזונס, הרי האנדים ופטגוניה)
+        const saCoords = [
+          [-77, 8], [-70, 12], [-50, 0], [-35, -5], [-35, -10], [-40, -22],
+          [-50, -30], [-58, -38], [-65, -50], [-70, -55], [-75, -50], [-72, -40],
+          [-70, -30], [-70, -18], [-80, -5], [-77, 8]
+        ];
+        drawShelf(saCoords);
+        drawPoly(saCoords, '#1b4d3e', '#52b788', 2);
+
+        // רכס הרי האנדים
+        ctx.beginPath();
+        ctx.moveTo(toX(-77), toY(8));
+        ctx.lineTo(toX(-70), toY(-18));
+        ctx.lineTo(toX(-70), toY(-30));
+        ctx.lineTo(toX(-72), toY(-45));
+        ctx.lineTo(toX(-70), toY(-55));
+        ctx.strokeStyle = '#a38f78';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // 6. אוסטרליה ואוקיאניה
+        const ozCoords = [
+          [114, -22], [115, -34], [130, -34], [138, -37], [145, -38], [150, -35],
+          [153, -28], [148, -19], [142, -11], [136, -12], [130, -14], [122, -18], [114, -22]
+        ];
+        drawShelf(ozCoords);
+        drawPoly(ozCoords, '#bc6c25', '#dda15e', 2);
+
+        // אאוטבק מרכזי
+        const outbackCoords = [
+          [120, -22], [138, -22], [138, -30], [122, -30], [120, -22]
+        ];
+        drawPoly(outbackCoords, '#99582a');
+
+        // 7. אנטארקטיקה (כיפת קרח לבנה בקוטב הדרומי)
+        ctx.beginPath();
+        ctx.rect(0, toY(-63), 2048, 1024 - toY(-63));
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fill();
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // 8. גרינלנד (קרח ארקטי)
+        const greenlandCoords = [
+          [-50, 60], [-40, 60], [-20, 70], [-20, 80], [-40, 83], [-60, 78], [-50, 60]
+        ];
+        drawShelf(greenlandCoords);
+        drawPoly(greenlandCoords, '#e2e8f0', '#ffffff', 2);
+
+        // 9. יפן
+        const japanCoords = [
+          [130, 31], [140, 35], [142, 44], [138, 45], [132, 34]
+        ];
+        drawPoly(japanCoords, '#2d6a4f', '#74c69d', 1.5);
+
+        // 10. בריטניה ואירלנד
+        const ukCoords = [
+          [-10, 50], [2, 50], [2, 59], [-10, 59]
+        ];
+        drawPoly(ukCoords, '#40916c', '#74c69d', 1.5);
+
+        // 11. מדגסקר
+        const madagascarCoords = [
+          [43, -12], [50, -12], [47, -25], [43, -25]
+        ];
+        drawPoly(madagascarCoords, '#2d6a4f', '#52b788', 1.5);
+
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+        return tex;
+      }
+
+      /* ----------------------------------------------------------------------
          סצנת תלת-ממד 1: גלובוס הולוגרפי מסתובב בשקף הפתיחה (Three.js Hero Scene)
          ---------------------------------------------------------------------- */
       initHero3D() {
@@ -2156,30 +2394,49 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+        // תאורה לסצנת הפתיחה
+        const ambLight = new THREE.AmbientLight(0xffffff, 0.85);
+        scene.add(ambLight);
+        const dirLight = new THREE.DirectionalLight(0x00d2ff, 1.2);
+        dirLight.position.set(120, 80, 100);
+        scene.add(dirLight);
+
         // קבוצה ראשית שתסתובב
         const heroGroup = new THREE.Group();
         scene.add(heroGroup);
 
-        // כדור מרכזי זוהר (ספרה עם Wireframe טכנולוגי)
+        // כדור פנימי עם טקסטורת יבשות, אדמה וים!
+        const proceduralTex = this.createProceduralEarthTexture();
+        const innerGeo = new THREE.SphereGeometry(72, 48, 48);
+        const innerMat = new THREE.MeshStandardMaterial({
+          map: proceduralTex,
+          roughness: 0.55,
+          metalness: 0.1
+        });
+        const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+        heroGroup.add(innerMesh);
+        this.heroInnerMesh = innerMesh;
+
+        // טעינת תמונת לוויין ב-Background
+        const heroTexLoader = new THREE.TextureLoader();
+        heroTexLoader.setCrossOrigin('anonymous');
+        heroTexLoader.load('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg', (satTex) => {
+          satTex.wrapS = THREE.RepeatWrapping;
+          satTex.wrapT = THREE.ClampToEdgeWrapping;
+          innerMesh.material.map = satTex;
+          innerMesh.material.needsUpdate = true;
+        });
+
+        // כדור חיצוני זוהר (Wireframe עדין)
         const globeGeo = new THREE.SphereGeometry(75, 36, 36);
         const globeMat = new THREE.MeshBasicMaterial({
           color: 0x00d2ff,
           wireframe: true,
           transparent: true,
-          opacity: 0.18
+          opacity: 0.12
         });
         const globeMesh = new THREE.Mesh(globeGeo, globeMat);
         heroGroup.add(globeMesh);
-
-        // ליבה פנימית כהה
-        const innerGeo = new THREE.SphereGeometry(72, 32, 32);
-        const innerMat = new THREE.MeshBasicMaterial({
-          color: 0x081226,
-          transparent: true,
-          opacity: 0.85
-        });
-        const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-        heroGroup.add(innerMesh);
 
         // הילת חלקיקים זוהרת מסביב לכדור (Particles Atmosphere)
         const particleCount = 700;
@@ -2394,12 +2651,15 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         this.globeRenderer = renderer;
         this.globeCamera = camera;
 
-        // תאורת סצנה
-        const amb = new THREE.AmbientLight(0xffffff, 0.85);
+        // תאורת סצנה עשירה
+        const amb = new THREE.AmbientLight(0xffffff, 0.75);
         scene.add(amb);
-        const sun = new THREE.DirectionalLight(0xffffff, 0.7);
-        sun.position.set(100, 100, 100);
+        const sun = new THREE.DirectionalLight(0xffffff, 1.2);
+        sun.position.set(120, 100, 120);
         scene.add(sun);
+        const rimLight = new THREE.DirectionalLight(0x1e3a8a, 0.4);
+        rimLight.position.set(-120, -50, -120);
+        scene.add(rimLight);
 
         const worldGroup = new THREE.Group();
         scene.add(worldGroup);
@@ -2409,33 +2669,75 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         const globeRadius = 90;
         const globeGeo = new THREE.SphereGeometry(globeRadius, 64, 64);
         
-        // טקסטורה צבועה אלגנטית
-        const globeMat = new THREE.MeshPhongMaterial({
-          color: 0x091428,
-          emissive: 0x020712,
-          specular: 0x00d2ff,
-          shininess: 15,
-          wireframe: false
+        // טקסטורה ראשונית מידית: יבשות, אדמה וים
+        const proceduralTex = this.createProceduralEarthTexture();
+        this.globeTextures = {
+          satellite: null,
+          night: null,
+          topo: null,
+          procedural: proceduralTex
+        };
+
+        const globeMat = new THREE.MeshStandardMaterial({
+          map: proceduralTex,
+          roughness: 0.55,
+          metalness: 0.08
         });
         const earthSphere = new THREE.Mesh(globeGeo, globeMat);
         worldGroup.add(earthSphere);
+        this.earthSphere = earthSphere;
 
-        // רשת קווי אורך ורוחב מדעית
+        // טעינת תמונת לוויין של נאס"א מ-CDN
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.setCrossOrigin('anonymous');
+        const satelliteUrl = 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg';
+        const nightUrl = 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg';
+        const topoUrl = 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png';
+        const cloudsUrl = 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_clouds_1024.png';
+
+        textureLoader.load(satelliteUrl, (tex) => {
+          tex.wrapS = THREE.RepeatWrapping;
+          tex.wrapT = THREE.ClampToEdgeWrapping;
+          this.globeTextures.satellite = tex;
+          if (!this.activeLayer || this.activeLayer === 'satellite') {
+            earthSphere.material.map = tex;
+            earthSphere.material.needsUpdate = true;
+          }
+        });
+
+        // שכבת עננים ריאליסטית מרחפת מעל כדור הארץ
+        const cloudGeo = new THREE.SphereGeometry(globeRadius + 1.2, 64, 64);
+        const cloudMat = new THREE.MeshLambertMaterial({
+          transparent: true,
+          opacity: 0.35,
+          blending: THREE.AdditiveBlending
+        });
+        const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+        worldGroup.add(cloudMesh);
+        this.cloudMesh = cloudMesh;
+
+        textureLoader.load(cloudsUrl, (cloudTex) => {
+          cloudTex.wrapS = THREE.RepeatWrapping;
+          cloudMat.map = cloudTex;
+          cloudMat.needsUpdate = true;
+        });
+
+        // רשת קווי אורך ורוחב מדעית ועדינה
         const gridGeo = new THREE.SphereGeometry(globeRadius + 0.4, 32, 16);
         const gridMat = new THREE.MeshBasicMaterial({
-          color: 0x1e293b,
+          color: 0x38bdf8,
           wireframe: true,
           transparent: true,
-          opacity: 0.35
+          opacity: 0.12
         });
         worldGroup.add(new THREE.Mesh(gridGeo, gridMat));
 
-        // הילת אטמוספירה חיצונית
-        const atmosGeo = new THREE.SphereGeometry(globeRadius + 6, 32, 32);
+        // הילת אטמוספירה חיצונית זוהרת
+        const atmosGeo = new THREE.SphereGeometry(globeRadius + 4.5, 32, 32);
         const atmosMat = new THREE.MeshBasicMaterial({
           color: 0x00d2ff,
           transparent: true,
-          opacity: 0.08,
+          opacity: 0.14,
           side: THREE.BackSide
         });
         worldGroup.add(new THREE.Mesh(atmosGeo, atmosMat));
@@ -2480,7 +2782,7 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         this.countryMarkers = [];
 
         this.countriesData.forEach((c) => {
-          const pos = latLonToVector3(c.lat, c.lon, globeRadius + 1.2);
+          const pos = latLonToVector3(c.lat, c.lon, globeRadius + 2.8);
           const color = regimeColors[c.typeKey] || 0x00d2ff;
 
           // סמן 3D פנימי זוהר
@@ -2496,7 +2798,7 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
             color,
             side: THREE.DoubleSide,
             transparent: true,
-            opacity: 0.7
+            opacity: 0.8
           });
           const ringMesh = new THREE.Mesh(ringGeo, ringMat);
           ringMesh.position.copy(pos);
@@ -2541,6 +2843,47 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
           }
         });
 
+        // לחצני שכבות מפה (לוויין, אורות לילה, טופוגרפי)
+        const layerBtns = document.querySelectorAll('.layer-btn');
+        layerBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            layerBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const layer = btn.getAttribute('data-layer');
+            this.activeLayer = layer;
+
+            if (layer === 'satellite') {
+              earthSphere.material.map = this.globeTextures.satellite || this.globeTextures.procedural;
+              earthSphere.material.needsUpdate = true;
+            } else if (layer === 'night') {
+              if (this.globeTextures.night) {
+                earthSphere.material.map = this.globeTextures.night;
+                earthSphere.material.needsUpdate = true;
+              } else {
+                textureLoader.load(nightUrl, (tex) => {
+                  tex.wrapS = THREE.RepeatWrapping;
+                  this.globeTextures.night = tex;
+                  earthSphere.material.map = tex;
+                  earthSphere.material.needsUpdate = true;
+                });
+              }
+            } else if (layer === 'topo') {
+              if (this.globeTextures.topo) {
+                earthSphere.material.map = this.globeTextures.topo;
+                earthSphere.material.needsUpdate = true;
+              } else {
+                textureLoader.load(topoUrl, (tex) => {
+                  tex.wrapS = THREE.RepeatWrapping;
+                  this.globeTextures.topo = tex;
+                  earthSphere.material.map = tex;
+                  earthSphere.material.needsUpdate = true;
+                });
+              }
+            }
+            this.playSound(640, 'triangle', 0.05);
+          });
+        });
+
         // סינון מדינות לפי לחצני הסינון
         const filterBtns = document.querySelectorAll('.filter-btn');
         filterBtns.forEach(btn => {
@@ -2562,6 +2905,7 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         const animateGlobe = () => {
           requestAnimationFrame(animateGlobe);
           if (this.orbitControls) this.orbitControls.update();
+          if (this.cloudMesh) this.cloudMesh.rotation.y += 0.0003;
           renderer.render(scene, camera);
         };
         animateGlobe();
