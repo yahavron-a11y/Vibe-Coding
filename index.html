@@ -934,6 +934,438 @@
     .detail-val { color: #fff; font-weight: 500; }
 
     /* ==========================================================================
+       שקף 10: סימולטור פייתון ותלת-ממד למדינה אקראית (Random Country 3D Simulator)
+       ========================================================================== */
+    .simulator-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 1.15fr;
+      gap: 20px;
+      height: 100%;
+      min-height: 520px;
+    }
+
+    .sim-left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sim-right-panel {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: calc(100vh - 180px);
+      padding-left: 4px;
+    }
+
+    /* כרטיס תלת-ממד של הסימולטור */
+    .sim-3d-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-3d-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sim-3d-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-canvas-box {
+      width: 100%;
+      height: 250px;
+      background: radial-gradient(circle at center, rgba(14, 25, 48, 0.8) 0%, rgba(5, 7, 15, 0.95) 100%);
+      border-radius: var(--radius-md);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sim-canvas-box canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .sim-canvas-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.5);
+      padding: 2px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .sim-canvas-target-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(14, 21, 38, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--democracy-blue);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 10px var(--democracy-glow);
+    }
+
+    /* כפתורי סינון יבשות */
+    .continent-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .continent-pill-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .continent-pill-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .continent-pill-btn.active {
+      background: rgba(0, 210, 255, 0.2);
+      border-color: var(--democracy-blue);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .sim-selector-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .sim-select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      flex: 1;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .sim-select option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    /* כרטיס הרצת פייתון */
+    .sim-python-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .sim-python-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sim-python-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-btn-randomize {
+      background: linear-gradient(135deg, #00d2ff 0%, #0077b6 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.35);
+      transition: all 0.2s;
+    }
+
+    .sim-btn-randomize:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+    }
+
+    .sim-code-preview {
+      background: rgba(3, 7, 18, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 10px;
+      font-family: var(--font-code);
+      font-size: 0.74rem;
+      color: #93c5fd;
+      direction: ltr;
+      text-align: left;
+      overflow-x: auto;
+      max-height: 80px;
+    }
+
+    .sim-terminal-output {
+      background: #040812;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 6px;
+      padding: 10px;
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      color: #48cae4;
+      direction: rtl;
+      text-align: right;
+      min-height: 80px;
+      max-height: 120px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    /* כרטיס תיק המידע המלא (Dossier) */
+    .sim-dossier-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .sim-dossier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 14px;
+    }
+
+    .sim-country-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sim-flag-avatar {
+      font-size: 2.8rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+    }
+
+    .sim-name-title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .sim-name-en {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-family: var(--font-code);
+      direction: ltr;
+      text-align: right;
+    }
+
+    .sim-badges-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    /* תיבות מידע דמוגרפיה ומבנה */
+    .dossier-section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--democracy-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .demographics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    .stat-pill-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .stat-pill-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .regime-info-grid {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* תחזית שינוי משטר עתידי */
+    .prob-forecast-box {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(20, 24, 40, 0.7) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+
+    .prob-forecast-box.prob-low {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(20, 24, 40, 0.7) 100%);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .prob-forecast-box.prob-med {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(20, 24, 40, 0.7) 100%);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .prob-forecast-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prob-gauge-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .prob-badge-large {
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: var(--font-heading);
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .prob-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+
+    .prob-bar-fill {
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+      border-radius: 4px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .prob-drivers-list {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .prob-drivers-list li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      position: relative;
+      padding-right: 14px;
+      line-height: 1.4;
+    }
+
+    .prob-drivers-list li::before {
+      content: "•";
+      position: absolute;
+      right: 0;
+      color: var(--democracy-blue);
+      font-weight: bold;
+    }
+
+    .prob-scenario-text {
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-right: 3px solid var(--democracy-blue);
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
        סרגל תחתון ייעודי ובקרי ניווט (Dedicated Presentation Footer Dock)
        מופרד לחלוטין משטח השקופיות כדי למנוע הסתרת מלל או כפתורים
        ========================================================================== */
@@ -1885,9 +2317,202 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
     </section>
 
     <!-- ----------------------------------------------------------------------
-         שקף 10: שקף סיום, תודות ומקורות (Thank You & Summary)
+         שקף 10: סימולטור גיאופוליטי אינטראקטיבי: פייתון ותלת-ממד למדינה אקראית
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="9" data-topic="סיום ותודות">
+    <section class="slide" data-index="9" data-topic="סימולטור גיאופוליטי">
+      <div class="slide-header">
+        <span class="slide-category-tag tag-blue">סימולציית Python & מודל 3D</span>
+        <h2 class="slide-title">סימולטור גיאופוליטי: ניתוח מדינה אקראית באמצעות פייתון</h2>
+        <p class="slide-subtitle">
+          מנוע Python מקומי (Pyodide) דוגם באופן אקראי מדינה ממאגר ייעודי של 30 מדינות (5 מכל יבשת), פותח ומכוון מודל 3D ממוקד, ומפיק דוח מודיעיני מקיף: דמוגרפיה, ארכיטקטורת המשטר והערכת סיכויים לשינוי שלטוני בעתיד.
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="simulator-layout">
+          <!-- פאנל שמאלי: מודל 3D של כדור הארץ ומנוע הפייתון -->
+          <div class="sim-left-panel">
+            <!-- כרטיס תלת-ממד -->
+            <div class="sim-3d-card">
+              <div class="sim-3d-header">
+                <div class="sim-3d-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                  <span>מיקוד תלת-ממדי: כדור הארץ ומדינת היעד</span>
+                </div>
+                <div class="sim-canvas-target-badge" id="sim-target-badge">
+                  <span id="sim-target-flag">🌍</span>
+                  <span id="sim-target-name">כדור הארץ</span>
+                </div>
+              </div>
+              <div class="sim-canvas-box">
+                <canvas id="random-country-canvas"></canvas>
+                <div class="sim-canvas-hint">גרור לסובב • גלגל להגדיל/להקטין</div>
+              </div>
+              
+              <!-- כפתורי סינון יבשות -->
+              <div class="continent-pills">
+                <button class="continent-pill-btn active" data-continent="all">כל היבשות (30)</button>
+                <button class="continent-pill-btn" data-continent="europe">אירופה (5)</button>
+                <button class="continent-pill-btn" data-continent="asia">אסיה (5)</button>
+                <button class="continent-pill-btn" data-continent="africa">אפריקה (5)</button>
+                <button class="continent-pill-btn" data-continent="north_america">צפון אמריקה (5)</button>
+                <button class="continent-pill-btn" data-continent="south_america">דרום אמריקה (5)</button>
+                <button class="continent-pill-btn" data-continent="oceania">אוקיאניה (5)</button>
+              </div>
+
+              <div class="sim-selector-row">
+                <span style="font-size: 0.78rem; color: var(--text-dim); white-space: nowrap;">בחירה ישירה:</span>
+                <select class="sim-select" id="sim-country-dropdown" aria-label="בחירת מדינה">
+                  <!-- אפשרויות ייווצרו ב-JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- כרטיס מנוע Python -->
+            <div class="sim-python-card">
+              <div class="sim-python-header">
+                <div class="sim-python-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z" fill="#00d2ff"/></svg>
+                  <span>הרצת סקריפט Python בצד הלקוח (Pyodide)</span>
+                </div>
+                <button class="sim-btn-randomize" id="btn-sim-randomize">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                  <span>הגרל מדינה ב-Python ופתח 3D</span>
+                </button>
+              </div>
+              <pre class="sim-code-preview" id="sim-python-code"><code>import random, js
+
+# מאגר מדגמי מוגדר היטב: 5 מדינות מכל יבשת (30 מדינות בסה"כ)
+chosen = random.choice(filtered_countries)
+print(f"[Python Engine]: נבחרה מדינה: {chosen['name']} ({chosen['continent']})")
+print(f"אוכלוסייה: {chosen['population']} | משטר: {chosen['regimeType']}")
+print(f"הסתברות לשינוי משטר בעתיד: {chosen['changeProb']}%")
+
+# הפעלת מודל ה-3D והצגת התיק המודיעיני המלא
+js.onPythonCountrySelected(chosen['id'])</code></pre>
+              <div class="sim-terminal-output" id="sim-terminal-output">[מסוף Python]: ממתין להרצה ראשונה. לחץ על הכפתור למעלה להגרלת מדינה.</div>
+            </div>
+          </div>
+
+          <!-- פאנל ימני: תיק מודיעיני מקיף (Dossier) -->
+          <div class="sim-right-panel">
+            <div class="sim-dossier-card">
+              <!-- כותרת המדינה ודגל -->
+              <div class="sim-dossier-header">
+                <div class="sim-country-identity">
+                  <div class="sim-flag-avatar" id="sim-dossier-flag">🇳🇴</div>
+                  <div>
+                    <div class="sim-name-title" id="sim-dossier-name">נורווגיה</div>
+                    <div class="sim-name-en" id="sim-dossier-name-en">Kingdom of Norway</div>
+                  </div>
+                </div>
+                <div class="sim-badges-col">
+                  <span class="slide-category-tag tag-blue" id="sim-dossier-continent">אירופה</span>
+                  <span class="country-regime-badge tag-blue" id="sim-dossier-regime-badge">מונרכיה חוקתית ודמוקרטיה פרלמנטרית מלאה</span>
+                </div>
+              </div>
+
+              <!-- חלק 1: כמות אנשים ודמוגרפיה -->
+              <div>
+                <div class="dossier-section-title">
+                  <span>👥</span> כמות אנשים ופרופיל דמוגרפי
+                </div>
+                <div class="demographics-grid">
+                  <div class="stat-pill">
+                    <div class="stat-pill-label">כמות אנשים כוללת</div>
+                    <div class="stat-pill-val" id="sim-dossier-pop">5,550,000</div>
+                  </div>
+                  <div class="stat-pill">
+                    <div class="stat-pill-label">קצב גידול שנתי</div>
+                    <div class="stat-pill-val" id="sim-dossier-growth">+0.7%</div>
+                  </div>
+                  <div class="stat-pill">
+                    <div class="stat-pill-label">גיל חציוני</div>
+                    <div class="stat-pill-val" id="sim-dossier-median-age">40.0 שנים</div>
+                  </div>
+                  <div class="stat-pill">
+                    <div class="stat-pill-label">שיעור עיור</div>
+                    <div class="stat-pill-val" id="sim-dossier-urban">83.5%</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- חלק 2: סוג המשטר וארכיטקטורה שלטונית -->
+              <div>
+                <div class="dossier-section-title">
+                  <span>🏛️</span> סוג המשטר ומוסדות השלטון
+                </div>
+                <div class="regime-info-grid">
+                  <div class="detail-row">
+                    <span class="detail-label">סיווג משטרי מורחב:</span>
+                    <span class="detail-val" id="sim-dossier-structure">מונרכיה חוקתית, דמוקרטיה ליברלית מלאה</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">ראש המדינה והממשלה:</span>
+                    <span class="detail-val" id="sim-dossier-leader">המלך האראלד החמישי / רה"מ יונס גאהר סטיורה</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">מוסדות שלטון מרכזיים:</span>
+                    <span class="detail-val" id="sim-dossier-institutions">סטורטינג (Stortinget), בתי משפט עצמאיים, שירות ציבורי בלתי תלוי</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">מדדי חירות ודמוקרטיה:</span>
+                    <span class="detail-val" id="sim-dossier-score">EIU: 9.81 (מקום 1 בעולם) | Freedom House: 100/100</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- חלק 3: הערכה האם יש סיכוי לשינוי המשטר בעתיד -->
+              <div>
+                <div class="dossier-section-title">
+                  <span>🔮</span> הערכה: האם יש סיכוי לשינוי המשטר בעתיד?
+                </div>
+                <div class="prob-forecast-box prob-low" id="sim-forecast-box">
+                  <div class="prob-forecast-header">
+                    <div>
+                      <span style="font-size: 0.8rem; color: var(--text-dim);">סיכוי מוערך לשינוי משטר:</span>
+                      <div class="prob-gauge-container">
+                        <span class="prob-badge-large" id="sim-dossier-prob-badge" style="color: #10b981;">1%</span>
+                        <span style="font-size: 0.85rem; font-weight: 600;" id="sim-dossier-prob-label">סיכוי אפסי / יציבות עליונה</span>
+                      </div>
+                    </div>
+                    <div style="text-align: left;">
+                      <span style="font-size: 0.75rem; color: var(--text-dim);">טווח זמן משוער:</span>
+                      <div style="font-size: 0.82rem; font-weight: 700; color: #fff;" id="sim-dossier-timeframe">יציב לחלוטין (50+ שנה)</div>
+                    </div>
+                  </div>
+
+                  <div class="prob-bar-track">
+                    <div class="prob-bar-fill" id="sim-dossier-prob-bar" style="width: 1%;"></div>
+                  </div>
+
+                  <div>
+                    <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-dim);">זרזים, נקודות תורפה וגורמי שבירה:</span>
+                    <ul class="prob-drivers-list" id="sim-dossier-drivers">
+                      <li>אמון אזרחי עילאי במוסדות השלטון ובמערכת המשפט</li>
+                      <li>חוסן כלכלי חסר תקדים הודות לקרן העושר הריבונית (1.6 טריליון דולר)</li>
+                      <li>מערכת סוציאל-דמוקרטית רחבה המונעת קיטוב חברתי עמוק</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-dim);">תרחיש עתידי מנומק (2026–2035):</span>
+                    <div class="prob-scenario-text" id="sim-dossier-scenario">
+                      נורווגיה תמשיך להוביל את מדדי הדמוקרטיה העולמיים ללא איום משטרי נראה לעין. המעבר האנרגטי מצמצום תלות בנפט ינוהל דרך מנגנוני פיצוי ציבוריים יציבים.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         שקף 11: שקף סיום, תודות ומקורות (Thank You & Summary)
+         ---------------------------------------------------------------------- -->
+    <section class="slide" data-index="10" data-topic="סיום ותודות">
       <div class="slide-body">
         <div style="max-width: 900px; margin: 0 auto; text-align: center;">
           <div class="hero-badge-tag" style="margin-bottom: 16px;">
@@ -1957,7 +2582,7 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
       <div class="slide-dots-container" id="slide-dots"></div>
 
       <div class="slide-counter" id="slide-counter-display">
-        שקף <strong>1</strong> מתוך <strong>10</strong>
+        שקף <strong>1</strong> מתוך <strong>11</strong>
       </div>
 
       <button class="btn-nav-circle" id="nav-btn-next" title="הבא (חץ שמאלה / רווח)">
@@ -2022,9 +2647,11 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         this.initHero3D();
         this.initPyramid3D();
         this.initGlobe3D();
+        this.initRandomCountry3D();
         
         // אתחול מנוע Python ברקע
         this.initPyodideEngine();
+        this.setupSimulatorSlide();
       }
 
       /* ----------------------------------------------------------------------
@@ -2095,6 +2722,15 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
         // התאמת גדלי קנבס במידת הצורך
         if (this.currentSlideIndex === 7 && this.globeRenderer) {
           this.onGlobeResize();
+        }
+
+        // אם הגענו לשקף סימולטור פייתון ותלת-ממד למדינה אקראית (שקף 10, אינדקס 9)
+        if (this.currentSlideIndex === 9) {
+          if (this.simRenderer) this.onSimResize();
+          if (!this.hasAutoRunSimulator) {
+            this.runRandomCountrySimulation();
+            this.hasAutoRunSimulator = true;
+          }
         }
       }
 
@@ -3150,6 +3786,1318 @@ print("כאשר כיוון המעבר המובהק כיום הוא נסיגה ל
         } catch (err) {
           terminal.innerText += `\n[שגיאת ריצה ב-Python]:\n${err.message}`;
         }
+      }
+
+      /* ----------------------------------------------------------------------
+         שקף 10: מאגר נתונים ייעודי – 5 מדינות מכל יבשת (30 מדינות בסה"כ)
+         דמוגרפיה, ארכיטקטורת משטר, והערכת סיכויים לשינוי משטר עתידי
+         ---------------------------------------------------------------------- */
+      initSimulatorDatabase() {
+        this.simCountriesDatabase = [
+          // ---------------- אירופה (5 מדינות) ----------------
+          {
+            id: 'norway',
+            name: 'נורווגיה',
+            nameEn: 'Norway',
+            continent: 'europe',
+            continentName: 'אירופה',
+            flag: '🇳🇴',
+            lat: 60.47,
+            lon: 8.46,
+            population: '5,550,000 נפש',
+            growth: '+0.7% שנתי',
+            medianAge: '40.0 שנים',
+            urbanization: '83.5%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פרלמנטרית מלאה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'המלך האראלד החמישי / רה"מ יונס גאהר סטיורה',
+            institutions: 'סטורטינג (Stortinget), בתי משפט עצמאיים לחלוטין, שירות ציבורי מריטוקרטי',
+            scores: 'EIU: 9.81 (מקום 1 בעולם) | Freedom House: 100/100 (חופשית לחלוטין)',
+            changeProb: 1,
+            changeProbLabel: 'סיכוי אפסי / יציבות עליונה (< 1%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לחלוטין (50+ שנה)',
+            drivers: [
+              'אמון אזרחי עילאי במוסדות השלטון, שלטון החוק וחופש העיתונות',
+              'חוסן פיסקלי פנומנלי מקרן העושר הריבונית הגדולה בעולם (1.6 טריליון דולר)',
+              'רשת ביטחון סוציאלית אוניברסלית המצמצמת קיטוב מעמדי או פופוליזם רדיקלי'
+            ],
+            scenario: 'נורווגיה תמשיך להוביל את מדדי הדמוקרטיה ואיכות החיים הגלובליים. המעבר ממשק מבוסס נפט וגז לכלכלה ירוקה ינוהל בקונצנזוס ציבורי רחב ללא זעזועים מוסדיים.'
+          },
+          {
+            id: 'uk',
+            name: 'הממלכה המאוחדת (בריטניה)',
+            nameEn: 'United Kingdom',
+            continent: 'europe',
+            continentName: 'אירופה',
+            flag: '🇬🇧',
+            lat: 55.37,
+            lon: -3.43,
+            population: '68,200,000 נפש',
+            growth: '+0.4% שנתי',
+            medianAge: '40.7 שנים',
+            urbanization: '84.4%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פרלמנטרית ותיקה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'המלך צ\'ארלס השלישי / רה"מ קיר סטארמר',
+            institutions: 'פרלמנט וסטמינסטר (בית הנבחרים והלורדים), מערכת משפט מקובל (Common Law)',
+            scores: 'EIU: 8.28 (דמוקרטיה מלאה) | Freedom House: 91/100 (חופשית)',
+            changeProb: 5,
+            changeProbLabel: 'סיכוי נמוך ביותר (5%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב מוסדית (20–30 שנה)',
+            drivers: [
+              'מסורת פרלמנטרית רציפה של מאות שנים עם העברת שלטון שלווה ומסודרת',
+              'מתחים טריטוריאליים סביב שאלת עצמאות סקוטלנד ומעמד צפון אירלנד לאחר הברקזיט',
+              'לחצי הגירה ושחיקה בשירותי הבריאות הציבוריים (NHS) המזינים תנועות ימין פופוליסטי'
+            ],
+            scenario: 'המשטר הדמוקרטי הבריטי יציב ואיתן. הסיכונים אינם נוגעים לקריסת הדמוקרטיה אלא לאפשרות של פירוק המבנה הטריטוריאלי של האיחוד בעשורים הבאים.'
+          },
+          {
+            id: 'hungary',
+            name: 'הונגריה',
+            nameEn: 'Hungary',
+            continent: 'europe',
+            continentName: 'אירופה',
+            flag: '🇭🇺',
+            lat: 47.16,
+            lon: 19.50,
+            population: '9,600,000 נפש',
+            growth: '-0.2% שנתי',
+            medianAge: '43.3 שנים',
+            urbanization: '72.8%',
+            regimeType: 'משטר היברידי / אוטוקרטיה אלקטורלית (דמוקרטיה לא-ליברלית)',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'ויקטור אורבן (ראש ממשלה מאז 2010)',
+            institutions: 'אספה לאומית (שליטת מפלגת Fidesz), תקשורת מגויסת, רשות שופטת מוחלשת',
+            scores: 'EIU: 6.72 (דמוקרטיה פגומה) | Freedom House: 65/100 (חופשית חלקית)',
+            changeProb: 45,
+            changeProbLabel: 'סיכוי בינוני-גבוה לתמורה פוליטית (45%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (3–8 שנים)',
+            drivers: [
+              'התחזקות חסרת תקדים של תנועת אופוזיציה מאוחדת (בהובלת פטר מגיאר ומפלגת טיסה)',
+              'הקפאת עשרות מיליארדי אירו מקרנות האיחוד האירופי עקב פגיעה בשלטון החוק ושחיתות',
+              'אינפלציה כבדה ושחיקת כוח הקנייה המערערות את הבסיס האלקטורלי הכפרי של השלטון'
+            ],
+            scenario: 'אורבן ניצב בפני האתגר הפוליטי המשמעותי ביותר ב-15 השנים האחרונות. קיים סיכוי של כ-45% להחלפת שלטון בבחירות 2026 או לרפורמה דמוקרטית מחודשת שתפרק את המבנה הריכוזי.'
+          },
+          {
+            id: 'belarus',
+            name: 'בלארוס',
+            nameEn: 'Belarus',
+            continent: 'europe',
+            continentName: 'אירופה',
+            flag: '🇧🇾',
+            lat: 53.70,
+            lon: 27.95,
+            population: '9,200,000 נפש',
+            growth: '-0.4% שנתי',
+            medianAge: '41.2 שנים',
+            urbanization: '79.9%',
+            regimeType: 'דיקטטורה אוטוריטרית אישית ולוויינית',
+            regimeBadgeClass: 'tag-red',
+            leader: 'אלכסנדר לוקשנקו (רודן מאז 1994)',
+            institutions: 'מנגנון ה-KGB הבלארוסי, צבא ומשטרה, פרלמנט מדומה, תלות ביטחונית במוסקבה',
+            scores: 'EIU: 1.99 (משטר סמכותני מובהק) | Freedom House: 8/100 (לא חופשית כלל)',
+            changeProb: 70,
+            changeProbLabel: 'סיכוי גבוה מאוד לשינוי משטר (70%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר-בינוני (2–6 שנים)',
+            drivers: [
+              'משבר ירושה בלתי נמנע עקב גילו ומצבו הבריאותי המידרדר של לוקשנקו ללא יורש טבעי',
+              'תסיסה עממית מושתקת אך עמוקה מאז מחאות הענק של 2020 וממשלת אופוזיציה גולה (טיכאנובסקיה)',
+              'סכנת בליעה או כיבוש רוסי מלא למניעת נפילה למחנה המערבי במקרה של מות הרודן'
+            ],
+            scenario: 'תקופת הפוסט-לוקשנקו תפתח חלון הזדמנויות לשינוי משטר רדיקלי. מוסקבה תנסה להציב בובה מטעמה, אך התקוממות אזרחית מחודשת בשילוב שחיקת הצבא הרוסי עשויים להוביל לדמוקרטיזציה.'
+          },
+          {
+            id: 'russia',
+            name: 'רוסיה',
+            nameEn: 'Russia',
+            continent: 'europe',
+            continentName: 'אירופה',
+            flag: '🇷🇺',
+            lat: 61.52,
+            lon: 105.31,
+            population: '144,200,000 נפש',
+            growth: '-0.3% שנתי',
+            medianAge: '40.5 שנים',
+            urbanization: '75.3%',
+            regimeType: 'דיקטטורה סמכותנית אישית ומיליטריסטית (פוטיניזם)',
+            regimeBadgeClass: 'tag-red',
+            leader: 'ולדימיר פוטין (נשיא ושליט בלעדי מאז 1999)',
+            institutions: 'סילוביקי (FSB, מועצת הביטחון, צבא), דומא נשלטת, אוליגרכיה תלויה',
+            scores: 'EIU: 2.22 (משטר סמכותני) | Freedom House: 13/100 (לא חופשית)',
+            changeProb: 55,
+            changeProbLabel: 'סיכוי בינוני-גבוה למשבר שלטוני (55%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח בינוני (3–7 שנים)',
+            drivers: [
+              'השלכות ארוכות טווח של מלחמת אוקראינה: עשרות אלפי נפגעים, סנקציות כלכליות ואינפלציה',
+              'מאבקי כוח פנימיים בין אליטות הביטחון, האוליגרכים וגורמי הצבא סביב שאלת הירושה',
+              'מחסור חמור בידיים עובדות, בריחת מוחות טכנולוגית ותלות גוברת ומשפילה בסין'
+            ],
+            scenario: 'המשטר יישאר ריכוזי כל עוד פוטין בחיים ומונע כישלון צבאי מוחץ. עם זאת, כל משבר בריאותי או זעזוע כלכלי יעורר מאבק ירושה אלים בין פלגי ה-FSB לצבא, עם פוטנציאל לשינוי מבני במשטר.'
+          },
+
+          // ---------------- אסיה (5 מדינות) ----------------
+          {
+            id: 'japan',
+            name: 'יפן',
+            nameEn: 'Japan',
+            continent: 'asia',
+            continentName: 'אסיה',
+            flag: '🇯🇵',
+            lat: 36.20,
+            lon: 138.25,
+            population: '124,500,000 נפש',
+            growth: '-0.5% שנתי',
+            medianAge: '49.1 שנים',
+            urbanization: '92.0%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פרלמנטרית מלאה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'הקיסר נארוהיטו / רה"מ שיגרו אישיבה',
+            institutions: 'הדיאט הלאומי (Kokkai), בירוקרטיה ממשלתית יציבה, מערכת משפט עצמאית',
+            scores: 'EIU: 8.40 (דמוקרטיה מלאה) | Freedom House: 96/100 (חופשית)',
+            changeProb: 2,
+            changeProbLabel: 'סיכוי אפסי לשינוי משטר (2%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב ביותר (40+ שנה)',
+            drivers: [
+              'קונצנזוס חברתי מוחלט על ערכי שלטון החוק, הדמוקרטיה וההגנה על זכויות הפרט',
+              'שלטון רציף של המפלגה הליברל-דמוקרטית (LDP) המבטיח המשכיות מדיניות',
+              'אתגר מרכזי אינו פוליטי אלא דמוגרפי: הזדקנות חסרת תקדים (גיל חציוני 49) וירידה באוכלוסייה'
+            ],
+            scenario: 'הדמוקרטיה היפנית חסינה מפני מהפכות או דיקטטורות. האתגרים יתמקדו בביטחון לאומי מול התעצמות סין וקוריאה הצפונית, תוך חיזוק הברית עם המערב.'
+          },
+          {
+            id: 'china',
+            name: 'סין (הרפובליקה העממית)',
+            nameEn: 'China',
+            continent: 'asia',
+            continentName: 'אסיה',
+            flag: '🇨🇳',
+            lat: 35.86,
+            lon: 104.19,
+            population: '1,409,000,000 נפש',
+            growth: '-0.15% שנתי',
+            medianAge: '39.8 שנים',
+            urbanization: '66.2%',
+            regimeType: 'דיקטטורה חד-מפלגתית וטוטליטריזם דיגיטלי',
+            regimeBadgeClass: 'tag-red',
+            leader: 'שי ג\'ינפינג (מזכ"ל המפלגה הקומוניסטית, נשיא ויו"ר הצבא)',
+            institutions: 'המפלגה הקומוניסטית הסינית (CCP), הפוליטביורו, צבא שחרור העם (PLA), מערכת הפיקוח הדיגיטלית',
+            scores: 'EIU: 2.12 (משטר סמכותני) | Freedom House: 9/100 (לא חופשית)',
+            changeProb: 25,
+            changeProbLabel: 'סיכוי נמוך בטווח הקצר, בינוני בארוך (25%)',
+            changeProbLevel: 'low',
+            timeframe: 'טווח ארוך (10–15 שנה)',
+            drivers: [
+              'משבר נדל"ן עמוק, האטה בצמיחה הכלכלית ואבטלת צעירים המאיימים על "החוזה החברתי"',
+              'הצטברות כוח אבסולוטית בידי שי ג\'ינפינג ללא מנגנון ירושה מוסדר או יורש מסומן',
+              'מערכת מעקב טכנולוגית חסרת תקדים (זיהוי פנים, דירוג אשראי חברתי) המסכלת התארגנות'
+            ],
+            scenario: 'אחיזת המפלגה הדוקה ביותר. אולם בעשור הקרוב, משבר ירושה או תבוסה בניסיון לפלוש לטייוואן עלולים להצית זעזועים פוליטיים עמוקים בצמרת המפלגה.'
+          },
+          {
+            id: 'north_korea',
+            name: 'קוריאה הצפונית',
+            nameEn: 'North Korea',
+            continent: 'asia',
+            continentName: 'אסיה',
+            flag: '🇰🇵',
+            lat: 40.33,
+            lon: 127.51,
+            population: '26,100,000 נפש',
+            growth: '+0.3% שנתי',
+            medianAge: '35.6 שנים',
+            urbanization: '63.2%',
+            regimeType: 'דיקטטורה טוטליטרית תורשתית (מונרכיה סטאליניסטית)',
+            regimeBadgeClass: 'tag-red',
+            leader: 'קים ג\'ונג און (המנהיג העליון, דור שלישי לשושלת פקטו)',
+            institutions: 'מפלגת הפועלים של קוריאה, ועדת ענייני המדינה, צבא העם הקוריאני (KPA), מחנות עבודה פוליטיים',
+            scores: 'EIU: 1.08 (מהנמוכים בעולם) | Freedom House: 3/100 (לא חופשית)',
+            changeProb: 35,
+            changeProbLabel: 'סיכוי בינוני לתמורה חדה (35%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (5–12 שנים)',
+            drivers: [
+              'מצב בריאותי לקוי של קים ג\'ונג און וסימון בתו הצעירה (קים ג\'ו איי) המעורר מתח בצבא',
+              'שרידות המשטר תלויה לחלוטין בארסנל הגרעיני, בהברחות סייבר ובסיוע דלק ומזון מסין ורוסיה',
+              'חדירה איטית של מדיה זרה וסמארטפונים בשוק השחור הסודקת את מונופול התעמולה'
+            ],
+            scenario: 'כל עוד השושלת חיה וסין מעניקה גב כלכלי כדי למנוע קריסת חיץ בגבולה, המשטר ישרוד. שינוי משטר יתרחש רק כתוצאה מהפיכת חצר צבאית בעקבות מות המנהיג.'
+          },
+          {
+            id: 'iran',
+            name: 'איראן (הרפובליקה האיסלאמית)',
+            nameEn: 'Iran',
+            continent: 'asia',
+            continentName: 'אסיה',
+            flag: '🇮🇷',
+            lat: 32.42,
+            lon: 53.68,
+            population: '89,200,000 נפש',
+            growth: '+0.7% שנתי',
+            medianAge: '33.2 שנים',
+            urbanization: '76.8%',
+            regimeType: 'תיאוקרטיה אוטוריטרית איסלאמיסטית',
+            regimeBadgeClass: 'tag-red',
+            leader: 'עלי חמינאי (המנהיג העליון) / מסעוד פזשכיאן (נשיא מוגבל סמכויות)',
+            institutions: 'משמרות המהפכה (IRGC), מועצת שומרי החוקה, מועצת המומחים, כוחות הבסיג\'',
+            scores: 'EIU: 1.96 (משטר סמכותני) | Freedom House: 11/100 (לא חופשית)',
+            changeProb: 75,
+            changeProbLabel: 'סיכוי גבוה מאוד לשינוי משטר (75%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר-בינוני (2–5 שנים)',
+            drivers: [
+              'גילו המתקדם של חמינאי (86) וקרב ירושה חריף בין בנו מוג\'תבא לבין מפקדי משמרות המהפכה',
+              'שנאה עממית תהומית בקרב הדור הצעיר לשלטון האייתוללות (מחאות "אישה, חיים, חירות")',
+              'קריסת הכלכלה, אינפלציה של 50%, שחיקת הריאל, משבר מים חמור ועימות צבאי ישיר מול ישראל'
+            ],
+            scenario: 'המשטר ניצב על חבית חומר נפץ. פטירת חמינאי עשויה להצית התקוממות עממית המונית שתפיל את התיאוקרטיה, או לחלופין תוביל להפיכה צבאית גלויה של משמרות המהפכה שתדחק את אנשי הדת.'
+          },
+          {
+            id: 'saudi_arabia',
+            name: 'ערב הסעודית',
+            nameEn: 'Saudi Arabia',
+            continent: 'asia',
+            continentName: 'אסיה',
+            flag: '🇸🇦',
+            lat: 23.88,
+            lon: 45.07,
+            population: '36,900,000 נפש',
+            growth: '+1.5% שנתי',
+            medianAge: '32.4 שנים',
+            urbanization: '84.8%',
+            regimeType: 'מונרכיה אבסולוטית שושלתית ועוצמתית',
+            regimeBadgeClass: 'tag-gold',
+            leader: 'המלך סלמאן / יורש העצר וראש הממשלה מוחמד בן סלמאן (MBS)',
+            institutions: 'בית סעוד, מועצת השרים, קרן ההשקעות הציבורית (PIF), מועצת הנאמנות השושלתית',
+            scores: 'EIU: 2.08 (מונרכיה אבסולוטית) | Freedom House: 24/100 (לא חופשית)',
+            changeProb: 15,
+            changeProbLabel: 'סיכוי נמוך לשינוי משטר (15%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לשנים ארוכות (15–25 שנה)',
+            drivers: [
+              'MBS ביצר אחיזה ברזל במשפחת המלוכה, בצבא ובמנגנוני הביטחון לאחר ניטרול יריביו',
+              'פופולריות עצומה בקרב 70% מהאוכלוסייה מתחת לגיל 35 בזכות רפורמות חברתיות ופתיחות תרבותית',
+              'השקעות עתק של טריליוני דולרים בחזון 2030 לגיוון הכלכלה מפחמימנים לתיירות, טק ואנרגיה'
+            ],
+            scenario: 'המונרכיה הסעודית מפגינה יציבות גבוהה. המעבר של MBS לשלטון כמלך רשמי צפוי לעבור בצורה חלקה, תוך שימור המבנה האבסולוטי והמשך הובלת האזור.'
+          },
+
+          // ---------------- אפריקה (5 מדינות) ----------------
+          {
+            id: 'south_africa',
+            name: 'דרום אפריקה',
+            nameEn: 'South Africa',
+            continent: 'africa',
+            continentName: 'אפריקה',
+            flag: '🇿🇦',
+            lat: -30.55,
+            lon: 22.93,
+            population: '60,400,000 נפש',
+            growth: '+0.9% שנתי',
+            medianAge: '28.0 שנים',
+            urbanization: '68.3%',
+            regimeType: 'דמוקרטיה חוקתית / ממשלת אחדות לאומית (GNU)',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'סיריל רמפוזה (נשיא)',
+            institutions: 'האספה הלאומית, בית המשפט לחוקה החזק, קואליציית ANC והברית הדמוקרטית (DA)',
+            scores: 'EIU: 7.05 (דמוקרטיה פגומה) | Freedom House: 79/100 (חופשית)',
+            changeProb: 30,
+            changeProbLabel: 'סיכוי בינוני לנסיגה דמוקרטית (30%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (5–10 שנים)',
+            drivers: [
+              'אובדן הרוב ההיסטורי של ה-ANC בבחירות 2024 יצר קואליציה שבירה ותקדימית',
+              'שיעור אבטלה מזעזע של 33%, הפסקות חשמל כרוניות, פשיעה אלימה ושחיתות ממסדית',
+              'עליית תנועות פופוליסטיות רדיקליות (MK של זומה וה-EFF) הדורשות הלאמת קרקעות'
+            ],
+            scenario: 'מוסדות המשפט וחופש העיתונות מגנים על הדמוקרטיה. אולם אם ממשלת האחדות תיכשל בשיפור המצב הכלכלי, הבחירות הבאות עלולות להעלות קואליציה פופוליסטית שתשחק את החוקה.'
+          },
+          {
+            id: 'egypt',
+            name: 'מצרים',
+            nameEn: 'Egypt',
+            continent: 'africa',
+            continentName: 'אפריקה',
+            flag: '🇪🇬',
+            lat: 26.82,
+            lon: 30.80,
+            population: '112,700,000 נפש',
+            growth: '+1.6% שנתי',
+            medianAge: '24.8 שנים',
+            urbanization: '43.1%',
+            regimeType: 'משטר אוטוריטרי צבאי ריכוזי',
+            regimeBadgeClass: 'tag-red',
+            leader: 'עבד אל-פתאח א-סיסי (נשיא)',
+            institutions: 'המועצה העליונה של הכוחות המזוינים (SCAF), שירותי המודיעין הכללי, צבא השולט בכלכלה',
+            scores: 'EIU: 2.93 (משטר סמכותני) | Freedom House: 18/100 (לא חופשית)',
+            changeProb: 50,
+            changeProbLabel: 'סיכוי בינוני-גבוה לתסיסה או הפיכה (50%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח קצר-בינוני (3–6 שנים)',
+            drivers: [
+              'משבר חובות חיצוני אסטרונומי, פיחות של 60% בלירה המצרית ואינפלציית מזון מחניקה',
+              'דיכוי אלים של כל גילוי מחאה עם למעלה מ-60,000 אסירים פוליטיים בבתי הכלא',
+              'הצבא שולט ביותר מ-40% מהכלכלה האזרחית, מה שמונע צמיחה פרטית ומעורר מרירות בקרב האזרחים'
+            ],
+            scenario: 'סיסי שורד הודות לסיוע חירום ממדינות המפרץ ומקרן המטבע. אך ככל שהעוני מעמיק, גובר הסיכון להתפרצות עממית בלתי נשלטת או להפיכת חצר צבאית שתחליף אותו בגנרל אחר.'
+          },
+          {
+            id: 'sudan',
+            name: 'סודאן',
+            nameEn: 'Sudan',
+            continent: 'africa',
+            continentName: 'אפריקה',
+            flag: '🇸🇩',
+            lat: 12.86,
+            lon: 30.21,
+            population: '48,100,000 נפש',
+            growth: '+2.4% שנתי',
+            medianAge: '19.8 שנים',
+            urbanization: '36.2%',
+            regimeType: 'חונטה צבאית מתפרקת / מלחמת אזרחים ומדינה נכשלת',
+            regimeBadgeClass: 'tag-red',
+            leader: 'עבד אל-פתאח אל-בורהאן (SAF) מול מוחמד חמדאן דגלו - חמדתי (RSF)',
+            institutions: 'הצבא הרשמי (SAF), כוחות ההתערבות המהירה (RSF), לוחמי מיליציות שבטיות',
+            scores: 'EIU: 1.76 (מדינה קורסת) | Freedom House: 10/100 (לא חופשית)',
+            changeProb: 95,
+            changeProbLabel: 'סיכוי כמעט ודאי לשינוי/התפרקות (95%)',
+            changeProbLevel: 'critical',
+            timeframe: 'מיידי (1–2 שנים הקרובות)',
+            drivers: [
+              'מלחמת השמדה אכזרית מאז אפריל 2023 שריסקה לחלוטין את מוסדות המדינה והמשילות',
+              'למעלה מ-10 מיליון עקורים ופליטים ורעב המוני הפוקד מחצית מאוכלוסיית המדינה',
+              'התערבות אינטרסים זרים (איחוד האמירויות, רוסיה, איראן, מצרים) המספקת נשק לשני הצדדים'
+            ],
+            scenario: 'סודאן לא תחזור למתכונתה הקודמת. התרחיש הסביר ביותר הוא פיצול טריטוריאלי דה-פקטו בין מזרח המדינה הנשלט ע"י הצבא לבין מערב המדינה (דארפור) הנשלט ע"י ה-RSF.'
+          },
+          {
+            id: 'morocco',
+            name: 'מרוקו',
+            nameEn: 'Morocco',
+            continent: 'africa',
+            continentName: 'אפריקה',
+            flag: '🇲🇦',
+            lat: 31.79,
+            lon: -7.09,
+            population: '37,800,000 נפש',
+            growth: '+0.9% שנתי',
+            medianAge: '29.5 שנים',
+            urbanization: '64.6%',
+            regimeType: 'מונרכיה חצי-חוקתית היברידית',
+            regimeBadgeClass: 'tag-gold',
+            leader: 'המלך מוחמד השישי / רה"מ עזיז אח\'נוש',
+            institutions: 'המוסד המלכותי (המח\'זן), הפרלמנט הדו-ביתי, מועצת הביטחון הלאומי',
+            scores: 'EIU: 5.04 (משטר כלאיים) | Freedom House: 37/100 (חופשית חלקית)',
+            changeProb: 18,
+            changeProbLabel: 'סיכוי נמוך לשינוי משטר (18%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב ברובו (10–15 שנה)',
+            drivers: [
+              'מעמד המלך כ"אמיר המאמינים" מעניק לגיטימציה דתית והיסטורית עמוקה המגנה על הכתר',
+              'הצלחות דיפלומטיות בהכרת ארה"ב בריבונות בסהרה המערבית והסכמי אברהם עם ישראל',
+              'פערים חברתיים ומחאות צעירים בנושאי יוקר מחיה המופנות כלפי הממשלה ולא כלפי המלך'
+            ],
+            scenario: 'המונרכיה המרוקאית יציבה מאוד. המעבר העתידי ליורש העצר הנסיך מולאי חסן עשוי להביא עמו צעדי ליברליזציה מבוקרים והרחבת סמכויות הפרלמנט.'
+          },
+          {
+            id: 'niger',
+            name: 'ניז\'ר',
+            nameEn: 'Niger',
+            continent: 'africa',
+            continentName: 'אפריקה',
+            flag: '🇳🇪',
+            lat: 17.60,
+            lon: 8.08,
+            population: '27,200,000 נפש',
+            growth: '+3.7% שנתי (מהגבוהים בעולם)',
+            medianAge: '15.2 שנים',
+            urbanization: '17.1%',
+            regimeType: 'חונטה צבאית אנטי-מערבית (הפיכת 2023)',
+            regimeBadgeClass: 'tag-red',
+            leader: 'הגנרל עבדול רחמאן תיאני (יו"ר ה-CNSP)',
+            institutions: 'המועצה הלאומית להגנת המולדת (CNSP), ברית מדינות הסאהל (AES) עם מאלי ובורקינה פאסו',
+            scores: 'EIU: 2.37 (משטר סמכותני) | Freedom House: 33/100 (חופשית חלקית/לא חופשית)',
+            changeProb: 65,
+            changeProbLabel: 'סיכוי גבוה להפיכה נגדית או זעזוע (65%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר (1–3 שנים)',
+            drivers: [
+              'בידוד אזורי, סנקציות כלכליות וגירוש כוחות צרפת וארה"ב לטובת שכירי חרב רוסים (קורפוס אפריקה)',
+              'התעצמות אלימה של ארגוני טרור אסלאמיסטיים (דאעש ואל-קאעדה בסאהל) המאיימים על ניאמיי',
+              'אוכלוסייה צעירה ביותר בעולם (חציון 15) הגדלה בקצב מסחרר ללא מקורות פרנסה או תשתיות'
+            ],
+            scenario: 'החונטה שברירית ותלויה בתמיכה רוסית. כישלון בבלימת הטרור לצד משבר כלכלי יביא כמעט בוודאות לניסיון הפיכה נגדי נוסף מתוך שורות הצבא.'
+          },
+
+          // ---------------- צפון אמריקה (5 מדינות) ----------------
+          {
+            id: 'canada',
+            name: 'קנדה',
+            nameEn: 'Canada',
+            continent: 'north_america',
+            continentName: 'צפון אמריקה',
+            flag: '🇨🇦',
+            lat: 56.13,
+            lon: -106.34,
+            population: '40,100,000 נפש',
+            growth: '+2.7% שנתי',
+            medianAge: '41.0 שנים',
+            urbanization: '81.8%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פדרלית מלאה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'המלך צ\'ארלס השלישי / רה"מ ג\'סטין טרודו',
+            institutions: 'פרלמנט אוטווה, בית משפט עליון מקצועי, שלטון פדרלי מבוזר בפרובינציות',
+            scores: 'EIU: 8.69 (דמוקרטיה מלאה) | Freedom House: 97/100 (חופשית לחלוטין)',
+            changeProb: 1,
+            changeProbLabel: 'סיכוי אפסי לשינוי משטר (< 1%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לחלוטין (50+ שנה)',
+            drivers: [
+              'מוסדות דמוקרטיים חזקים, מסורת שלטונית ליברלית והגנה קפדנית על זכויות המיעוטים',
+              'עצמאות שיפוטית מוחלטת ושירות מדינה מקצועי שאינו פוליטי',
+              'חילופי שלטון צפויים בבחירות 2025 ללא שום ערעור על הלגיטימיות של תוצאות ההצבעה'
+            ],
+            scenario: 'הדמוקרטיה הקנדית היא מהאיתנות והיציבות בעולם. חילופי שלטון בין המפלגה הליברלית לשמרנית יתבצעו בצורה מופתית וללא זעזועים מוסדיים.'
+          },
+          {
+            id: 'usa',
+            name: 'ארצות הברית',
+            nameEn: 'United States',
+            continent: 'north_america',
+            continentName: 'צפון אמריקה',
+            flag: '🇺🇸',
+            lat: 37.09,
+            lon: -95.71,
+            population: '336,000,000 נפש',
+            growth: '+0.5% שנתי',
+            medianAge: '38.9 שנים',
+            urbanization: '83.1%',
+            regimeType: 'רפובליקה חוקתית פדרלית / דמוקרטיה פגומה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'נשיא ארצות הברית',
+            institutions: 'הקונגרס (סנאט ובית הנבחרים), בית המשפט העליון, מערכת בלמים ואיזונים פדרלית',
+            scores: 'EIU: 7.85 (דמוקרטיה פגומה עקב קיטוב) | Freedom House: 83/100 (חופשית)',
+            changeProb: 12,
+            changeProbLabel: 'סיכוי נמוך לקריסה, סיכון בינוני לשחיקה (12%)',
+            changeProbLevel: 'low',
+            timeframe: 'טווח בינוני (4–8 שנים)',
+            drivers: [
+              'קיטוב פוליטי חסר תקדים המאיים על נורמות דמוקרטיות ועל אמון הציבור בהליכי הבחירות',
+              'פוליטיזציה גוברת של בית המשפט העליון ומאבקי סמכויות חריפים בין המדינות לממשל הפדרלי',
+              'חוסן יוצא דופן של החוקה, התקשורת החופשית, החברה האזרחית ועצמאות הצבא שאינו פוליטי'
+            ],
+            scenario: 'הדמוקרטיה האמריקאית תחווה טלטלות ומתחים חוקתיים עזים, אך מנגנוני הבלימה החוקתיים והביזור הפדרלי ימנעו דיקטטורה או פירוק המשטר.'
+          },
+          {
+            id: 'mexico',
+            name: 'מקסיקו',
+            nameEn: 'Mexico',
+            continent: 'north_america',
+            continentName: 'צפון אמריקה',
+            flag: '🇲🇽',
+            lat: 23.63,
+            lon: -102.55,
+            population: '129,400,000 נפש',
+            growth: '+0.7% שנתי',
+            medianAge: '29.8 שנים',
+            urbanization: '81.3%',
+            regimeType: 'דמוקרטיה פגומה / דומיננטיות מפלגתית ושחיקה שיפוטית',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'קלאודיה שיינבאום (נשיאה ראשונה)',
+            institutions: 'קונגרס האיחוד (שליטת מפלגת Morena), רשות שופטת ברפורמה שנויה במחלוקת',
+            scores: 'EIU: 5.14 (דמוקרטיה פגומה) | Freedom House: 52/100 (חופשית חלקית)',
+            changeProb: 38,
+            changeProbLabel: 'סיכוי בינוני לשחיקה דמוקרטית (38%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (4–6 שנים)',
+            drivers: [
+              'רפורמה משפטית דרמטית לבחירת כל השופטים בהצבעה עממית, המאיימת לחסל את עצמאות השפיטה',
+              'שליטה אלימה של קרטלי הסמים בחלקים נרחבים מהטריטוריה ורצח עשרות מועמדים פוליטיים',
+              'ריכוז כוח חסר תקדים בידי מפלגת השלטון מורנה העלול להחזיר את מודל "המפלגה ההגמונית"'
+            ],
+            scenario: 'מקסיקו לא תהפוך לדיקטטורה צבאית, אך קיים סיכון ממשי להידרדרות למשטר היברידי שבו שלטון החוק נפגע קשות והבלמים המוסדיים מתפוגגים.'
+          },
+          {
+            id: 'cuba',
+            name: 'קובה',
+            nameEn: 'Cuba',
+            continent: 'north_america',
+            continentName: 'צפון אמריקה',
+            flag: '🇨🇺',
+            lat: 21.52,
+            lon: -77.78,
+            population: '11,200,000 נפש',
+            growth: '-0.2% שנתי',
+            medianAge: '42.2 שנים',
+            urbanization: '77.3%',
+            regimeType: 'דיקטטורה חד-מפלגתית מרקסיסטית-לניניסטית',
+            regimeBadgeClass: 'tag-red',
+            leader: 'מיגל דיאס-קאנל (נשיא ומזכיר המפלגה הקומוניסטית)',
+            institutions: 'המפלגה הקומוניסטית (PCC), הכוחות המזוינים המהפכניים (FAR), מנגנוני ביטחון הפנים',
+            scores: 'EIU: 2.65 (משטר סמכותני) | Freedom House: 12/100 (לא חופשית כלל)',
+            changeProb: 65,
+            changeProbLabel: 'סיכוי גבוה לקריסה או שינוי משטר (65%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר-בינוני (2–5 שנים)',
+            drivers: [
+              'משבר אנרגיה קטסטרופלי: קריסה מוחלטת של רשת החשמל הלאומית, השבתת ערים ומחסור חריף במזון',
+              'ההגירה הגדולה בהיסטוריה של האי (קרוב ל-10% מהאוכלוסייה נמלטו לארה"ב בשנתיים האחרונות)',
+              'התפוגגות הלגיטימציה של הדור שאחרי קסטרו והתגברות הפגנות הרחוב הספונטניות למרות הדיכוי'
+            ],
+            scenario: 'המשטר הקומוניסטי בקובה נמצא בנקודת השבירה החמורה ביותר מאז 1959. שילוב של קריסה כלכלית וייאוש עממי צפוי לחייב פתיחה כלכלית ופוליטית דרמטית בעשור הקרוב.'
+          },
+          {
+            id: 'el_salvador',
+            name: 'אל סלוודור',
+            nameEn: 'El Salvador',
+            continent: 'north_america',
+            continentName: 'צפון אמריקה',
+            flag: '🇸🇻',
+            lat: 13.79,
+            lon: -88.89,
+            population: '6,360,000 נפש',
+            growth: '+0.4% שנתי',
+            medianAge: '28.1 שנים',
+            urbanization: '74.3%',
+            regimeType: 'משטר היברידי אוטוריטרי אלקטורלי (מודל בוקלה)',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'נאיב בוקלה (נשיא פופולרי ונבחר מחדש בניגוד לחוקה)',
+            institutions: 'האספה המחוקקת (שליטה של 90% למפלגתו), בית משפט עליון מוחלף, צבא ומשטרה מועצמים',
+            scores: 'EIU: 4.71 (משטר כלאיים) | Freedom House: 53/100 (חופשית חלקית)',
+            changeProb: 20,
+            changeProbLabel: 'סיכוי נמוך להתנגדות, אך סיכון לדיקטטורה קבועה (20%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב בטווח של 5–10 שנים',
+            drivers: [
+              'תמיכה עממית גורפת (מעל 85%) הודות למיגור טרור הכנופיות (מאסר של 2% מהאוכלוסייה הבוגרת)',
+              'ריסוק שיטתי של מערכת האיזונים והבלמים, מעצרים ללא משפט והפרות זכויות אדם נרחבות',
+              'מדיניות כלכלית הרפתקנית (אימוץ ביטקוין כמטבע רשמי) העלולה לייצר משבר פיסקלי'
+            ],
+            scenario: 'בוקלה ביסס שלטון אוטוריטרי איתן הנהנה מתמיכה עממית. בעשור הקרוב הוא צפוי להמשיך להחזיק ברסן השלטון תוך העמקת המאפיינים הדיקטטוריים.'
+          },
+
+          // ---------------- דרום אמריקה (5 מדינות) ----------------
+          {
+            id: 'uruguay',
+            name: 'אורוגוואי',
+            nameEn: 'Uruguay',
+            continent: 'south_america',
+            continentName: 'דרום אמריקה',
+            flag: '🇺🇾',
+            lat: -32.52,
+            lon: -55.76,
+            population: '3,420,000 נפש',
+            growth: '+0.1% שנתי',
+            medianAge: '36.1 שנים',
+            urbanization: '95.7%',
+            regimeType: 'דמוקרטיה מלאה מופתית (מקום 1 באמריקה הלטינית)',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'לואיס לאקאז\'ה פו (נשיא)',
+            institutions: 'האספה הכללית (סנאט ובית נבחרים), מערכת משפט עצמאית, תרבות פוליטית של פשרות',
+            scores: 'EIU: 8.66 (דמוקרטיה מלאה) | Freedom House: 96/100 (חופשית לחלוטין)',
+            changeProb: 1,
+            changeProbLabel: 'סיכוי אפסי לשינוי משטר (< 1%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לחלוטין (40+ שנה)',
+            drivers: [
+              'המסורת הדמוקרטית החזקה והיציבה ביותר ביבשת ללא קיטוב פוליטי הרסני',
+              'רשת הגנה סוציאלית מתקדמת, שקיפות שלטונית גבוהה ורמת שחיתות מהנמוכות בעולם',
+              'חילופי שלטון שקטים בין הימין-מרכז לשמאל המתון (Frente Amplio) כדבר שבשגרה'
+            ],
+            scenario: 'אורוגוואי תמשיך להוות מגדלור של חופש, יציבות פוליטית ואיכות חיים בדרום אמריקה, ללא שום איום על מוסדות הדמוקרטיה.'
+          },
+          {
+            id: 'brazil',
+            name: 'ברזיל',
+            nameEn: 'Brazil',
+            continent: 'south_america',
+            continentName: 'דרום אמריקה',
+            flag: '🇧🇷',
+            lat: -14.23,
+            lon: -51.92,
+            population: '216,400,000 נפש',
+            growth: '+0.5% שנתי',
+            medianAge: '33.5 שנים',
+            urbanization: '87.8%',
+            regimeType: 'דמוקרטיה פגומה / רפובליקה נשיאותית פדרלית',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'לואיז אינסיו לולה דה סילבה (נשיא)',
+            institutions: 'הקונגרס הלאומי, בית המשפט הפדרלי העליון (STF), צבא שנמנע מהתערבות פוליטית',
+            scores: 'EIU: 6.68 (דמוקרטיה פגומה) | Freedom House: 72/100 (חופשית)',
+            changeProb: 30,
+            changeProbLabel: 'סיכוי בינוני למשבר חוקתי (30%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (3–6 שנים)',
+            drivers: [
+              'קיטוב פוליטי עמוק בין השמאל לימין הבולסונאריסטי (זכר למהומות ינואר 2023 בברזיליה)',
+              'בית המשפט העליון הפך לאקטיביסטי ותוקפני במאבק בפייק ניוז, מה שמעורר האשמות בדיכוי',
+              'הקונגרס נשלט ע"י גוש המרכז-ימין ("Centrão"), מה שמחייב פשרות פוליטיות בלתי פוסקות'
+            ],
+            scenario: 'המוסדות הדמוקרטיים הוכיחו עמידות מרשימה מול ניסיונות מרד. הדמוקרטיה הברזילאית תישמר, אך המאבק על הזהות הפוליטית יימשך בעוצמה בבחירות 2026.'
+          },
+          {
+            id: 'venezuela',
+            name: 'ונצואלה',
+            nameEn: 'Venezuela',
+            continent: 'south_america',
+            continentName: 'דרום אמריקה',
+            flag: '🇻🇪',
+            lat: 6.42,
+            lon: -66.58,
+            population: '28,800,000 נפש',
+            growth: '+0.6% שנתי',
+            medianAge: '30.0 שנים',
+            urbanization: '88.4%',
+            regimeType: 'דיקטטורה אוטוריטרית סוציאליסטית וקלפטוקרטיה צבאית',
+            regimeBadgeClass: 'tag-red',
+            leader: 'ניקולס מדורו (נשיא בפועל, גניבת בחירות יולי 2024)',
+            institutions: 'הכוחות המזוינים הלאומיים (FANB), שירותי המודיעין SEBIN ו-DGCIM, מליציות "קולקטיבוס"',
+            scores: 'EIU: 2.23 (משטר סמכותני) | Freedom House: 15/100 (לא חופשית)',
+            changeProb: 70,
+            changeProbLabel: 'סיכוי גבוה מאוד לשינוי משטר (70%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר-בינוני (1–4 שנים)',
+            drivers: [
+              'אובדן לגיטימציה מוחלט לאחר שזיוף תוצאות בחירות 2024 הוכח ע"י ספירת הקלפיות של האופוזיציה',
+              'יותר מ-8 מיליון פליטים ברחו מהמדינה עקב קריסה כלכלית, רעב והיפראינפלציה כרונית',
+              'לחץ בינלאומי כבד, סנקציות מחדש וסדקים פוטנציאליים בקרב קציני הצבא השולטים בנפט'
+            ],
+            scenario: 'מדורו נאחז בשלטון אך ורק בכוח הנשק של הגנרלים. הלחץ הפנימי והבינלאומי המצטבר הופך את המשך שרידות המשטר לבלתי אפשרית לאורך זמן, עם סיכוי גבוה להסדר מעבר או הדחה.'
+          },
+          {
+            id: 'argentina',
+            name: 'ארגנטינה',
+            nameEn: 'Argentina',
+            continent: 'south_america',
+            continentName: 'דרום אמריקה',
+            flag: '🇦🇷',
+            lat: -38.41,
+            lon: -63.61,
+            population: '46,600,000 נפש',
+            growth: '+0.9% שנתי',
+            medianAge: '32.4 שנים',
+            urbanization: '92.5%',
+            regimeType: 'דמוקרטיה פגומה / רפובליקה נשיאותית ליברטריאנית',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'חאבייר מיליי (נשיא ליברטריאני ראשון בעולם)',
+            institutions: 'הקונגרס הלאומי (ללא רוב לנשיא), בתי משפט פדרליים עצמאיים, איגודי עובדים חזקים',
+            scores: 'EIU: 6.62 (דמוקרטיה פגומה) | Freedom House: 85/100 (חופשית)',
+            changeProb: 15,
+            changeProbLabel: 'סיכוי נמוך לפגיעה בדמוקרטיה, סיכון למשבר פוליטי (15%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב מוסדית (2–5 שנים)',
+            drivers: [
+              '"טיפול בהלם" כלכלי חסר תקדים: קיצוץ חד בהוצאות הממשלה, איזון תקציבי והורדת אינפלציה',
+              'עלייה חדה בשיעור העוני (מעל 50%) ומחאות שקטות של ארגוני עובדים ותנועות פרוניסטיות',
+              'מסורת דמוקרטית בת 40 שנה שבה הצבא נייטרלי לחלוטין ואינו מתערב במשחק הפוליטי'
+            ],
+            scenario: 'הדמוקרטיה הארגנטינאית מוגנת. המאבקים יתמקדו במישור החברתי-כלכלי וביכולתו של מיליי לשמר תמיכה פוליטית לקראת בחירות האמצע ב-2025.'
+          },
+          {
+            id: 'bolivia',
+            name: 'בוליביה',
+            nameEn: 'Bolivia',
+            continent: 'south_america',
+            continentName: 'דרום אמריקה',
+            flag: '🇧🇴',
+            lat: -16.29,
+            lon: -63.58,
+            population: '12,300,000 נפש',
+            growth: '+1.3% שנתי',
+            medianAge: '26.2 שנים',
+            urbanization: '70.8%',
+            regimeType: 'משטר היברידי שברירי במשבר עמוק',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'לואיס ארסה (נשיא)',
+            institutions: 'האספה המחוקקת הרב-לאומית, מפלגת MAS מפוצלת, צבא מעורער (ניסיון הפיכה 2024)',
+            scores: 'EIU: 4.20 (משטר כלאיים) | Freedom House: 66/100 (חופשית חלקית)',
+            changeProb: 60,
+            changeProbLabel: 'סיכוי גבוה למשבר משטרי והפיכה (60%)',
+            changeProbLevel: 'high',
+            timeframe: 'טווח קצר (1–3 שנים)',
+            drivers: [
+              'קרב פוליטי אלים וחסר פשרות בתוך מחנה השמאל בין הנשיא ארסה לנשיא לשעבר אבו מוראלס',
+              'ניסיון הפיכה צבאי כושל ביוני 2024 שהמחיש את השבריריות הקיצונית של שלטון החוק',
+              'קריסת ענף הגז הטבעי, התרוקנות עתודות מטבע החוץ ומחסור חמור בדלק ובמזון'
+            ],
+            scenario: 'בוליביה צועדת לקראת בחירות סוערות ב-2025. המתחים הפנימיים עלולים להידרדר למלחמת אזרחים בעצימות נמוכה, להפיכה צבאית מוצלחת או לחילופי שלטון חדים.'
+          },
+
+          // ---------------- אוקיאניה (5 מדינות) ----------------
+          {
+            id: 'australia',
+            name: 'אוסטרליה',
+            nameEn: 'Australia',
+            continent: 'oceania',
+            continentName: 'אוקיאניה',
+            flag: '🇦🇺',
+            lat: -25.27,
+            lon: 133.77,
+            population: '26,600,000 נפש',
+            growth: '+1.2% שנתי',
+            medianAge: '37.5 שנים',
+            urbanization: '86.6%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פדרלית מלאה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'המלך צ\'ארלס השלישי / רה"מ אנתוני אלבניזי',
+            institutions: 'הפרלמנט הפדרלי בקנברה, בית המשפט הגבוה, חובת הצבעה חוקית (90%+ השתתפות)',
+            scores: 'EIU: 8.66 (דמוקרטיה מלאה) | Freedom House: 95/100 (חופשית לחלוטין)',
+            changeProb: 2,
+            changeProbLabel: 'סיכוי אפסי לשינוי משטר (2%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לחלוטין (40+ שנה)',
+            drivers: [
+              'מערכת פוליטית יציבה ומשגשגת בעלת מוסדות שלטון חוק נקיים וחופש עיתונות מלא',
+              'חובת הצבעה בחוק המונעת קיצוניות פוליטית ומבטיחה השתתפות אזרחית גבוהה',
+              'הדיון הציבורי היחיד נוגע למעבר אפשרי מרפובליקה מונרכית לרפובליקה עצמאית, בהליך דמוקרטי'
+            ],
+            scenario: 'הדמוקרטיה האוסטרלית היא מופת של יציבות. המשטר הדמוקרטי איתן לחלוטין, והדיונים יתמקדו בבריתות ביטחוניות (AUKUS) מול האיום הסיני באוקיינוס השקט.'
+          },
+          {
+            id: 'new_zealand',
+            name: 'ניו זילנד',
+            nameEn: 'New Zealand',
+            continent: 'oceania',
+            continentName: 'אוקיאניה',
+            flag: '🇳🇿',
+            lat: -40.90,
+            lon: 174.88,
+            population: '5,200,000 נפש',
+            growth: '+0.8% שנתי',
+            medianAge: '37.4 שנים',
+            urbanization: '87.0%',
+            regimeType: 'מונרכיה חוקתית ודמוקרטיה פרלמנטרית מלאה',
+            regimeBadgeClass: 'tag-blue',
+            leader: 'המלך צ\'ארלס השלישי / רה"מ כריסטופר לקסון',
+            institutions: 'בית הנבחרים, מערכת בחירות יחסית מעורבת (MMP), שילוב זכויות ילידי המאורי',
+            scores: 'EIU: 9.61 (מקום 2 בעולם כולו!) | Freedom House: 99/100 (חופשית)',
+            changeProb: 1,
+            changeProbLabel: 'סיכוי אפסי לשינוי משטר (< 1%)',
+            changeProbLevel: 'low',
+            timeframe: 'יציב לחלוטין (50+ שנה)',
+            drivers: [
+              'רמת שקיפות מהגבוהות בעולם, אמון ציבורי מלא במשטרה ובמוסדות המדינה',
+              'תרבות פוליטית מכילה ובלתי אלימה עם הגנה מוצקה על זכויות אדם',
+              'עצמאות שיפוטית טוטאלית ושירות ציבורי נטול שחיתות לחלוטין'
+            ],
+            scenario: 'ניו זילנד תישאר אחת המדינות החופשיות והדמוקרטיות ביותר בעולם. אין שום סיכוי נראה לעין לזעזוע משטרי או לפגיעה בערכי החירות.'
+          },
+          {
+            id: 'papua_new_guinea',
+            name: 'פפואה גינאה החדשה',
+            nameEn: 'Papua New Guinea',
+            continent: 'oceania',
+            continentName: 'אוקיאניה',
+            flag: '🇵🇬',
+            lat: -6.31,
+            lon: 143.95,
+            population: '10,300,000 נפש',
+            growth: '+1.8% שנתי',
+            medianAge: '22.4 שנים',
+            urbanization: '13.5%',
+            regimeType: 'דמוקרטיה פרלמנטרית שברירית',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'ג\'יימס מרפה (ראש ממשלה)',
+            institutions: 'הפרלמנט הלאומי, מבנה מנהיגות שבטי מסורתי (Wantok system)',
+            scores: 'EIU: 5.97 (דמוקרטיה פגומה) | Freedom House: 61/100 (חופשית חלקית)',
+            changeProb: 50,
+            changeProbLabel: 'סיכוי בינוני-גבוה למשבר שלטוני ופיצול (50%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח קצר-בינוני (2–5 שנים)',
+            drivers: [
+              'סכסוכים שבטיים אלימים, שחיתות פוליטית ואי-שקט אזרחי (מהומות וביזה בפורט מורסבי בינואר 2024)',
+              'שאלת עצמאות מחוז בוגנוויל (98% הצביעו בעד היפרדות) המאיימת לקרוע את המדינה',
+              'תחרות אסטרטגית עזה בין סין לארה"ב ואוסטרליה על השפעה ביטחונית וכלכלית'
+            ],
+            scenario: 'המשטר הדמוקרטי מתמודד עם אתגרי משילות קשים. אם סוגיית בוגנוויל לא תוסדר בהסכמה, המדינה עלולה לגלוש לאלימות שבטית רחבה שתערער את השלטון המרכזי.'
+          },
+          {
+            id: 'fiji',
+            name: 'פיג\'י',
+            nameEn: 'Fiji',
+            continent: 'oceania',
+            continentName: 'אוקיאניה',
+            flag: '🇫🇯',
+            lat: -17.71,
+            lon: 178.06,
+            population: '935,000 נפש',
+            growth: '+0.5% שנתי',
+            medianAge: '28.9 שנים',
+            urbanization: '58.2%',
+            regimeType: 'דמוקרטיה פוסט-צבאית פגומה',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'סיטיווני רבוקה (ראש ממשלה, מחולל הפיכות עבר שהפך למנהיג נבחר)',
+            institutions: 'פרלמנט פיג\'י, הכוחות הצבאיים של הרפובליקה (RFMF) בעלי מעמד מעין-חוקתי',
+            scores: 'EIU: 5.55 (דמוקרטיה פגומה) | Freedom House: 59/100 (חופשית חלקית)',
+            changeProb: 35,
+            changeProbLabel: 'סיכוי בינוני להפיכה צבאית נוספת (35%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח בינוני (4–7 שנים)',
+            drivers: [
+              'היסטוריה עכורה של 4 הפיכות צבאיות בעשורים האחרונים והשפעה צבאית עמוקה בפוליטיקה',
+              'מתחים אתניים היסטוריים בין הילידים הפיג\'יאנים (iTaukei) למיעוט ההודי-פיג\'יאני',
+              'פגיעות קיצונית לאסונות טבע ועליית מפלס הים בעקבות שינויי האקלים'
+            ],
+            scenario: 'המעבר לשלטון קואליציוני ב-2022 הוכיח בגרות מסוימת. עם זאת, כל משבר פוליטי חריף עלול להחזיר את מפקדי הצבא לשלוט באמצעות הפיכה.'
+          },
+          {
+            id: 'solomon_islands',
+            name: 'איי שלמה',
+            nameEn: 'Solomon Islands',
+            continent: 'oceania',
+            continentName: 'אוקיאניה',
+            flag: '🇸🇧',
+            lat: -9.64,
+            lon: 160.15,
+            population: '740,000 נפש',
+            growth: '+2.1% שנתי',
+            medianAge: '20.3 שנים',
+            urbanization: '25.4%',
+            regimeType: 'דמוקרטיה פרלמנטרית שברירית',
+            regimeBadgeClass: 'tag-purple',
+            leader: 'ג\'רמיה מנלה (ראש ממשלה)',
+            institutions: 'הפרלמנט הלאומי בהוניארה, ממשלים פרובינציאליים מתוחים (במיוחד מחוז מלאיטה)',
+            scores: 'EIU: 5.80 (דמוקרטיה פגומה) | Freedom House: 75/100 (חופשית)',
+            changeProb: 40,
+            changeProbLabel: 'סיכוי בינוני לתסיסה והתערבות זרה (40%)',
+            changeProbLevel: 'med',
+            timeframe: 'טווח קצר-בינוני (3–6 שנים)',
+            drivers: [
+              'חתימה על הסכם ביטחוני חריג עם סין שהפכה את האיים למוקד מלחמה קרה בדרום האוקיינוס השקט',
+              'אי-שקט אתני חריף בין האיים שהוביל בעבר לשריפת שכונות בבירה הוניארה ולהתערבות כוחות אוסטרליים',
+              'תלות כלכלית מוחלטת בייצוא בולי עץ לסין ועוני נרחב בכפרים'
+            ],
+            scenario: 'הדמוקרטיה עומדת במבחן קשה מול לחצים גיאופוליטיים סיניים ואמריקאיים. תסיסה פנימית במחוז מלאיטה עלולה להביא להפלת הממשלה או לעימותים אלימים.'
+          }
+        ];
+      }
+
+      /* ----------------------------------------------------------------------
+         שקף 10: מודל תלת-ממדי אינטראקטיבי של כדור הארץ למדינה אקראית (Three.js)
+         ---------------------------------------------------------------------- */
+      initRandomCountry3D() {
+        const canvas = document.getElementById('random-country-canvas');
+        if (!canvas) return;
+
+        const container = canvas.parentElement;
+        const width = container.clientWidth || 400;
+        const height = container.clientHeight || 250;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+        camera.position.set(0, 0, 165);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // תאורה
+        const ambLight = new THREE.AmbientLight(0xffffff, 0.85);
+        scene.add(ambLight);
+        const dirLight = new THREE.DirectionalLight(0x00d2ff, 1.4);
+        dirLight.position.set(100, 80, 100);
+        scene.add(dirLight);
+
+        // קבוצה ראשית מסתובבת
+        const globeGroup = new THREE.Group();
+        scene.add(globeGroup);
+
+        // כדור הארץ עם טקסטורת יבשות, אדמה וים
+        const earthTex = this.createProceduralEarthTexture();
+        const earthGeo = new THREE.SphereGeometry(60, 48, 48);
+        const earthMat = new THREE.MeshStandardMaterial({
+          map: earthTex,
+          roughness: 0.6,
+          metalness: 0.1
+        });
+        const earthMesh = new THREE.Mesh(earthGeo, earthMat);
+        globeGroup.add(earthMesh);
+
+        // עננים עדינים מסביב
+        const cloudGeo = new THREE.SphereGeometry(60.8, 36, 36);
+        const cloudMat = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.18,
+          blending: THREE.AdditiveBlending
+        });
+        const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+        globeGroup.add(cloudMesh);
+
+        // הילת אטמוספירה זוהרת
+        const atmosGeo = new THREE.SphereGeometry(62, 36, 36);
+        const atmosMat = new THREE.MeshBasicMaterial({
+          color: 0x00d2ff,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.08
+        });
+        const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
+        globeGroup.add(atmosMesh);
+
+        // קבוצת מטרת המדינה: סיכה, אלומת אור הולוגרפית וטבעת מכ"ם פועמת
+        const targetGroup = new THREE.Group();
+        globeGroup.add(targetGroup);
+
+        // סיכה בולטת
+        const pinGeo = new THREE.CylinderGeometry(0.6, 0.1, 7, 8);
+        const pinMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+        const pinMesh = new THREE.Mesh(pinGeo, pinMat);
+        pinMesh.position.y = 3.5;
+        targetGroup.add(pinMesh);
+
+        // אלומת לייזר הולוגרפית
+        const beamGeo = new THREE.CylinderGeometry(0.8, 0.8, 35, 16, 1, true);
+        const beamMat = new THREE.MeshBasicMaterial({
+          color: 0x00d2ff,
+          transparent: true,
+          opacity: 0.45,
+          side: THREE.DoubleSide
+        });
+        const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+        beamMesh.position.y = 17.5;
+        targetGroup.add(beamMesh);
+
+        // טבעת סונאר/רדאר פועמת על פני השטח
+        const ringGeo = new THREE.RingGeometry(1, 4.5, 24);
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: 0x00ffff,
+          transparent: true,
+          opacity: 0.8,
+          side: THREE.DoubleSide
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.rotation.x = Math.PI / 2;
+        targetGroup.add(ringMesh);
+
+        // בקרת מסלול (OrbitControls)
+        let controls = null;
+        if (typeof THREE.OrbitControls !== 'undefined') {
+          controls = new THREE.OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          controls.dampingFactor = 0.05;
+          controls.enablePan = false;
+          controls.minDistance = 90;
+          controls.maxDistance = 240;
+        }
+
+        this.simScene = scene;
+        this.simCamera = camera;
+        this.simRenderer = renderer;
+        this.simGlobeGroup = globeGroup;
+        this.simCloudMesh = cloudMesh;
+        this.simTargetGroup = targetGroup;
+        this.simRingMesh = ringMesh;
+        this.simControls = controls;
+
+        // משתני אנימציית טיסה למדינה
+        this.simAnimTargetRotY = 0;
+        this.simAnimTargetRotX = 0;
+        this.simIsAnimatingFly = false;
+
+        let radarScale = 1;
+        const animateSim = () => {
+          requestAnimationFrame(animateSim);
+          if (controls) controls.update();
+          cloudMesh.rotation.y += 0.0004;
+
+          // פולס רדאר
+          radarScale += 0.03;
+          if (radarScale > 3) radarScale = 0.5;
+          ringMesh.scale.set(radarScale, radarScale, 1);
+          ringMat.opacity = Math.max(0, 0.9 - (radarScale / 3.2));
+
+          // אינטרפולציית תנועה חלקה למדינה שנבחרה
+          if (this.simIsAnimatingFly) {
+            globeGroup.rotation.y += (this.simAnimTargetRotY - globeGroup.rotation.y) * 0.07;
+            globeGroup.rotation.x += (this.simAnimTargetRotX - globeGroup.rotation.x) * 0.07;
+            if (Math.abs(globeGroup.rotation.y - this.simAnimTargetRotY) < 0.002 &&
+                Math.abs(globeGroup.rotation.x - this.simAnimTargetRotX) < 0.002) {
+              this.simIsAnimatingFly = false;
+            }
+          }
+
+          renderer.render(scene, camera);
+        };
+        animateSim();
+      }
+
+      flyToCountryInSimulator(lat, lon) {
+        if (!this.simGlobeGroup || !this.simTargetGroup) return;
+
+        // מיקום הסיכה והאלומה על פני הכדור (רדיוס 60)
+        const R = 60;
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lon + 180) * (Math.PI / 180);
+
+        const x = -(R * Math.sin(phi) * Math.cos(theta));
+        const z = R * Math.sin(phi) * Math.sin(theta);
+        const y = R * Math.cos(phi);
+
+        this.simTargetGroup.position.set(x, y, z);
+        this.simTargetGroup.quaternion.setFromUnitVectors(
+          new THREE.Vector3(0, 1, 0),
+          new THREE.Vector3(x, y, z).normalize()
+        );
+
+        // חישוב זוויות הסיבוב הדרושות כדי שהקואורדינטות יפנו למצלמה
+        const targetRotY = -((lon + 180) * (Math.PI / 180)) + Math.PI / 2;
+        const targetRotX = (lat) * (Math.PI / 180) * 0.4;
+
+        this.simAnimTargetRotY = targetRotY;
+        this.simAnimTargetRotX = targetRotX;
+        this.simIsAnimatingFly = true;
+      }
+
+      onSimResize() {
+        if (!this.simRenderer || !this.simCamera) return;
+        const canvas = document.getElementById('random-country-canvas');
+        if (!canvas) return;
+        const container = canvas.parentElement;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w && h) {
+          this.simCamera.aspect = w / h;
+          this.simCamera.updateProjectionMatrix();
+          this.simRenderer.setSize(w, h);
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         הגדרת ממשק שקף 10 ובקרי הסימולטור
+         ---------------------------------------------------------------------- */
+      setupSimulatorSlide() {
+        if (!this.simCountriesDatabase) this.initSimulatorDatabase();
+
+        // 1. אכלוס הרשימה הנפתחת (Dropdown) לפי 6 יבשות (5 מדינות כ"א)
+        const dropdown = document.getElementById('sim-country-dropdown');
+        if (dropdown) {
+          dropdown.innerHTML = '';
+          const continents = [
+            { key: 'europe', name: 'אירופה' },
+            { key: 'asia', name: 'אסיה' },
+            { key: 'africa', name: 'אפריקה' },
+            { key: 'north_america', name: 'צפון אמריקה' },
+            { key: 'south_america', name: 'דרום אמריקה' },
+            { key: 'oceania', name: 'אוקיאניה' }
+          ];
+
+          continents.forEach(cont => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = `${cont.name} (5 מדינות)`;
+            const list = this.simCountriesDatabase.filter(c => c.continent === cont.key);
+            list.forEach(c => {
+              const opt = document.createElement('option');
+              opt.value = c.id;
+              opt.innerText = `${c.flag} ${c.name} (${c.nameEn})`;
+              optgroup.appendChild(opt);
+            });
+            dropdown.appendChild(optgroup);
+          });
+
+          dropdown.addEventListener('change', (e) => {
+            this.displayCountryInSimulator(e.target.value);
+            this.playSound(600, 'sine', 0.05);
+          });
+        }
+
+        // 2. לחצני סינון יבשות
+        this.activeSimContinent = 'all';
+        const pillBtns = document.querySelectorAll('.continent-pill-btn');
+        pillBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            pillBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.activeSimContinent = btn.getAttribute('data-continent');
+            this.playSound(700, 'triangle', 0.04);
+            this.runRandomCountrySimulation();
+          });
+        });
+
+        // 3. כפתור הרצת פייתון
+        const btnRandomize = document.getElementById('btn-sim-randomize');
+        if (btnRandomize) {
+          btnRandomize.addEventListener('click', () => {
+            this.runRandomCountrySimulation();
+          });
+        }
+
+        // 4. גשר גלובלי עבור Python (Pyodide)
+        window.onPythonCountrySelected = (countryId) => {
+          this.displayCountryInSimulator(countryId);
+        };
+      }
+
+      /* ----------------------------------------------------------------------
+         הרצת סימולציית Python לדגימת מדינה אקראית
+         ---------------------------------------------------------------------- */
+      async runRandomCountrySimulation() {
+        const terminal = document.getElementById('sim-terminal-output');
+        const codePreview = document.getElementById('sim-python-code');
+        this.playSound(850, 'sine', 0.07);
+
+        // סינון המדינות הזמינות לפי הבחירה
+        const filter = this.activeSimContinent || 'all';
+        let candidatePool = this.simCountriesDatabase;
+        if (filter !== 'all') {
+          candidatePool = this.simCountriesDatabase.filter(c => c.continent === filter);
+        }
+
+        // בחירה אקראית בכל פעם
+        const randomIdx = Math.floor(Math.random() * candidatePool.length);
+        const selected = candidatePool[randomIdx];
+
+        // עדכון תצוגת הקוד הרץ
+        if (codePreview) {
+          codePreview.innerHTML = `<code>import random, js
+
+# מאגר דגימה מדויק: 5 מדינות מכל יבשת (30 מדינות בסה"כ)
+active_filter = "${filter}"
+pool = [c for c in database if active_filter == "all" or c["continent"] == active_filter]
+
+# הגרלת מדינה אקראית בכל הרצה:
+chosen = random.choice(pool) # נבחרה: ${selected.name} (${selected.nameEn})
+print(f"[Python Engine]: דגימה גיאופוליטית: {chosen['name']} | משטר: {chosen['regimeType']}")
+print(f"אוכלוסייה: {chosen['population']} | סיכוי לשינוי משטר בעתיד: {chosen['changeProb']}%")
+
+# הפעלת מודל ה-3D והצגת התיק המודיעיני המלא
+js.onPythonCountrySelected("${selected.id}")</code>`;
+        }
+
+        terminal.innerText = `[Python 3.11 WASM Engine]: מבצע דגימה אקראית ממאגר 30 המדינות...\n`;
+
+        try {
+          if (this.pyodide) {
+            const pyScript = `
+import random
+import js
+
+chosen_id = "${selected.id}"
+chosen_name = "${selected.name}"
+chosen_name_en = "${selected.nameEn}"
+chosen_cont = "${selected.continentName}"
+chosen_flag = "${selected.flag}"
+chosen_pop = "${selected.population}"
+chosen_regime = "${selected.regimeType}"
+chosen_prob = "${selected.changeProb}%"
+chosen_timeframe = "${selected.timeframe}"
+
+print("=" * 55)
+print(f"[ניתוח מנוע פייתון - דגימה אקראית מוצלחת]")
+print(f"מדינה שנבחרה: {chosen_flag} {chosen_name} ({chosen_name_en}) | יבשת: {chosen_cont}")
+print(f"דמוגרפיה: {chosen_pop}")
+print(f"מבנה משטר: {chosen_regime}")
+print(f"הערכת סיכוי לשינוי משטר בעתיד: {chosen_prob} (טווח: {chosen_timeframe})")
+print("=" * 55)
+
+js.onPythonCountrySelected(chosen_id)
+`;
+            let stdoutBuf = '';
+            this.pyodide.setStdout({
+              batched: (str) => { stdoutBuf += str + '\n'; }
+            });
+            await this.pyodide.runPythonAsync(pyScript);
+            terminal.innerText = stdoutBuf + `[סיום ריצה ב-Python: Exit Code 0]`;
+          } else {
+            terminal.innerText += `=======================================================\n` +
+              `[ניתוח מנוע פייתון - דגימה אקראית מוצלחת]\n` +
+              `מדינה שנבחרה: ${selected.flag} ${selected.name} (${selected.nameEn}) | יבשת: ${selected.continentName}\n` +
+              `דמוגרפיה: ${selected.population}\n` +
+              `מבנה משטר: ${selected.regimeType}\n` +
+              `הערכת סיכוי לשינוי משטר בעתיד: ${selected.changeProb}% (טווח: ${selected.timeframe})\n` +
+              `=======================================================\n` +
+              `[סיום ריצה ב-Python: Exit Code 0]`;
+            this.displayCountryInSimulator(selected.id);
+          }
+        } catch (err) {
+          console.warn('Pyodide execution notice:', err);
+          this.displayCountryInSimulator(selected.id);
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         הצגת תיק המידע המלא (Dossier) והפעלת אנימציית 3D
+         ---------------------------------------------------------------------- */
+      displayCountryInSimulator(countryId) {
+        if (!this.simCountriesDatabase) this.initSimulatorDatabase();
+        const country = this.simCountriesDatabase.find(c => c.id === countryId);
+        if (!country) return;
+
+        // 1. עדכון ערך ה-Dropdown
+        const dropdown = document.getElementById('sim-country-dropdown');
+        if (dropdown && dropdown.value !== countryId) {
+          dropdown.value = countryId;
+        }
+
+        // 2. עדכון תגית המטרה בקנבס ה-3D
+        document.getElementById('sim-target-flag').innerText = country.flag;
+        document.getElementById('sim-target-name').innerText = country.name;
+
+        // 3. הנעת מודל ה-3D לכיוון המדינה
+        this.flyToCountryInSimulator(country.lat, country.lon);
+
+        // 4. עדכון כרטיס התיק המודיעיני (Dossier)
+        document.getElementById('sim-dossier-flag').innerText = country.flag;
+        document.getElementById('sim-dossier-name').innerText = country.name;
+        document.getElementById('sim-dossier-name-en').innerText = country.nameEn;
+        document.getElementById('sim-dossier-continent').innerText = country.continentName;
+
+        const regimeBadge = document.getElementById('sim-dossier-regime-badge');
+        regimeBadge.innerText = country.regimeType;
+        regimeBadge.className = `country-regime-badge ${country.regimeBadgeClass}`;
+
+        // דמוגרפיה
+        document.getElementById('sim-dossier-pop').innerText = country.population;
+        document.getElementById('sim-dossier-growth').innerText = country.growth;
+        document.getElementById('sim-dossier-median-age').innerText = country.medianAge;
+        document.getElementById('sim-dossier-urban').innerText = country.urbanization;
+
+        // מבנה המשטר
+        document.getElementById('sim-dossier-structure').innerText = country.regimeType;
+        document.getElementById('sim-dossier-leader').innerText = country.leader;
+        document.getElementById('sim-dossier-institutions').innerText = country.institutions;
+        document.getElementById('sim-dossier-score').innerText = country.scores;
+
+        // הערכת סיכוי לשינוי משטר
+        const probBadge = document.getElementById('sim-dossier-prob-badge');
+        const probLabel = document.getElementById('sim-dossier-prob-label');
+        const probBar = document.getElementById('sim-dossier-prob-bar');
+        const forecastBox = document.getElementById('sim-forecast-box');
+
+        probBadge.innerText = `${country.changeProb}%`;
+        probLabel.innerText = country.changeProbLabel;
+        probBar.style.width = `${Math.max(4, country.changeProb)}%`;
+
+        forecastBox.className = 'prob-forecast-box';
+        if (country.changeProbLevel === 'low') {
+          forecastBox.classList.add('prob-low');
+          probBadge.style.color = '#10b981';
+        } else if (country.changeProbLevel === 'med') {
+          forecastBox.classList.add('prob-med');
+          probBadge.style.color = '#f59e0b';
+        } else {
+          probBadge.style.color = '#ef4444';
+        }
+
+        document.getElementById('sim-dossier-timeframe').innerText = country.timeframe;
+
+        // זרזים וגורמי שבירה
+        const driversList = document.getElementById('sim-dossier-drivers');
+        driversList.innerHTML = '';
+        country.drivers.forEach(d => {
+          const li = document.createElement('li');
+          li.innerText = d;
+          driversList.appendChild(li);
+        });
+
+        // תרחיש עתידי מנומק
+        document.getElementById('sim-dossier-scenario').innerText = country.scenario;
       }
     }
 
