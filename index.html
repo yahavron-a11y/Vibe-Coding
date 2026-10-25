@@ -467,7 +467,34 @@
       color: var(--democracy-blue);
       font-size: 0.85rem;
       font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    .hero-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-bottom: 20px;
+    }
+
+    .hero-audio-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #10b981;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .hero-audio-pill:hover {
+      background: rgba(16, 185, 129, 0.22);
+      transform: translateY(-1px);
     }
 
     .hero-title {
@@ -1865,12 +1892,12 @@
 
       <!-- כפתור פסקול היסטורי-גיאופוליטי -->
       <button class="btn-header" id="btn-ambient-music" title="פסקול גיאופוליטי היסטורי (Ambient Score)">
-        <span class="eq-bars" id="music-eq-bars">
+        <span class="eq-bars playing" id="music-eq-bars">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </span>
-        <span class="btn-text" id="music-btn-label">פסקול היסטורי</span>
+        <span class="btn-text" id="music-btn-label">פסקול פעיל</span>
       </button>
 
       <!-- כפתור ארכיון צלילים היסטוריים -->
@@ -1919,8 +1946,13 @@
       <div class="slide-body">
         <div class="hero-wrapper">
           <div class="hero-content">
-            <div class="hero-badge-tag">
-              <span>🌐</span> ניתוח השוואתי במדע המדינה ויחסים בינלאומיים
+            <div class="hero-badges-row">
+              <div class="hero-badge-tag">
+                <span>🌐</span> ניתוח השוואתי במדע המדינה ויחסים בינלאומיים
+              </div>
+              <div class="hero-audio-pill" id="hero-sound-indicator" title="פסקול היסטורי וצלילים מופעלים כברירת מחדל (לחץ לכוונון)">
+                <span>🔊</span> פסקול היסטורי פעיל מראש
+              </div>
             </div>
             <h1 class="hero-title">
               גיאופוליטיקה <br>
@@ -2719,8 +2751,8 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       <div class="sound-master-panel">
         <div class="sound-panel-group">
           <button class="btn-play-sound" id="modal-btn-ambient-toggle" style="width:auto; padding:8px 18px;">
-            <span class="eq-bars" id="modal-eq-bars"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
-            <span id="modal-ambient-text">הפעל פסקול היסטורי אפי</span>
+            <span class="eq-bars playing" id="modal-eq-bars"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+            <span id="modal-ambient-text">השהה פסקול היסטורי</span>
           </button>
         </div>
         <div class="sound-panel-group">
@@ -2879,7 +2911,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         this.totalSlides = this.slides.length;
         this.currentSlideIndex = 0;
         this.soundEnabled = true;
-        this.isAmbientPlaying = false;
+        this.isAmbientPlaying = true; // ברירת מחדל: סאונד ופסקול היסטורי מופעלים מראש בכניסה
         this.ambientTimer = null;
         this.ambientVolume = 0.5;
         this.sfxVolume = 0.8;
@@ -2904,6 +2936,9 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         // אתחול מנוע Python ברקע
         this.initPyodideEngine();
         this.setupSimulatorSlide();
+
+        // עדכון סטטוס UI של הפסקול כפעיל מראש
+        this.updateAmbientUI();
       }
 
       /* ----------------------------------------------------------------------
@@ -2925,15 +2960,36 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           this.ambientGain.gain.setValueAtTime(this.ambientVolume * 0.16, this.audioCtx.currentTime);
           this.ambientGain.connect(this.masterGain);
 
-          const unlockAudio = () => {
-            if (this.audioCtx && this.audioCtx.state === 'suspended') {
-              this.audioCtx.resume();
+          // הפעלה אוטומטית כברירת מחדל של הפסקול ההיסטורי והפתיחה הדיפלומטית
+          this.startAmbientScore();
+          this.playDiplomaticOverture();
+
+          // הבטחת שחרור אודיו מידי בכל אינטראקציה ראשונית אם הדפדפן השהה אוטופליי
+          const startAudioOnInteraction = () => {
+            if (this.audioCtx) {
+              if (this.audioCtx.state === 'suspended') {
+                this.audioCtx.resume().then(() => {
+                  if (this.soundEnabled && this.isAmbientPlaying && !this.ambientTimer) {
+                    this.startAmbientScore();
+                  }
+                  if (this.currentSlideIndex === 0) {
+                    this.playDiplomaticOverture();
+                  }
+                });
+              } else {
+                if (this.soundEnabled && this.isAmbientPlaying && !this.ambientTimer) {
+                  this.startAmbientScore();
+                }
+              }
             }
-            document.removeEventListener('click', unlockAudio);
-            document.removeEventListener('keydown', unlockAudio);
+            ['click', 'keydown', 'pointerdown', 'touchstart', 'wheel'].forEach(evt => {
+              document.removeEventListener(evt, startAudioOnInteraction);
+            });
           };
-          document.addEventListener('click', unlockAudio, { once: true });
-          document.addEventListener('keydown', unlockAudio, { once: true });
+
+          ['click', 'keydown', 'pointerdown', 'touchstart', 'wheel'].forEach(evt => {
+            document.addEventListener(evt, startAudioOnInteraction, { once: true, passive: true });
+          });
         } catch (e) {
           console.warn('Web Audio API not supported', e);
         }
@@ -3367,7 +3423,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       startAmbientScore() {
         if (!this.audioCtx) return;
         this.resumeAudio();
-        if (this.isAmbientPlaying) return;
+        if (this.ambientTimer) return;
         this.isAmbientPlaying = true;
         this.updateAmbientUI();
 
@@ -3638,6 +3694,10 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         const btnCloseSoundArchive = document.getElementById('btn-close-sound-archive');
         if (btnCloseSoundArchive) {
           btnCloseSoundArchive.addEventListener('click', () => this.toggleSoundArchiveModal(false));
+        }
+        const heroSoundInd = document.getElementById('hero-sound-indicator');
+        if (heroSoundInd) {
+          heroSoundInd.addEventListener('click', () => this.toggleSoundArchiveModal());
         }
 
         // סליידרים לבקרת עוצמה במודל הצלילים
