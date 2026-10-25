@@ -1631,6 +1631,159 @@
       color: #fff;
     }
 
+    /* ==========================================================================
+       ארכיון צלילים היסטוריים וגיאופוליטיים
+       ========================================================================== */
+    .sound-archive-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+      flex: 1;
+      padding: 6px;
+    }
+
+    .sound-master-panel {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .sound-panel-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sound-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .sound-slider-wrap input[type="range"] {
+      accent-color: var(--democracy-blue);
+      cursor: pointer;
+      width: 100px;
+    }
+
+    .sound-archive-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .sound-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .sound-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 210, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .sound-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .sound-card-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .sound-card-badge {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .sound-card-title {
+      font-family: var(--font-heading);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .sound-card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .btn-play-sound {
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-play-sound:hover {
+      background: var(--democracy-blue);
+      color: #0b0f19;
+      box-shadow: 0 0 12px var(--democracy-glow);
+    }
+
+    /* Equalizer Bars in Header Button */
+    .eq-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 14px;
+      width: 14px;
+    }
+    .eq-bars .bar {
+      width: 3px;
+      background: var(--democracy-blue);
+      border-radius: 1px;
+      height: 4px;
+      transition: height 0.2s ease;
+    }
+    .eq-bars.playing .bar:nth-child(1) { animation: eqBounce 0.8s ease-in-out infinite; }
+    .eq-bars.playing .bar:nth-child(2) { animation: eqBounce 1.1s ease-in-out infinite 0.2s; }
+    .eq-bars.playing .bar:nth-child(3) { animation: eqBounce 0.9s ease-in-out infinite 0.4s; }
+
+    @keyframes eqBounce {
+      0%, 100% { height: 3px; }
+      50% { height: 14px; }
+    }
+
     /* רספונסיביות מלאה */
     @media (max-width: 1024px) {
       .hero-wrapper { grid-template-columns: 1fr; }
@@ -1640,6 +1793,8 @@
       }
       .slide { padding: 20px; }
       .overview-grid { grid-template-columns: repeat(2, 1fr); }
+      .sound-archive-grid { grid-template-columns: repeat(2, 1fr); }
+      .btn-header .btn-text { display: none; }
       .floating-side-arrow { display: none; }
       .slide-title { font-size: 1.6rem; }
       .hero-title { font-size: 2.2rem; }
@@ -1653,6 +1808,10 @@
       .presentation-container {
         height: calc(100vh - 60px - 64px);
       }
+    }
+
+    @media (max-width: 680px) {
+      .sound-archive-grid { grid-template-columns: 1fr; }
     }
 
     /* התאמה להדפסה ולייצוא PDF ללא פסי ניווט מפריעים */
@@ -1701,12 +1860,29 @@
       <!-- כפתור מפת שקפים -->
       <button class="btn-header" id="btn-toggle-overview" title="מפת שקפים מלאה (מקש M)">
         <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
-        <span>שקפים</span>
+        <span class="btn-text">שקפים</span>
       </button>
 
-      <!-- כפתור צלילים -->
-      <button class="btn-header" id="btn-toggle-sound" title="הפעל/השתק אפקטים קוליים">
+      <!-- כפתור פסקול היסטורי-גיאופוליטי -->
+      <button class="btn-header" id="btn-ambient-music" title="פסקול גיאופוליטי היסטורי (Ambient Score)">
+        <span class="eq-bars" id="music-eq-bars">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </span>
+        <span class="btn-text" id="music-btn-label">פסקול היסטורי</span>
+      </button>
+
+      <!-- כפתור ארכיון צלילים היסטוריים -->
+      <button class="btn-header" id="btn-sound-archive" title="ארכיון צלילים היסטוריים וגיאופוליטיים">
+        <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <span class="btn-text">צלילי היסטוריה</span>
+      </button>
+
+      <!-- כפתור השתקת/הפעלת כלל הצלילים -->
+      <button class="btn-header" id="btn-toggle-sound" title="הפעל/השתק צלילים ואפקטים קוליים">
         <svg id="sound-icon-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <svg id="sound-icon-off" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
       </button>
 
       <!-- כפתור מסך מלא -->
@@ -2509,7 +2685,9 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         <span><span class="kbd-key">←</span> לשקף הבא</span>
         <span><span class="kbd-key">→</span> לשקף הקודם</span>
         <span><span class="kbd-key">F</span> מסך מלא</span>
-        <span><span class="kbd-key">M</span> סגור תפריט</span>
+        <span><span class="kbd-key">M</span> שקפים</span>
+        <span><span class="kbd-key">S</span> צלילים</span>
+        <span><span class="kbd-key">P</span> פסקול</span>
       </div>
       <button class="btn-header" id="btn-close-overview">
         <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -2517,6 +2695,174 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
     </div>
     <div class="overview-grid" id="overview-grid-cards">
       <!-- כרטיסיות שקפים ייווצרו דינמית ב-JS -->
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       חלון מודל: ארכיון צלילים היסטוריים וגיאופוליטיים
+       ========================================================================== -->
+  <div class="overview-modal" id="sound-archive-modal">
+    <div class="overview-header">
+      <div>
+        <div class="overview-title">🎙️ ארכיון צלילים היסטוריים וגיאופוליטיים</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+          צלילים אותנטיים מעולם הדיפלומטיה, היחסים הבינלאומיים ומאבקי השלטון לאורך ההיסטוריה המודרנית
+        </div>
+      </div>
+      <button class="btn-header" id="btn-close-sound-archive" title="סגור ארכיון צלילים (מקש S)">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+    </div>
+
+    <div class="sound-archive-container">
+      <!-- לוח שליטה ובקרת עוצמה -->
+      <div class="sound-master-panel">
+        <div class="sound-panel-group">
+          <button class="btn-play-sound" id="modal-btn-ambient-toggle" style="width:auto; padding:8px 18px;">
+            <span class="eq-bars" id="modal-eq-bars"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+            <span id="modal-ambient-text">הפעל פסקול היסטורי אפי</span>
+          </button>
+        </div>
+        <div class="sound-panel-group">
+          <div class="sound-slider-wrap">
+            <span>עוצמת פסקול:</span>
+            <input type="range" id="slider-ambient-vol" min="0" max="100" value="50" title="עוצמת מוזיקת רקע">
+          </div>
+          <div class="sound-slider-wrap">
+            <span>עוצמת אפקטים:</span>
+            <input type="range" id="slider-sfx-vol" min="0" max="100" value="80" title="עוצמת אפקטים היסטוריים">
+          </div>
+        </div>
+      </div>
+
+      <!-- גריד כרטיסי הצלילים ההיסטוריים -->
+      <div class="sound-archive-grid">
+        <!-- 1. פטיש עצרת האו"ם -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">⚖️</span>
+            <span class="sound-card-badge tag-blue">דיפלומטיה ואמנות</span>
+          </div>
+          <div class="sound-card-title">פטיש עצרת האו"ם והסכמי השלום</div>
+          <div class="sound-card-desc">נקישת עץ כפולה וסמכותית המאפיינת את פתיחת עצרות האו"ם, הכרזה על אימוץ החלטות מועצת הביטחון ואישור אמנות בינלאומיות היסטוריות (ז'נבה, ורסאי, קמפ דייוויד). מלווה את שקף תפיסות היסוד.</div>
+          <button class="btn-play-sound" data-sound="gavel">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע פטיש דיפלומטי
+          </button>
+        </div>
+
+        <!-- 2. תרועת כתר מלכותית -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🎺</span>
+            <span class="sound-card-badge tag-gold">מונרכיה ומסורת</span>
+          </div>
+          <div class="sound-card-title">תרועת כתר מלכותית</div>
+          <div class="sound-card-desc">תרועת חצוצרות מפוארת בעלת הרמוניות נשיפה עשירות, המשמשת בטקסי הכתרה מלכותיים, כניסת הריבון לפרלמנט ופתיחת מושבי כתר היסטוריים (בריטניה, ספרד, יפן). מלווה את שקף המונרכיות.</div>
+          <button class="btn-play-sound" data-sound="royal">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע תרועה מלכותית
+          </button>
+        </div>
+
+        <!-- 3. הולם צבאי וגונג סמכותני -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🥁</span>
+            <span class="sound-card-badge tag-red">דיקטטורה וטוטליטריזם</span>
+          </div>
+          <div class="sound-card-title">הולם צבאי וגונג סמכותני</div>
+          <div class="sound-card-desc">הד צעדי המצעדים בכיכר האדומה ובבירות משטרים טוטליטריים, בליווי גונג ברונזה מאיים. מסמל את הפגנת הכוח, הצנזורה והדיכוי המאפיינים משטרי עריצות. מלווה את שקף הדיקטטורות.</div>
+          <button class="btn-play-sound" data-sound="totalitarian">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע צליל סמכותני
+          </button>
+        </div>
+
+        <!-- 4. מברק מורס דיפלומטי -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">📻</span>
+            <span class="sound-card-badge tag-purple">המלחמה הקרה וריגול</span>
+          </div>
+          <div class="sound-card-title">מברק מורס דיפלומטי</div>
+          <div class="sound-card-desc">שידורי רדיו בגלים קצרים ובקוד מורס בינלאומי, אשר ליוו את שעות המשבר הדרמטיות ביותר בהיסטוריה — ממשבר הטילים בקובה ועד למברקי ה'קו החם' בין וושינגטון למוסקבה.</div>
+          <button class="btn-play-sound" data-sound="morse">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע מברק מורס
+          </button>
+        </div>
+
+        <!-- 5. טלטייפ סוכנויות הידיעות -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🗞️</span>
+            <span class="sound-card-badge tag-blue">מודיעין ותקשורת</span>
+          </div>
+          <div class="sound-card-title">טלטייפ סוכנויות הידיעות</div>
+          <div class="sound-card-desc">מכונות הטלקס המכניות של רויטרס, AP ו-UPI, שפלטו ללא הרף מבזקי חדשות דחופים, הכרזות מלחמה והסכמי שלום ישירות לדסקי החדשות בכל בירות העולם. מושמע בעת ניתוח פייתון בסימולטור.</div>
+          <button class="btn-play-sound" data-sound="teletype">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע טלטייפ חדשות
+          </button>
+        </div>
+
+        <!-- 6. שידור לוויין ספוטניק ומכ"ם -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🛰️</span>
+            <span class="sound-card-badge tag-purple">עידן החלל ומכ"ם</span>
+          </div>
+          <div class="sound-card-title">שידור לוויין 'ספוטניק' ומכ"ם</div>
+          <div class="sound-card-desc">אותות הטלמטריה ומכ"מי המעקב שהציתו את המרוץ לחלל בשנות ה-50 וה-60 והפכו את המסלול הלווייני לזירה אסטרטגית מרכזית במאזן הכוחות העולמי. מושמע בחוקר ה-3D של כדור הארץ.</div>
+          <button class="btn-play-sound" data-sound="satellite">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע אות לוויין
+          </button>
+        </div>
+
+        <!-- 7. המנון חירות דמוקרטי -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🏛️</span>
+            <span class="sound-card-badge tag-blue">דמוקרטיה וזכויות</span>
+          </div>
+          <div class="sound-card-title">המנון חירות דמוקרטי</div>
+          <div class="sound-card-desc">הרמוניה חגיגית מרוממת בהשראת הכרזות עצמאות (1776, 1948), אימוץ הצהרת זכויות האדם האוניברסלית ואיחוד עמים דמוקרטיים סביב ערכי חירות ושוויון. מלווה את שקף הדמוקרטיות.</div>
+          <button class="btn-play-sound" data-sound="civic">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע אקורד דמוקרטיה
+          </button>
+        </div>
+
+        <!-- 8. פעמוני הסכם שלום עולמי -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🕊️</span>
+            <span class="sound-card-badge tag-gold">סדר עולמי ושלום</span>
+          </div>
+          <div class="sound-card-title">פעמוני הסכם שלום עולמי</div>
+          <div class="sound-card-desc">תהודת פעמוני שלום חגיגית, בהשראת 'פעמון השלום' במטה האו"ם בניו יורק, המצלצל לציון פיוס עולמי, סיום סכסוכים ותקווה לעתיד משותף. מלווה את שקף הסיום.</div>
+          <button class="btn-play-sound" data-sound="peace">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            השמע פעמוני שלום
+          </button>
+        </div>
+
+        <!-- 9. פסקול רקע היסטורי אפי -->
+        <div class="sound-card">
+          <div class="sound-card-header">
+            <span class="sound-card-icon">🎼</span>
+            <span class="sound-card-badge tag-purple">פסקול אווירתי מלא</span>
+          </div>
+          <div class="sound-card-title">פסקול רקע היסטורי אפי</div>
+          <div class="sound-card-desc">יצירה מוזיקלית סינמטית המלווה את המצגת: בס צ'לו עמוק, מיתרים אפיים ודופק הזמן ההיסטורי, המעניקים תחושת דרמה ומחקר אקדמי מעמיק לאורך המצגת כולה.</div>
+          <button class="btn-play-sound" data-sound="ambient_toggle">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            הפעל / השהה פסקול
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2533,10 +2879,14 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         this.totalSlides = this.slides.length;
         this.currentSlideIndex = 0;
         this.soundEnabled = true;
+        this.isAmbientPlaying = false;
+        this.ambientTimer = null;
+        this.ambientVolume = 0.5;
+        this.sfxVolume = 0.8;
         this.pyodide = null;
         this.isPyodideLoading = false;
         
-        // אתחול צלילים בסינתסייזר מקומי (Web Audio API)
+        // אתחול צלילים ופסקול גיאופוליטי היסטורי בסינתסייזר מקומי (Web Audio API)
         this.initAudioContext();
         
         // אתחול בקרי ניווט ומקלדת
@@ -2557,34 +2907,597 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       }
 
       /* ----------------------------------------------------------------------
-         ניהול סאונד מובנה (Web Audio API Synthesizer - ללא תלות בקבצים חיצוניים)
+         ניהול סאונד ופסקול גיאופוליטי היסטורי (Web Audio API Synthesizer)
          ---------------------------------------------------------------------- */
       initAudioContext() {
         try {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           this.audioCtx = new AudioContext();
+          this.masterGain = this.audioCtx.createGain();
+          this.masterGain.gain.setValueAtTime(0.8, this.audioCtx.currentTime);
+          this.masterGain.connect(this.audioCtx.destination);
+
+          this.sfxGain = this.audioCtx.createGain();
+          this.sfxGain.gain.setValueAtTime(this.sfxVolume, this.audioCtx.currentTime);
+          this.sfxGain.connect(this.masterGain);
+
+          this.ambientGain = this.audioCtx.createGain();
+          this.ambientGain.gain.setValueAtTime(this.ambientVolume * 0.16, this.audioCtx.currentTime);
+          this.ambientGain.connect(this.masterGain);
+
+          const unlockAudio = () => {
+            if (this.audioCtx && this.audioCtx.state === 'suspended') {
+              this.audioCtx.resume();
+            }
+            document.removeEventListener('click', unlockAudio);
+            document.removeEventListener('keydown', unlockAudio);
+          };
+          document.addEventListener('click', unlockAudio, { once: true });
+          document.addEventListener('keydown', unlockAudio, { once: true });
         } catch (e) {
           console.warn('Web Audio API not supported', e);
         }
       }
 
-      playSound(freq = 600, type = 'sine', duration = 0.08) {
-        if (!this.soundEnabled || !this.audioCtx) return;
-        if (this.audioCtx.state === 'suspended') {
+      resumeAudio() {
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
           this.audioCtx.resume();
         }
+      }
+
+      playSound(freq = 600, type = 'sine', duration = 0.08) {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
         try {
           const osc = this.audioCtx.createOscillator();
           const gain = this.audioCtx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.12, this.audioCtx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
           osc.connect(gain);
-          gain.connect(this.audioCtx.destination);
+          gain.connect(this.sfxGain || this.audioCtx.destination);
           osc.start();
           osc.stop(this.audioCtx.currentTime + duration);
         } catch (err) {}
+      }
+
+      // 1. פטיש עצרת האו"ם והסכמי השלום (UN General Assembly Gavel)
+      playGavelSound() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        [now, now + 0.22].forEach((time, idx) => {
+          const osc1 = this.audioCtx.createOscillator();
+          const osc2 = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          const filter = this.audioCtx.createBiquadFilter();
+
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(360, time);
+          osc1.frequency.exponentialRampToValueAtTime(140, time + 0.08);
+
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(580, time);
+          osc2.frequency.exponentialRampToValueAtTime(210, time + 0.06);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1200, time);
+          filter.frequency.exponentialRampToValueAtTime(300, time + 0.15);
+
+          gain.gain.setValueAtTime(idx === 0 ? 0.35 : 0.45, time);
+          gain.gain.exponentialRampToValueAtTime(0.001, time + 0.16);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+
+          osc1.start(time);
+          osc2.start(time);
+          osc1.stop(time + 0.18);
+          osc2.stop(time + 0.18);
+        });
+      }
+
+      // 2. תרועת כתר מלכותית (Royal Court Fanfare)
+      playRoyalFanfare() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const notes = [
+          { freq: 261.63, start: 0, dur: 0.14 },
+          { freq: 392.00, start: 0.14, dur: 0.14 },
+          { freq: 523.25, start: 0.28, dur: 0.18 },
+          { freq: 659.25, start: 0.46, dur: 0.18 },
+          { freq: 783.99, start: 0.64, dur: 0.55 }
+        ];
+        notes.forEach(n => {
+          const osc1 = this.audioCtx.createOscillator();
+          const osc2 = this.audioCtx.createOscillator();
+          const filter = this.audioCtx.createBiquadFilter();
+          const gain = this.audioCtx.createGain();
+
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(n.freq, now + n.start);
+
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(n.freq * 1.003, now + n.start);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1600, now + n.start);
+          filter.frequency.exponentialRampToValueAtTime(800, now + n.start + n.dur);
+          filter.Q.value = 3;
+
+          gain.gain.setValueAtTime(0.001, now + n.start);
+          gain.gain.linearRampToValueAtTime(0.20, now + n.start + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + n.start + n.dur);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+
+          osc1.start(now + n.start);
+          osc2.start(now + n.start);
+          osc1.stop(now + n.start + n.dur + 0.05);
+          osc2.stop(now + n.start + n.dur + 0.05);
+        });
+      }
+
+      // 3. הולם צבאי וגונג סמכותני (Totalitarian March & Gong)
+      playTotalitarianMarch() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+
+        const drumOsc = this.audioCtx.createOscillator();
+        const drumGain = this.audioCtx.createGain();
+        drumOsc.type = 'sine';
+        drumOsc.frequency.setValueAtTime(110, now);
+        drumOsc.frequency.exponentialRampToValueAtTime(42, now + 0.35);
+        drumGain.gain.setValueAtTime(0.45, now);
+        drumGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+        drumOsc.connect(drumGain);
+        drumGain.connect(this.sfxGain || this.masterGain);
+        drumOsc.start(now);
+        drumOsc.stop(now + 0.6);
+
+        const gongFreqs = [128, 184, 266, 380];
+        gongFreqs.forEach((freq, idx) => {
+          const gongOsc = this.audioCtx.createOscillator();
+          const gongGain = this.audioCtx.createGain();
+          gongOsc.type = 'sine';
+          gongOsc.frequency.setValueAtTime(freq, now + 0.02);
+          const amp = 0.15 / (idx + 1);
+          gongGain.gain.setValueAtTime(amp, now + 0.02);
+          gongGain.gain.exponentialRampToValueAtTime(0.0005, now + 1.5);
+          gongOsc.connect(gongGain);
+          gongGain.connect(this.sfxGain || this.masterGain);
+          gongOsc.start(now + 0.02);
+          gongOsc.stop(now + 1.55);
+        });
+      }
+
+      // 4. מברק מורס דיפלומטי (Cold War Diplomatic Morse Cable)
+      playMorseCodeCable() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const dot = 0.06;
+        const dash = 0.16;
+        const gap = 0.04;
+        const charGap = 0.12;
+
+        let t = now;
+        const beeps = [
+          dash, dash, dot, // G
+          -charGap,
+          dot,             // E
+          -charGap,
+          dash, dash, dash // O
+        ];
+
+        beeps.forEach(dur => {
+          if (dur < 0) {
+            t += Math.abs(dur);
+            return;
+          }
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          const filter = this.audioCtx.createBiquadFilter();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(780, t);
+
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(780, t);
+          filter.Q.value = 8;
+
+          gain.gain.setValueAtTime(0.001, t);
+          gain.gain.linearRampToValueAtTime(0.18, t + 0.005);
+          gain.gain.setValueAtTime(0.18, t + dur - 0.005);
+          gain.gain.linearRampToValueAtTime(0.001, t + dur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+
+          osc.start(t);
+          osc.stop(t + dur + 0.01);
+          t += dur + gap;
+        });
+      }
+
+      // 5. טלטייפ סוכנויות הידיעות (Reuters / AP Historical Ticker)
+      playTeletypeTicker(count = 7) {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        for (let i = 0; i < count; i++) {
+          const t = now + i * 0.065;
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          const filter = this.audioCtx.createBiquadFilter();
+
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(140 + Math.random() * 80, t);
+          osc.frequency.exponentialRampToValueAtTime(40, t + 0.025);
+
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(800 + Math.random() * 400, t);
+          filter.Q.value = 3;
+
+          gain.gain.setValueAtTime(0.14, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+
+          osc.start(t);
+          osc.stop(t + 0.035);
+        }
+
+        const bellTime = now + count * 0.065 + 0.02;
+        const bellOsc = this.audioCtx.createOscillator();
+        const bellGain = this.audioCtx.createGain();
+        bellOsc.type = 'sine';
+        bellOsc.frequency.setValueAtTime(1760, bellTime);
+        bellGain.gain.setValueAtTime(0.12, bellTime);
+        bellGain.gain.exponentialRampToValueAtTime(0.001, bellTime + 0.35);
+        bellOsc.connect(bellGain);
+        bellGain.connect(this.sfxGain || this.masterGain);
+        bellOsc.start(bellTime);
+        bellOsc.stop(bellTime + 0.4);
+      }
+
+      // 6. שידור לוויין 'ספוטניק' ומכ"ם (Space-Age Telemetry & Radar Ping)
+      playSatelliteRadarPing() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+
+        [0, 0.12].forEach((offset, idx) => {
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(idx === 0 ? 1046.5 : 1318.5, now + offset);
+          gain.gain.setValueAtTime(0.12, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.08);
+          osc.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.09);
+        });
+
+        const radarOsc = this.audioCtx.createOscillator();
+        const radarGain = this.audioCtx.createGain();
+        radarOsc.type = 'sine';
+        radarOsc.frequency.setValueAtTime(740, now + 0.28);
+        radarOsc.frequency.exponentialRampToValueAtTime(730, now + 1.2);
+        radarGain.gain.setValueAtTime(0.18, now + 0.28);
+        radarGain.gain.exponentialRampToValueAtTime(0.001, now + 1.25);
+        radarOsc.connect(radarGain);
+        radarGain.connect(this.sfxGain || this.masterGain);
+        radarOsc.start(now + 0.28);
+        radarOsc.stop(now + 1.3);
+      }
+
+      // 7. המנון חירות דמוקרטי (Civic Constitutional Harmony)
+      playCivicHarmony() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const chord = [174.61, 220.00, 261.63, 329.63, 392.00];
+        chord.forEach((freq, idx) => {
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          const filter = this.audioCtx.createBiquadFilter();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.03);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1600, now);
+          filter.frequency.exponentialRampToValueAtTime(600, now + 0.8);
+
+          gain.gain.setValueAtTime(0.001, now + idx * 0.03);
+          gain.gain.linearRampToValueAtTime(0.10, now + idx * 0.03 + 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+
+          osc.start(now + idx * 0.03);
+          osc.stop(now + 0.95);
+        });
+      }
+
+      // 8. פתיחה דיפלומטית חגיגית (Diplomatic Overture)
+      playDiplomaticOverture() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const freqs = [146.83, 220.00, 293.66, 369.99, 440.00];
+        freqs.forEach((freq, i) => {
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = i < 2 ? 'triangle' : 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.04);
+          gain.gain.setValueAtTime(0.001, now + i * 0.04);
+          gain.linearRampToValueAtTime(0.08, now + i * 0.04 + 0.1);
+          gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+          osc.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+          osc.start(now + i * 0.04);
+          osc.stop(now + 1.25);
+        });
+      }
+
+      // 9. פעמוני הסכם שלום עולמי (Peace Resolution Chimes)
+      playPeaceChime() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        [659.25, 987.77, 1318.51].forEach((freq, i) => {
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.12);
+          gain.gain.setValueAtTime(0.12, now + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.0005, now + i * 0.12 + 1.6);
+          osc.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+          osc.start(now + i * 0.12);
+          osc.stop(now + i * 0.12 + 1.65);
+        });
+      }
+
+      // 10. רחש ריגול ושידור מברקים (Espionage Wire)
+      playEspionageWire() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        const filter = this.audioCtx.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(466.16, now + 0.12);
+        osc.frequency.setValueAtTime(440, now + 0.24);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1000, now);
+        filter.Q.value = 5;
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.sfxGain || this.masterGain);
+
+        osc.start(now);
+        osc.stop(now + 0.6);
+      }
+
+      // 11. פולס סייבר ובינה מלאכותית (Cyber Pulse)
+      playCyberPulse() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        [0, 0.07, 0.14].forEach((offset, idx) => {
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880 + idx * 220, now + offset);
+          gain.gain.setValueAtTime(0.09, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.05);
+          osc.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.06);
+        });
+      }
+
+      // 12. נעילת יעד לוויינית (Satellite Target Lock)
+      playTargetLockSound() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const freqs = [523.25, 659.25, 783.99, 1046.50];
+        freqs.forEach((freq, idx) => {
+          const t = now + idx * 0.06;
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(0.12, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+          osc.connect(gain);
+          gain.connect(this.sfxGain || this.masterGain);
+          osc.start(t);
+          osc.stop(t + 0.08);
+        });
+      }
+
+      // הפעלת מוטיב היסטורי ייעודי לכל שקופית
+      playSlideHistoricalTheme(index) {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        switch(index) {
+          case 0: this.playDiplomaticOverture(); break;
+          case 1: this.playGavelSound(); break;
+          case 2: this.playCivicHarmony(); break;
+          case 3: this.playRoyalFanfare(); break;
+          case 4: this.playTotalitarianMarch(); break;
+          case 5: this.playEspionageWire(); break;
+          case 6: this.playSatelliteRadarPing(); break;
+          case 7: this.playCyberPulse(); break;
+          case 8: this.playTeletypeTicker(6); break;
+          case 9: this.playPeaceChime(); break;
+          default: this.playSound(440 + index * 35, 'triangle', 0.08); break;
+        }
+      }
+
+      // פסקול רקע היסטורי אפי (Ambient Score Synthesizer)
+      startAmbientScore() {
+        if (!this.audioCtx) return;
+        this.resumeAudio();
+        if (this.isAmbientPlaying) return;
+        this.isAmbientPlaying = true;
+        this.updateAmbientUI();
+
+        const chordProgression = [
+          { bass: 73.42, pad: [146.83, 174.61, 220.00] }, // Dm
+          { bass: 58.27, pad: [116.54, 146.83, 174.61] }, // Bb
+          { bass: 87.31, pad: [174.61, 220.00, 261.63] }, // F
+          { bass: 55.00, pad: [110.00, 130.81, 164.81] }  // Am
+        ];
+
+        let chordIndex = 0;
+        const chordDuration = 7.0;
+
+        const playNextChord = () => {
+          if (!this.isAmbientPlaying || !this.audioCtx) return;
+          const now = this.audioCtx.currentTime;
+          const chord = chordProgression[chordIndex];
+          chordIndex = (chordIndex + 1) % chordProgression.length;
+
+          const bassOsc = this.audioCtx.createOscillator();
+          const bassGain = this.audioCtx.createGain();
+          const bassFilter = this.audioCtx.createBiquadFilter();
+
+          bassOsc.type = 'sawtooth';
+          bassOsc.frequency.setValueAtTime(chord.bass, now);
+
+          bassFilter.type = 'lowpass';
+          bassFilter.frequency.setValueAtTime(180, now);
+
+          bassGain.gain.setValueAtTime(0.001, now);
+          bassGain.gain.linearRampToValueAtTime(0.06, now + 1.5);
+          bassGain.gain.setValueAtTime(0.06, now + chordDuration - 1.5);
+          bassGain.gain.linearRampToValueAtTime(0.001, now + chordDuration);
+
+          bassOsc.connect(bassFilter);
+          bassFilter.connect(bassGain);
+          bassGain.connect(this.ambientGain);
+
+          bassOsc.start(now);
+          bassOsc.stop(now + chordDuration + 0.1);
+
+          chord.pad.forEach((freq, idx) => {
+            const padOsc = this.audioCtx.createOscillator();
+            const padGain = this.audioCtx.createGain();
+            const padFilter = this.audioCtx.createBiquadFilter();
+
+            padOsc.type = 'triangle';
+            padOsc.frequency.setValueAtTime(freq * (idx === 1 ? 1.002 : 0.998), now);
+
+            padFilter.type = 'lowpass';
+            padFilter.frequency.setValueAtTime(450, now);
+
+            padGain.gain.setValueAtTime(0.001, now);
+            padGain.gain.linearRampToValueAtTime(0.035, now + 2.0);
+            padGain.gain.setValueAtTime(0.035, now + chordDuration - 1.8);
+            padGain.gain.linearRampToValueAtTime(0.001, now + chordDuration);
+
+            padOsc.connect(padFilter);
+            padFilter.connect(padGain);
+            padGain.connect(this.ambientGain);
+
+            padOsc.start(now);
+            padOsc.stop(now + chordDuration + 0.1);
+          });
+
+          for (let s = 0; s < Math.floor(chordDuration); s++) {
+            const pTime = now + s * 1.0;
+            const pulseOsc = this.audioCtx.createOscillator();
+            const pulseGain = this.audioCtx.createGain();
+            pulseOsc.type = 'sine';
+            pulseOsc.frequency.setValueAtTime(220, pTime);
+            pulseOsc.frequency.exponentialRampToValueAtTime(80, pTime + 0.04);
+            pulseGain.gain.setValueAtTime(0.015, pTime);
+            pulseGain.gain.exponentialRampToValueAtTime(0.0001, pTime + 0.05);
+            pulseOsc.connect(pulseGain);
+            pulseGain.connect(this.ambientGain);
+            pulseOsc.start(pTime);
+            pulseOsc.stop(pTime + 0.06);
+          }
+
+          this.ambientTimer = setTimeout(playNextChord, (chordDuration - 0.5) * 1000);
+        };
+
+        playNextChord();
+      }
+
+      stopAmbientScore() {
+        this.isAmbientPlaying = false;
+        if (this.ambientTimer) {
+          clearTimeout(this.ambientTimer);
+          this.ambientTimer = null;
+        }
+        this.updateAmbientUI();
+      }
+
+      toggleAmbientScore() {
+        if (this.isAmbientPlaying) {
+          this.stopAmbientScore();
+        } else {
+          this.startAmbientScore();
+        }
+      }
+
+      updateAmbientUI() {
+        const bars = document.getElementById('music-eq-bars');
+        const modalBars = document.getElementById('modal-eq-bars');
+        const label = document.getElementById('music-btn-label');
+        const modalText = document.getElementById('modal-ambient-text');
+        const btn = document.getElementById('btn-ambient-music');
+
+        if (this.isAmbientPlaying) {
+          if (bars) bars.classList.add('playing');
+          if (modalBars) modalBars.classList.add('playing');
+          if (label) label.innerText = 'פסקול פעיל';
+          if (modalText) modalText.innerText = 'השהה פסקול היסטורי';
+          if (btn) btn.style.borderColor = 'var(--democracy-blue)';
+        } else {
+          if (bars) bars.classList.remove('playing');
+          if (modalBars) modalBars.classList.remove('playing');
+          if (label) label.innerText = 'פסקול היסטורי';
+          if (modalText) modalText.innerText = 'הפעל פסקול היסטורי אפי';
+          if (btn) btn.style.borderColor = 'var(--border-subtle)';
+        }
+      }
+
+      toggleSoundArchiveModal(forceState = null) {
+        const modal = document.getElementById('sound-archive-modal');
+        if (!modal) return;
+        const isOpen = forceState !== null ? forceState : !modal.classList.contains('open');
+        modal.classList.toggle('open', isOpen);
       }
 
       /* ----------------------------------------------------------------------
@@ -2613,7 +3526,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         // עדכון נקודות וסקירה
         this.updateActiveDot();
-        this.playSound(440 + this.currentSlideIndex * 35, 'triangle', 0.06);
+        this.playSlideHistoricalTheme(this.currentSlideIndex);
 
         // התאמת גדלי קנבס במידת הצורך לחוקר ה-3D (שקף 7, אינדקס 6)
         if (this.currentSlideIndex === 6 && this.globeRenderer) {
@@ -2693,18 +3606,94 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             case 'M':
               this.toggleOverviewModal();
               break;
+            case 's':
+            case 'S':
+              this.toggleSoundArchiveModal();
+              break;
+            case 'p':
+            case 'P':
+              this.toggleAmbientScore();
+              break;
           }
         });
 
         // כפתור מסך מלא
         document.getElementById('btn-toggle-fullscreen').addEventListener('click', () => this.toggleFullScreen());
 
-        // כפתור צליל
+        // כפתור פסקול היסטורי בסרגל העליון ובמודל
+        const btnAmbient = document.getElementById('btn-ambient-music');
+        if (btnAmbient) {
+          btnAmbient.addEventListener('click', () => this.toggleAmbientScore());
+        }
+        const modalBtnAmbient = document.getElementById('modal-btn-ambient-toggle');
+        if (modalBtnAmbient) {
+          modalBtnAmbient.addEventListener('click', () => this.toggleAmbientScore());
+        }
+
+        // כפתור ומודל ארכיון צלילים היסטוריים
+        const btnSoundArchive = document.getElementById('btn-sound-archive');
+        if (btnSoundArchive) {
+          btnSoundArchive.addEventListener('click', () => this.toggleSoundArchiveModal());
+        }
+        const btnCloseSoundArchive = document.getElementById('btn-close-sound-archive');
+        if (btnCloseSoundArchive) {
+          btnCloseSoundArchive.addEventListener('click', () => this.toggleSoundArchiveModal(false));
+        }
+
+        // סליידרים לבקרת עוצמה במודל הצלילים
+        const sliderAmb = document.getElementById('slider-ambient-vol');
+        if (sliderAmb) {
+          sliderAmb.addEventListener('input', (e) => {
+            this.ambientVolume = e.target.value / 100;
+            if (this.ambientGain && this.audioCtx) {
+              this.ambientGain.gain.setValueAtTime(this.ambientVolume * 0.16, this.audioCtx.currentTime);
+            }
+          });
+        }
+
+        const sliderSfx = document.getElementById('slider-sfx-vol');
+        if (sliderSfx) {
+          sliderSfx.addEventListener('input', (e) => {
+            this.sfxVolume = e.target.value / 100;
+            if (this.sfxGain && this.audioCtx) {
+              this.sfxGain.gain.setValueAtTime(this.sfxVolume, this.audioCtx.currentTime);
+            }
+          });
+        }
+
+        // כפתורי השמעת צלילים בארכיון
+        document.querySelectorAll('.sound-archive-grid .btn-play-sound').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const soundType = btn.getAttribute('data-sound');
+            switch(soundType) {
+              case 'gavel': this.playGavelSound(); break;
+              case 'royal': this.playRoyalFanfare(); break;
+              case 'totalitarian': this.playTotalitarianMarch(); break;
+              case 'morse': this.playMorseCodeCable(); break;
+              case 'teletype': this.playTeletypeTicker(7); break;
+              case 'satellite': this.playSatelliteRadarPing(); break;
+              case 'civic': this.playCivicHarmony(); break;
+              case 'peace': this.playPeaceChime(); break;
+              case 'ambient_toggle': this.toggleAmbientScore(); break;
+            }
+          });
+        });
+
+        // כפתור צליל ראשי (השתקה/הפעלה)
         const btnSound = document.getElementById('btn-toggle-sound');
+        const iconOn = document.getElementById('sound-icon-on');
+        const iconOff = document.getElementById('sound-icon-off');
         btnSound.addEventListener('click', () => {
           this.soundEnabled = !this.soundEnabled;
           btnSound.style.opacity = this.soundEnabled ? '1' : '0.4';
-          if (this.soundEnabled) this.playSound(800, 'sine', 0.1);
+          if (iconOn && iconOff) {
+            iconOn.style.display = this.soundEnabled ? 'block' : 'none';
+            iconOff.style.display = this.soundEnabled ? 'none' : 'block';
+          }
+          if (this.masterGain && this.audioCtx) {
+            this.masterGain.gain.setValueAtTime(this.soundEnabled ? 0.8 : 0, this.audioCtx.currentTime);
+          }
+          if (this.soundEnabled) this.playCivicHarmony();
         });
 
         // כפתור ומודל מפת שקפים
@@ -3453,7 +4442,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           if (intersects.length > 0) {
             const country = intersects[0].object.userData;
             this.showCountryDetails(country);
-            this.playSound(750, 'sine', 0.12);
+            this.playSatelliteRadarPing();
             if (this.orbitControls) this.orbitControls.autoRotate = false;
           }
         });
@@ -3466,6 +4455,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             btn.classList.add('active');
             const layer = btn.getAttribute('data-layer');
             this.activeLayer = layer;
+            this.playCyberPulse();
 
             if (layer === 'satellite') {
               earthSphere.material.map = this.globeTextures.satellite || this.globeTextures.procedural;
@@ -4740,7 +5730,8 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       async runRandomCountrySimulation() {
         const terminal = document.getElementById('sim-terminal-output');
         const codePreview = document.getElementById('sim-python-code');
-        this.playSound(850, 'sine', 0.07);
+        this.playTeletypeTicker(6);
+        setTimeout(() => this.playTargetLockSound(), 380);
 
         // סינון המדינות הזמינות לפי הבחירה
         const filter = this.activeSimContinent || 'all';
