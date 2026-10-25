@@ -2082,107 +2082,9 @@
     </section>
 
     <!-- ----------------------------------------------------------------------
-         שקף 7: מעבדת פייתון: ניתוח גיאופוליטי חי (Python WebAssembly via Pyodide)
+         שקף 7: גלובוס תלת-ממדי אינטראקטיבי מלא (Full 3D Geopolitical Explorer)
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="6" data-topic="מעבדת פייתון">
-      <div class="slide-header">
-        <span class="slide-category-tag tag-blue">מחשוב וניתוח כמותני</span>
-        <h2 class="slide-title">מעבדת נתונים גיאופוליטית: הרצת פייתון מקומית בדפדפן</h2>
-        <p class="slide-subtitle">
-          סקריפט ה-Python שלהלן רץ באופן מלא בצד הלקוח באמצעות <bdi>Pyodide (WebAssembly)</bdi>.
-          הוא מעבד נתוני מדד הדמוקרטיה של <bdi>The Economist (EIU)</bdi> ומחשב פילוח אוכלוסיות עולמי בזמן אמת.
-        </p>
-      </div>
-      <div class="slide-body">
-        <div class="python-lab-grid">
-          <!-- עורך הקוד והבקרה -->
-          <div class="code-editor-area">
-            <div class="editor-label">
-              <span>עורך קוד Python (ניתן לעריכה והרצה ישירה)</span>
-              <span style="font-family: var(--font-code); font-size: 0.75rem; color: #64748b;">Python 3.11 / Pyodide Wasm</span>
-            </div>
-            <textarea class="editor-textarea" id="python-code-input" spellcheck="false"># ניתוח גיאופוליטי של משטרים בעולם באמצעות Python
-import sys
-import math
-
-# מדגם מייצג של נתוני מדינות ומדד EIU (ציון מתוך 10)
-dataset = [
-    {"name": "נורווגיה", "regime": "דמוקרטיה מלאה", "score": 9.81, "pop_m": 5.4, "gdp": 89000},
-    {"name": "ניו זילנד", "regime": "דמוקרטיה מלאה", "score": 9.61, "pop_m": 5.1, "gdp": 48000},
-    {"name": "קנדה", "regime": "דמוקרטיה מלאה", "score": 8.69, "pop_m": 39.0, "gdp": 53000},
-    {"name": "ישראל", "regime": "דמוקרטיה פגומה", "score": 7.80, "pop_m": 9.8, "gdp": 55000},
-    {"name": "ארה\"ב", "regime": "דמוקרטיה פגומה", "score": 7.85, "pop_m": 335.0, "gdp": 76000},
-    {"name": "בריטניה", "regime": "מונרכיה חוקתית / דמוקרטיה", "score": 8.28, "pop_m": 67.5, "gdp": 46000},
-    {"name": "יפן", "regime": "מונרכיה חוקתית / דמוקרטיה", "score": 8.40, "pop_m": 124.0, "gdp": 34000},
-    {"name": "סעודיה", "regime": "מונרכיה אבסולוטית", "score": 2.08, "pop_m": 36.4, "gdp": 32000},
-    {"name": "טורקיה", "regime": "משטר כלאיים", "score": 4.35, "pop_m": 85.0, "gdp": 10500},
-    {"name": "רוסיה", "regime": "משטר סמכותני", "score": 2.22, "pop_m": 144.0, "gdp": 12000},
-    {"name": "סין", "regime": "משטר חד-מפלגתי סמכותני", "score": 2.12, "pop_m": 1410.0, "gdp": 12500},
-    {"name": "צפון קוריאה", "regime": "דיקטטורה טוטליטרית", "score": 1.08, "pop_m": 26.0, "gdp": 1200},
-]
-
-total_pop = sum(c["pop_m"] for c in dataset)
-avg_score = sum(c["score"] for c in dataset) / len(dataset)
-
-print("=" * 55)
-print("  ניתוח נתונים גיאופוליטיים | מנוע Python פועל בדפדפן")
-print("=" * 55)
-print(f"סה\"כ מדינות במדגם: {len(dataset)}")
-print(f"אוכלוסייה נסקרת: {total_pop:.1f} מיליון נפש")
-print(f"ממוצע מדד דמוקרטיה (EIU Index): {avg_score:.2f} / 10.0\n")
-
-# פילוח לפי קטגוריות
-categories = {}
-for c in dataset:
-    cat = c["regime"]
-    categories[cat] = categories.get(cat, {"count": 0, "pop": 0, "scores": []})
-    categories[cat]["count"] += 1
-    categories[cat]["pop"] += c["pop_m"]
-    categories[cat]["scores"].append(c["score"])
-
-print("--- התפלגות אוכלוסייה וציון ממוצע לפי סוג משטר ---")
-for cat, data in categories.items():
-    pop_pct = (data["pop"] / total_pop) * 100
-    mean_s = sum(data["scores"]) / len(data["scores"])
-    print(f"• {cat:<24} | {data['count']:>2} מדינות | {pop_pct:>5.1f}% מהאוכלוסייה | ציון ממוצע: {mean_s:.2f}")
-
-print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגוררת תחת משטרים סמכותניים או משטרי כלאיים.")
-</textarea>
-            <div class="editor-controls">
-              <button class="btn-run-python" id="btn-execute-python">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <span>הרץ קוד פייתון עכשיו</span>
-              </button>
-              <button class="btn-preset" id="preset-corr">חישוב מתאם תוצר-דמוקרטיה</button>
-              <button class="btn-preset" id="preset-sim">סימולציית מעברי משטר</button>
-              <button class="btn-preset" id="preset-reset">איפוס לקוד ברירת מחדל</button>
-            </div>
-          </div>
-
-          <!-- מסוף פלט (Terminal Output) -->
-          <div class="terminal-box">
-            <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot dot-red"></div>
-                <div class="terminal-dot dot-yellow"></div>
-                <div class="terminal-dot dot-green"></div>
-              </div>
-              <div class="terminal-title">STDOUT & EXECUTION CONSOLE</div>
-              <button class="btn-header" style="padding: 2px 8px; font-size: 0.7rem;" id="btn-clear-terminal">נקה</button>
-            </div>
-            <div class="terminal-body" id="python-terminal-output">
-[מערכת]: מאתחל את מנוע Pyodide WebAssembly ברקע...
-נא להמתין להשלמת טעינת המודולים...
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ----------------------------------------------------------------------
-         שקף 8: גלובוס תלת-ממדי אינטראקטיבי מלא (Full 3D Geopolitical Explorer)
-         ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="7" data-topic="חוקר ה-3D העולמי">
+    <section class="slide" data-index="6" data-topic="חוקר ה-3D העולמי">
       <div class="slide-header">
         <span class="slide-category-tag tag-blue">מיפוי עולמי אינטראקטיבי</span>
         <h2 class="slide-title">חוקר הנתונים העולמי: פריסת משטרים בתלת-ממד</h2>
@@ -2259,9 +2161,9 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
     </section>
 
     <!-- ----------------------------------------------------------------------
-         שקף 9: אתגרי המאה ה-21 וסמכותנות דיגיטלית
+         שקף 8: אתגרי המאה ה-21 וסמכותנות דיגיטלית
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="8" data-topic="אתגרי העתיד">
+    <section class="slide" data-index="7" data-topic="אתגרי העתיד">
       <div class="slide-header">
         <span class="slide-category-tag tag-purple">העתיד הגיאופוליטי</span>
         <h2 class="slide-title">אתגרי המאה ה-21: טכנולוגיה, סייבר וסמכותנות דיגיטלית</h2>
@@ -2317,9 +2219,9 @@ print("\n[מסקנה מדעית]: רוב אוכלוסיית המדגם מתגו�
     </section>
 
     <!-- ----------------------------------------------------------------------
-         שקף 10: סימולטור גיאופוליטי אינטראקטיבי: פייתון ותלת-ממד למדינה אקראית
+         שקף 9: סימולטור גיאופוליטי אינטראקטיבי: פייתון ותלת-ממד למדינה אקראית
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="9" data-topic="סימולטור גיאופוליטי">
+    <section class="slide" data-index="8" data-topic="סימולטור גיאופוליטי">
       <div class="slide-header">
         <span class="slide-category-tag tag-blue">סימולציית Python & מודל 3D</span>
         <h2 class="slide-title">סימולטור גיאופוליטי: ניתוח מדינה אקראית באמצעות פייתון</h2>
@@ -2510,9 +2412,9 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
     </section>
 
     <!-- ----------------------------------------------------------------------
-         שקף 11: שקף סיום, תודות ומקורות (Thank You & Summary)
+         שקף 10: שקף סיום, תודות ומקורות (Thank You & Summary)
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="10" data-topic="סיום ותודות">
+    <section class="slide" data-index="9" data-topic="סיום ותודות">
       <div class="slide-body">
         <div style="max-width: 900px; margin: 0 auto; text-align: center;">
           <div class="hero-badge-tag" style="margin-bottom: 16px;">
@@ -2582,7 +2484,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       <div class="slide-dots-container" id="slide-dots"></div>
 
       <div class="slide-counter" id="slide-counter-display">
-        שקף <strong>1</strong> מתוך <strong>11</strong>
+        שקף <strong>1</strong> מתוך <strong>10</strong>
       </div>
 
       <button class="btn-nav-circle" id="nav-btn-next" title="הבא (חץ שמאלה / רווח)">
@@ -2713,19 +2615,13 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         this.updateActiveDot();
         this.playSound(440 + this.currentSlideIndex * 35, 'triangle', 0.06);
 
-        // אם הגענו לשקף פייתון (שקף 7, אינדקס 6) ומנוע פייתון מוכן - נריץ אוטומטית אם טרם הורץ
-        if (this.currentSlideIndex === 6 && this.pyodide && !this.hasAutoRunPython) {
-          this.executePythonCode();
-          this.hasAutoRunPython = true;
-        }
-
-        // התאמת גדלי קנבס במידת הצורך
-        if (this.currentSlideIndex === 7 && this.globeRenderer) {
+        // התאמת גדלי קנבס במידת הצורך לחוקר ה-3D (שקף 7, אינדקס 6)
+        if (this.currentSlideIndex === 6 && this.globeRenderer) {
           this.onGlobeResize();
         }
 
-        // אם הגענו לשקף סימולטור פייתון ותלת-ממד למדינה אקראית (שקף 10, אינדקס 9)
-        if (this.currentSlideIndex === 9) {
+        // אם הגענו לשקף סימולטור פייתון ותלת-ממד למדינה אקראית (שקף 9, אינדקס 8)
+        if (this.currentSlideIndex === 8) {
           if (this.simRenderer) this.onSimResize();
           if (!this.hasAutoRunSimulator) {
             this.runRandomCountrySimulation();
@@ -2758,7 +2654,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         // כפתורי שקף 1 (Hero)
         document.getElementById('btn-start-presentation').addEventListener('click', () => this.nextSlide());
-        document.getElementById('btn-hero-goto-3d').addEventListener('click', () => this.goToSlide(7));
+        document.getElementById('btn-hero-goto-3d').addEventListener('click', () => this.goToSlide(6));
 
         // כפתורי שקף 10 (סיום)
         document.getElementById('btn-restart-presentation').addEventListener('click', () => this.goToSlide(0));
@@ -3664,132 +3560,36 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       }
 
       /* ----------------------------------------------------------------------
-         שקף 7: מנוע הרצת Python מקומי בדפדפן (Pyodide WebAssembly Engine)
+         מנוע הרצת Python מקומי בדפדפן (Pyodide WebAssembly Engine)
+         משמש לסימולטור הגלובלי בשקף 9 ולהרצת קוד עצמאית
          ---------------------------------------------------------------------- */
       async initPyodideEngine() {
         const dot = document.getElementById('pyodide-dot');
         const text = document.getElementById('pyodide-status-text');
-        const terminal = document.getElementById('python-terminal-output');
 
         try {
           if (typeof loadPyodide === 'undefined') {
-            text.innerText = 'מצב סימולציית פייתון';
-            dot.classList.add('ready');
+            if (text) text.innerText = 'מצב סימולציית פייתון';
+            if (dot) dot.classList.add('ready');
             return;
           }
 
-          text.innerText = 'טוען Pyodide WebAssembly...';
+          if (text) text.innerText = 'טוען Pyodide WebAssembly...';
           this.pyodide = await loadPyodide({
             indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"
           });
 
-          dot.classList.add('ready');
-          text.innerText = 'Python 3.11 מוכן!';
-          terminal.innerText = `[Pyodide 0.26.4]: סביבת Python אותחלה בהצלחה בזיכרון הדפדפן.\nכל החישובים מתבצעים בצד הלקוח (WebAssembly) באופן עצמאי.\nלחץ על "הרץ קוד פייתון עכשיו" לביצוע הניתוח הגלובלי.`;
+          if (dot) dot.classList.add('ready');
+          if (text) text.innerText = 'Python 3.11 מוכן!';
         } catch (err) {
           console.warn('Pyodide failed to load from CDN. Using fallback script runner.', err);
-          dot.classList.add('ready');
-          text.innerText = 'Python מקומי (Fallback)';
-          terminal.innerText = `[מערכת]: מנוע פייתון פעיל במצב מקומי עצמאי (Offline-Ready).\nניתן להריץ את הניתוח הגיאופוליטי.`;
-        }
-
-        // קישור כפתור הרצה
-        document.getElementById('btn-execute-python').addEventListener('click', () => this.executePythonCode());
-        document.getElementById('btn-clear-terminal').addEventListener('click', () => {
-          terminal.innerText = '[מסוף אופס]';
-        });
-
-        // כפתורי Preset מהירים
-        document.getElementById('preset-corr').addEventListener('click', () => {
-          document.getElementById('python-code-input').value = `# חישוב מתאם פירסון בין תוצר לנפש (GDP) לבין מדד הדמוקרטיה (EIU)
-gdp_scores = [
-    (89000, 9.81), (48000, 9.61), (53000, 8.69), (55000, 7.80),
-    (76000, 7.85), (46000, 8.28), (34000, 8.40), (32000, 2.08),
-    (10500, 4.35), (12000, 2.22), (12500, 2.12), (1200, 1.08)
-]
-
-n = len(gdp_scores)
-sum_x = sum(x for x, y in gdp_scores)
-sum_y = sum(y for x, y in gdp_scores)
-sum_x_sq = sum(x**2 for x, y in gdp_scores)
-sum_y_sq = sum(y**2 for x, y in gdp_scores)
-sum_xy = sum(x*y for x, y in gdp_scores)
-
-numerator = n * sum_xy - sum_x * sum_y
-denominator = ((n * sum_x_sq - sum_x**2) * (n * sum_y_sq - sum_y**2)) ** 0.5
-r = numerator / denominator
-
-print("=" * 50)
-print(f"ניתוח מתאם סטטיסטי (Pearson Correlation Coefficient):")
-print(f"r = {r:.4f}")
-print("=" * 50)
-if r > 0.7:
-    print("תוצאה: מתאם חיובי מובהק וחזק בין עושר כלכלי (GDP לנפש) לבין רמת הדמוקרטיה.")
-    print("חברות בעלות הכנסה גבוהה ומעמד ביניים רחב נוטות לפתח ולשמר מוסדות חופשיים.")
-`;
-          this.executePythonCode();
-        });
-
-        document.getElementById('preset-sim').addEventListener('click', () => {
-          document.getElementById('python-code-input').value = `# סימולציית הסתברות למעברי משטר (Markov Chain Simulation)
-import random
-
-states = ["דמוקרטיה מלאה", "דמוקרטיה פגומה", "משטר כלאיים", "משטר סמכותני"]
-
-# מטריצת הסתברויות מעבר לעשור הקרוב
-transitions = {
-    "דמוקרטיה מלאה": [0.85, 0.12, 0.03, 0.00],
-    "דמוקרטיה פגומה": [0.10, 0.70, 0.15, 0.05],
-    "משטר כלאיים":   [0.02, 0.18, 0.60, 0.20],
-    "משטר סמכותני":   [0.00, 0.03, 0.12, 0.85]
-}
-
-print("=" * 50)
-print("סימולציית מעברי משטר גלובליים (10,000 איטרציות מונטה-קרלו):")
-print("=" * 50)
-for state in states:
-    trans = transitions[state]
-    print(f"הסתברות ש{state} יישאר יציב בעשור הקרוב: {trans[states.index(state)]*100:.1f}%")
-
-print("\n[מסקנה חישובית]: משטרי כלאיים מציגים את השבריריות הגבוהה ביותר (40% שינוי לעשור),")
-print("כאשר כיוון המעבר המובהק כיום הוא נסיגה לעבר סמכותנות (Backsliding).")
-`;
-          this.executePythonCode();
-        });
-
-        document.getElementById('preset-reset').addEventListener('click', () => {
-          location.reload();
-        });
-      }
-
-      async executePythonCode() {
-        const code = document.getElementById('python-code-input').value;
-        const terminal = document.getElementById('python-terminal-output');
-        this.playSound(900, 'sine', 0.08);
-
-        terminal.innerText = 'מריץ קוד Python ב-WebAssembly... נא להמתין.\n';
-
-        try {
-          if (this.pyodide) {
-            // לכידת stdout של Python לטרמינל
-            this.pyodide.setStdout({
-              batched: (str) => {
-                terminal.innerText += str + '\n';
-              }
-            });
-            await this.pyodide.runPythonAsync(code);
-            terminal.innerText += '\n[סיום הרצה מוצלח: Exit Code 0]';
-          } else {
-            // מנגנון גיבוי מקומי מהיר במקרה של ניתוק רשת
-            terminal.innerText += `[פלט הרצה]:\n=======================================================\nסה"כ מדינות במדגם: 12\nאוכלוסייה נסקרת: 2262.2 מיליון נפש\nממוצע מדד דמוקרטיה: 5.86 / 10.0\n\n--- התפלגות לפי סוג משטר ---\n• דמוקרטיה מלאה: 3 מדינות (2.2% מהאוכלוסייה) | ציון: 9.37\n• דמוקרטיה פגומה: 2 מדינות (15.2% מהאוכלוסייה) | ציון: 7.82\n• מונרכיה חוקתית / דמוקרטיה: 2 מדינות (8.5% מהאוכלוסייה) | ציון: 8.34\n• מונרכיה אבסולוטית: 1 מדינות (1.6% מהאוכלוסייה) | ציון: 2.08\n• משטר כלאיים: 1 מדינות (3.8% מהאוכלוסייה) | ציון: 4.35\n• משטר סמכותני / חד-מפלגתי: 3 מדינות (68.7% מהאוכלוסייה) | ציון: 1.81\n\n[הערה מדעית]: מעל 70% מאוכלוסיית המדגם חיה תחת סמכותנות מלאה או מוגבלת.\n[Exit Code 0]`;
-          }
-        } catch (err) {
-          terminal.innerText += `\n[שגיאת ריצה ב-Python]:\n${err.message}`;
+          if (dot) dot.classList.add('ready');
+          if (text) text.innerText = 'Python מקומי (Fallback)';
         }
       }
 
       /* ----------------------------------------------------------------------
-         שקף 10: מאגר נתונים ייעודי – 5 מדינות מכל יבשת (30 מדינות בסה"כ)
+         שקף 9: מאגר נתונים ייעודי – 5 מדינות מכל יבשת (30 מדינות בסה"כ)
          דמוגרפיה, ארכיטקטורת משטר, והערכת סיכויים לשינוי משטר עתידי
          ---------------------------------------------------------------------- */
       initSimulatorDatabase() {
