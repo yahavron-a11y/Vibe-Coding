@@ -626,18 +626,26 @@
        ========================================================================== */
     .pyramid-container {
       width: 100%;
-      height: 480px;
+      height: 100%;
+      min-height: 460px;
       position: relative;
       border-radius: 16px;
       background: rgba(14, 21, 38, 0.4);
       border: 1px solid var(--border-subtle);
       overflow: hidden;
+      display: flex;
     }
 
     #pyramid-canvas {
       width: 100%;
       height: 100%;
       display: block;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    #pyramid-canvas:active {
+      cursor: grabbing;
     }
 
     .pyramid-legend {
@@ -650,6 +658,8 @@
       border-radius: 12px;
       border: 1px solid var(--border-subtle);
       font-size: 0.8rem;
+      z-index: 5;
+      pointer-events: auto;
     }
 
     .legend-item {
@@ -1825,6 +1835,7 @@
       .floating-side-arrow { display: none; }
       .slide-title { font-size: 1.6rem; }
       .hero-title { font-size: 2.2rem; }
+      .pyramid-container { height: 380px; min-height: 380px; }
       .presentation-footer {
         padding: 0 16px;
         justify-content: center;
@@ -3584,6 +3595,11 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         this.updateActiveDot();
         this.playSlideHistoricalTheme(this.currentSlideIndex);
 
+        // התאמת גדלי קנבס במידת הצורך לפירמידת ה-3D (שקף 5, אינדקס 4)
+        if (this.currentSlideIndex === 4 && this.pyramidRenderer) {
+          this.onPyramidResize();
+        }
+
         // התאמת גדלי קנבס במידת הצורך לחוקר ה-3D (שקף 7, אינדקס 6)
         if (this.currentSlideIndex === 6 && this.globeRenderer) {
           this.onGlobeResize();
@@ -3790,6 +3806,11 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             document.exitFullscreen();
           }
         }
+        setTimeout(() => {
+          this.onPyramidResize();
+          this.onGlobeResize();
+          if (this.simRenderer && this.onSimResize) this.onSimResize();
+        }, 150);
       }
 
       toggleOverviewModal(forceState = null) {
@@ -4216,28 +4237,36 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        camera.position.set(0, 40, 160);
+        // מיקום מצלמה מאוזן ומוגבה קלות המבטיח שהפירמידה לא תיחתך לעולם בתחתית או בשוליים
+        camera.position.set(0, 32, 260);
+        camera.lookAt(0, -4, 0);
 
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // תאורה ממוקדת
-        const ambLight = new THREE.AmbientLight(0xffffff, 0.6);
+        this.pyramidRenderer = renderer;
+        this.pyramidCamera = camera;
+
+        // תאורה ממוקדת ותאורת מילוי
+        const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
         scene.add(ambLight);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-        dirLight.position.set(50, 80, 50);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+        dirLight.position.set(60, 90, 60);
         scene.add(dirLight);
+        const fillLight = new THREE.DirectionalLight(0x38bdf8, 0.35);
+        fillLight.position.set(-60, -20, -50);
+        scene.add(fillLight);
 
         const pyramidGroup = new THREE.Group();
         scene.add(pyramidGroup);
 
-        // שכבות הפירמידה (מלמעלה למטה: שליט, ביטחון, אליטה, אזרחים)
+        // שכבות הפירמידה ממורכזות במדויק אנכית סביב y = 0
         const layersData = [
-          { name: "שליט יחיד", color: 0xff3366, y: 36, rTop: 0, rBot: 16, h: 20 },
-          { name: "מנגנוני ביטחון ומשטרה חשאית", color: 0xf59e0b, y: 15, rTop: 17, rBot: 32, h: 18 },
-          { name: "אוליגרכיה ושופרי תעמולה", color: 0x3b82f6, y: -6, rTop: 33, rBot: 48, h: 18 },
-          { name: "בסיס אזרחי מפוקח", color: 0x64748b, y: -27, rTop: 49, rBot: 65, h: 18 }
+          { name: "שליט עליון וקליקה מצומצמת", color: 0xff3366, y: 31, rTop: 0, rBot: 16, h: 20 },
+          { name: "מנגנוני ביטחון ומשטרה חשאית", color: 0xf59e0b, y: 10, rTop: 17, rBot: 32, h: 18 },
+          { name: "אוליגרכיה ושופרי תעמולה", color: 0x3b82f6, y: -11, rTop: 33, rBot: 48, h: 18 },
+          { name: "בסיס אזרחי מפוקח", color: 0x64748b, y: -32, rTop: 49, rBot: 65, h: 18 }
         ];
 
         layersData.forEach((layer) => {
@@ -4255,43 +4284,78 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
           // קווי מתאר זוהרים
           const edges = new THREE.EdgesGeometry(geo);
-          const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 }));
+          const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.45 }));
           mesh.add(line);
 
           pyramidGroup.add(mesh);
         });
 
-        // סיבוב אינטראקטיבי
+        // סיבוב אינטראקטיבי (עכבר ומגע)
         let isPyramidDragging = false;
         let prevX = 0;
         let prevY = 0;
 
-        canvas.addEventListener('mousedown', (e) => {
+        const onPointerDown = (clientX, clientY) => {
           isPyramidDragging = true;
-          prevX = e.clientX;
-          prevY = e.clientY;
-        });
+          prevX = clientX;
+          prevY = clientY;
+          canvas.style.cursor = 'grabbing';
+        };
 
-        window.addEventListener('mouseup', () => isPyramidDragging = false);
-
-        window.addEventListener('mousemove', (e) => {
+        const onPointerMove = (clientX, clientY) => {
           if (!isPyramidDragging) return;
-          const deltaX = e.clientX - prevX;
-          const deltaY = e.clientY - prevY;
+          const deltaX = clientX - prevX;
+          const deltaY = clientY - prevY;
           pyramidGroup.rotation.y += deltaX * 0.01;
-          pyramidGroup.rotation.x += deltaY * 0.005;
-          prevX = e.clientX;
-          prevY = e.clientY;
-        });
+          // הגבלת הטיה אנכית למניעת היפוך או חריגה מהשוליים
+          pyramidGroup.rotation.x = Math.max(-0.45, Math.min(0.45, pyramidGroup.rotation.x + deltaY * 0.005));
+          prevX = clientX;
+          prevY = clientY;
+        };
+
+        const onPointerUp = () => {
+          isPyramidDragging = false;
+          canvas.style.cursor = 'grab';
+        };
+
+        canvas.addEventListener('mousedown', (e) => onPointerDown(e.clientX, e.clientY));
+        window.addEventListener('mouseup', onPointerUp);
+        window.addEventListener('mousemove', (e) => onPointerMove(e.clientX, e.clientY));
+
+        canvas.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) onPointerDown(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+        window.addEventListener('touchend', onPointerUp);
+        window.addEventListener('touchmove', (e) => {
+          if (e.touches.length === 1) onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        window.addEventListener('resize', () => this.onPyramidResize());
 
         const animatePyramid = () => {
           requestAnimationFrame(animatePyramid);
           if (!isPyramidDragging) {
-            pyramidGroup.rotation.y += 0.008;
+            pyramidGroup.rotation.y += 0.006;
+            // שיכוך עדין להחזרת הטיה אופקית יציבה
+            pyramidGroup.rotation.x += (0 - pyramidGroup.rotation.x) * 0.02;
           }
           renderer.render(scene, camera);
         };
         animatePyramid();
+      }
+
+      onPyramidResize() {
+        if (!this.pyramidRenderer || !this.pyramidCamera) return;
+        const canvas = document.getElementById('pyramid-canvas');
+        if (!canvas) return;
+        const container = canvas.parentElement;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        if (w && h) {
+          this.pyramidCamera.aspect = w / h;
+          this.pyramidCamera.updateProjectionMatrix();
+          this.pyramidRenderer.setSize(w, h);
+        }
       }
 
       /* ----------------------------------------------------------------------
