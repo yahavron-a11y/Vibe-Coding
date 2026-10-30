@@ -978,21 +978,25 @@
       grid-template-columns: 1.05fr 1.15fr;
       gap: 20px;
       height: 100%;
-      min-height: 520px;
+      min-height: 0;
     }
 
     .sim-left-panel {
       display: flex;
       flex-direction: column;
       gap: 16px;
+      overflow-y: auto;
+      min-height: 0;
     }
 
     .sim-right-panel {
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      max-height: calc(100vh - 180px);
+      /* header=60px + footer=64px + slide-padding≈48px + slide-header≈100px */
+      max-height: calc(100vh - 60px - 64px - 48px - 100px);
       padding-left: 4px;
+      min-height: 0;
     }
 
     /* כרטיס תלת-ממד של הסימולטור */
