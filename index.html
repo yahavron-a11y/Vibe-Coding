@@ -320,7 +320,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 24px;
-      height: 100%;
       align-items: stretch;
     }
 
@@ -328,7 +327,6 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      height: 100%;
       align-items: stretch;
     }
 
@@ -394,10 +392,10 @@
     }
 
     .card-desc {
-      font-size: 0.95rem;
+      font-size: 0.93rem;
       color: var(--text-muted);
       line-height: 1.6;
-      flex: 1;
+      margin-bottom: 14px;
     }
 
     .card-list {
@@ -1919,6 +1917,404 @@
         height: 100vh !important;
       }
     }
+  
+    /* ==========================================================================
+       שדרוג אסתטי גלובלי - Global Aesthetic Enhancements 2.0
+       ========================================================================== */
+    body {
+      background-color: #060913;
+      background-image: 
+        radial-gradient(circle at 18% 18%, rgba(0, 210, 255, 0.09) 0%, transparent 40%),
+        radial-gradient(circle at 82% 82%, rgba(157, 78, 221, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(14, 21, 38, 0.5) 0%, transparent 100%),
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    }
+
+    .slide-title {
+      font-family: var(--font-heading);
+      font-size: 2.15rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, #e2e8f0 75%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      margin-bottom: 8px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.98rem;
+      color: #94a3b8;
+      max-width: 920px;
+      line-height: 1.55;
+    }
+
+    .slide-header {
+      margin-bottom: 18px;
+    }
+
+    /* כרטיסיות מידע משודרגות בסגנון Glassmorphism 2.0 */
+    .card-glass {
+      background: linear-gradient(145deg, rgba(14, 23, 42, 0.8) 0%, rgba(10, 16, 32, 0.65) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 18px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-glass::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15px;
+      right: 15px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .card-glass.glow-blue::before { background: linear-gradient(90deg, transparent, var(--democracy-blue), transparent); }
+    .card-glass.glow-gold::before { background: linear-gradient(90deg, transparent, var(--monarchy-gold), transparent); }
+    .card-glass.glow-red::before { background: linear-gradient(90deg, transparent, var(--dictator-red), transparent); }
+    .card-glass.glow-purple::before { background: linear-gradient(90deg, transparent, var(--hybrid-purple), transparent); }
+
+    .card-glass:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 210, 255, 0.18);
+    }
+
+    .card-glass.glow-blue:hover { border-color: var(--democracy-blue); box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.7), 0 0 30px var(--democracy-glow); }
+    .card-glass.glow-gold:hover { border-color: var(--monarchy-gold); box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.7), 0 0 30px var(--monarchy-glow); }
+    .card-glass.glow-red:hover { border-color: var(--dictator-red); box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.7), 0 0 30px var(--dictator-glow); }
+    .card-glass.glow-purple:hover { border-color: var(--hybrid-purple); box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.7), 0 0 30px var(--hybrid-glow); }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.91rem;
+      color: #94a3b8;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .card-list {
+      list-style: none;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .card-list li {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+
+    .card-list li strong {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    /* תגיות ארכיטקטורה וסטרוקטורה */
+    .arch-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .glow-gold .arch-tag { background: rgba(255, 183, 3, 0.1); border-color: rgba(255, 183, 3, 0.25); color: #fbbf24; }
+    .glow-red .arch-tag { background: rgba(255, 51, 102, 0.1); border-color: rgba(255, 51, 102, 0.25); color: #f87171; }
+    .glow-purple .arch-tag { background: rgba(157, 78, 221, 0.1); border-color: rgba(157, 78, 221, 0.25); color: #c084fc; }
+
+    /* פסי זרימה והשוואה כרונולוגית (Timeline Flow Strip) */
+    .timeline-flow-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(14, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 10px 18px;
+      margin-bottom: 16px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .flow-step-icon {
+      font-size: 1.3rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+    }
+
+    .flow-step-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flow-step-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .flow-step-sub {
+      font-size: 0.74rem;
+      color: #94a3b8;
+    }
+
+    .flow-arrow {
+      color: var(--democracy-blue);
+      font-size: 1.1rem;
+      font-weight: bold;
+      opacity: 0.6;
+    }
+
+    /* מד ספקטרום דמוקרטי מעוצב */
+    .spectrum-bar-container {
+      background: rgba(14, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+    }
+
+    .spectrum-bar-track {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #10b981 0%, #3b82f6 35%, #8b5cf6 65%, #ef4444 100%);
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .spectrum-labels-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+    .spectrum-labels-row span:nth-child(1) { color: #10b981; }
+    .spectrum-labels-row span:nth-child(2) { color: #3b82f6; }
+    .spectrum-labels-row span:nth-child(3) { color: #a855f7; }
+    .spectrum-labels-row span:nth-child(4) { color: #ef4444; }
+
+    /* כרטיסי סטטיסטיקה מעוצבים לשער (Hero Stat Cards) */
+    .hero-stat-card {
+      background: rgba(14, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+    }
+    .hero-stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 210, 255, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.2);
+    }
+    .hero-stat-icon {
+      font-size: 1.5rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(0, 210, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      flex-shrink: 0;
+    }
+
+    /* תגיות מדינה מעוצבות עם תמונת דגל (Flag Tag Pill) */
+    .country-flag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.76rem;
+      color: #e2e8f0;
+      transition: all 0.2s;
+    }
+    .country-flag-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .country-flag-pill img {
+      width: 16px;
+      height: 11px;
+      border-radius: 2px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+
+    /* ציטוט אקדמי מעוצב לשקף סיום */
+    .quote-box-elevated {
+      background: linear-gradient(145deg, rgba(14, 23, 42, 0.8) 0%, rgba(10, 16, 32, 0.65) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 4px solid var(--democracy-blue);
+      border-radius: 14px;
+      padding: 16px 22px;
+      margin: 0 auto 18px;
+      max-width: 840px;
+      text-align: right;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .quote-box-elevated p {
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .quote-box-elevated span {
+      display: block;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+
+    /* כרטיסי מוסדות מחקר לשקף 9 */
+    .source-card-modern {
+      background: rgba(14, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: right;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .source-card-modern:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 210, 255, 0.35);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .source-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .source-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .source-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 210, 255, 0.15);
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .source-desc {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    /* התאמת גובה וסדר בשקף סימולטור 8 למניעת גלילה אנכית */
+    .sim-dossier-card {
+      padding: 16px 18px;
+      gap: 10px;
+    }
+    .demographics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .regime-info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 0.79rem;
+    }
+    .dossier-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
   </style>
 </head>
 <body>
@@ -2032,17 +2428,26 @@
               </button>
             </div>
             <div class="hero-stats-row">
-              <div>
-                <div class="stat-box-title">מדינות ריבוניות</div>
-                <div class="stat-box-val">195</div>
+              <div class="hero-stat-card">
+                <div class="hero-stat-icon">🌍</div>
+                <div>
+                  <div class="stat-box-val">195</div>
+                  <div class="stat-box-title">מדינות ריבוניות</div>
+                </div>
               </div>
-              <div>
-                <div class="stat-box-title">משפחות משטר ראשיות</div>
-                <div class="stat-box-val">4</div>
+              <div class="hero-stat-card">
+                <div class="hero-stat-icon">⚖️</div>
+                <div>
+                  <div class="stat-box-val">4</div>
+                  <div class="stat-box-title">משפחות משטר ראשיות</div>
+                </div>
               </div>
-              <div>
-                <div class="stat-box-title">אוכלוסייה נסקרת</div>
-                <div class="stat-box-val">8.1 מיליארד</div>
+              <div class="hero-stat-card">
+                <div class="hero-stat-icon">👥</div>
+                <div>
+                  <div class="stat-box-val">8.1B</div>
+                  <div class="stat-box-title">אוכלוסייה גלובלית</div>
+                </div>
               </div>
             </div>
           </div>
@@ -2066,50 +2471,95 @@
         </p>
       </div>
       <div class="slide-body">
+        <!-- פס זרימה והשוואה כרונולוגית -->
+        <div class="timeline-flow-strip">
+          <div class="flow-step">
+            <span class="flow-step-icon">🏛️</span>
+            <div class="flow-step-text">
+              <span class="flow-step-title">המדינה (The State)</span>
+              <span class="flow-step-sub">הישות הריבונית הקבועה • עמידות של מאות שנים</span>
+            </div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <span class="flow-step-icon">📜</span>
+            <div class="flow-step-text">
+              <span class="flow-step-title">המשטר (The Regime)</span>
+              <span class="flow-step-sub">חוקי המשחק והמוסדות • יציבות של עשרות שנים</span>
+            </div>
+          </div>
+          <div class="flow-arrow">➔</div>
+          <div class="flow-step">
+            <span class="flow-step-icon">👥</span>
+            <div class="flow-step-text">
+              <span class="flow-step-title">הממשלה (The Government)</span>
+              <span class="flow-step-sub">ההנהגה המכהנת • דינמיות של שנים בודדות (4–5 שנים)</span>
+            </div>
+          </div>
+        </div>
+
         <div class="grid-3col">
           <div class="card-glass glow-blue">
             <div class="card-icon icon-blue">
               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 8.5L4.5 7 12 3.25 19.5 7 12 10.5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
+            <div class="arch-tag">🏛️ מוסד ריבוני קבוע</div>
             <h3 class="card-title">המדינה (The State)</h3>
             <p class="card-desc">
               הישות המשפטית והפוליטית הקבועה. בעלת טריטוריה מוגדרת, אוכלוסייה קבועה, ריבונות ומונופול לגיטימי על השימוש בכוח פיזי (הגדרת מקס ובר).
             </p>
             <ul class="card-list">
-              <li>יציבה וקבועה לאורך עשורים ומאות</li>
-              <li>מוכרת על פי המשפט הבינלאומי (או"ם)</li>
-              <li>כוללת צבא, גבולות ומערכת משפט</li>
+              <li><strong>מוסדות ליבה:</strong> צבא, מערכת משפט, שירות ציבורי וגבולות בינלאומיים.</li>
+              <li><strong>הכרה עולמית:</strong> חברות באו"ם וכפיפות למשפט הבינלאומי.</li>
+              <li><strong>יציבות:</strong> שורדת מעבר לכל משטר או ממשלה מתחלפת.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/fr.png" alt="צרפת"> צרפת</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/gb.png" alt="בריטניה"> בריטניה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/us.png" alt="ארה"ב"> ארה"ב</span>
+            </div>
           </div>
 
           <div class="card-glass glow-purple">
             <div class="card-icon icon-purple">
               <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
             </div>
+            <div class="arch-tag">📜 חוקי המשחק המוסדיים</div>
             <h3 class="card-title">המשטר (The Regime)</h3>
             <p class="card-desc">
-              "חוקי המשחק" הפוליטיים. האופן שבו מוסדרת הגישה למוקדי ההכרעה, חלוקת העוצמה, והגבולות המוטלים על כוחו של השלטון.
+              "חוקי המשחק" הפוליטיים. האופן שבו מוסדרת הגישה למוקדי ההכרעה, חלוקת העוצמה בין הרשויות, והגבולות המוטלים על כוחו של השלטון.
             </p>
             <ul class="card-list">
-              <li>דמוקרטי, מונרכי, אוטוריטרי או טוטליטרי</li>
-              <li>מעוגן בחוקה, מסורת או צווים צבאיים</li>
-              <li>משתנה רק בעקבות רפורמות עמוקות או מהפכות</li>
+              <li><strong>סיווג:</strong> דמוקרטי, מונרכי, אוטוריטרי או טוטליטרי.</li>
+              <li><strong>בסיס נורמטיבי:</strong> מעוגן בחוקה כתובה, מסורות שלטוניות או צווים.</li>
+              <li><strong>עמידות:</strong> משתנה רק בעקבות רפורמות חוקתיות עמוקות, מלחמות או מהפכות.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/no.png" alt="נורווגיה"> דמוקרטיה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/sa.png" alt="סעודיה"> מונרכיה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/cn.png" alt="סין"> אוטוקרטיה</span>
+            </div>
           </div>
 
           <div class="card-glass glow-gold">
             <div class="card-icon icon-gold">
               <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
+            <div class="arch-tag">👥 הרשות המבצעת הנבחרת</div>
             <h3 class="card-title">הממשלה (The Government)</h3>
             <p class="card-desc">
-              ההנהגה הפוליטית המכהנת בזמן נתון. נבחרי הציבור או השליטים המפעילים את סמכויות המדינה במסגרת הכללים של המשטר הקיים.
+              ההנהגה הפוליטית המכהנת בזמן נתון. נבחרי הציבור או השליטים המפעילים את סמכויות המדינה במסגרת הכללים שקובע המשטר הקיים.
             </p>
             <ul class="card-list">
-              <li>הרובד הדינמי והמתחלף ביותר</li>
-              <li>בדמוקרטיות מתחלפת בבחירות סדירות</li>
-              <li>במשטרים רודניים מוחזקת בכוח הזרוע</li>
+              <li><strong>דינמיות:</strong> הרובד המשתנה והמתחלף ביותר (שנים בודדות).</li>
+              <li><strong>בדמוקרטיות:</strong> מתחלפת באופן שליו דרך בחירות תחרותיות סדירות.</li>
+              <li><strong>במשטרים רודניים:</strong> מוחזקת בכוח הזרוע ולעיתים עוברת בירושה.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-pill">קבינט שרים</span>
+              <span class="country-pill">אחריות שלטונית</span>
+              <span class="country-pill">מדיניות ציבורית</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2127,23 +2577,37 @@
         </p>
       </div>
       <div class="slide-body">
+        <!-- מד ספקטרום דמוקרטי מעוצב -->
+        <div class="spectrum-bar-container">
+          <div class="spectrum-bar-track"></div>
+          <div class="spectrum-labels-row">
+            <span>דמוקרטיה מלאה (Full Democracy • EIU > 8.0)</span>
+            <span>דמוקרטיה פגומה (Flawed • 6.0–8.0)</span>
+            <span>משטר כלאיים (Hybrid • 4.0–6.0)</span>
+            <span>משטר סמכותני (Authoritarian • < 4.0)</span>
+          </div>
+        </div>
+
         <div class="grid-3col">
           <div class="card-glass glow-blue">
             <div class="card-icon icon-blue">
               <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
             </div>
+            <div class="arch-tag">🗳️ פרלמנט ➔ בחירת רה"מ וממשלה</div>
             <h3 class="card-title">דמוקרטיה פרלמנטרית</h3>
             <p class="card-desc">
-              הרשות המבצעת צומחת מתוך הפרלמנט ותלויה באמונו המתמיד. ראש הממשלה הוא מנהיג הרוב בבית הנבחרים, וקיים פיקוח ישיר ויומיומי.
+              הרשות המבצעת צומחת ישירות מתוך הפרלמנט ותלויה באמונו המתמיד. ראש הממשלה הוא מנהיג הרוב בבית הנבחרים, וקיים מנגנון פיקוח יומיומי הדוק.
             </p>
-            <div class="card-list">
-              <li><strong>דוגמאות:</strong> בריטניה, גרמניה, ישראל, יפן, קנדה</li>
-              <li><strong>יתרון:</strong> גמישות וייצוגיות גבוהה לקבוצות שונות</li>
-              <li><strong>אתגר:</strong> פוטנציאל לחוסר יציבות פוליטית בקואליציות</li>
-            </div>
+            <ul class="card-list">
+              <li><strong>יתרון מרכזי:</strong> גמישות וייצוגיות גבוהה לקבוצות פלורליסטיות שונות.</li>
+              <li><strong>מנגנון איזון:</strong> הצבעת אי-אמון (כולל מודל אי-אמון קונסטרוקטיבי).</li>
+              <li><strong>אתגר:</strong> פוטנציאל לאי-יציבות שלטונית בממשלות קואליציה מרובות סיעות.</li>
+            </ul>
             <div class="card-pill-row">
-              <span class="country-pill">אי-אמון קונסטרוקטיבי</span>
-              <span class="country-pill">אחריות קולקטיבית</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/gb.png" alt="בריטניה"> בריטניה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/de.png" alt="גרמניה"> גרמניה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/il.png" alt="ישראל"> ישראל</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ca.png" alt="קנדה"> קנדה</span>
             </div>
           </div>
 
@@ -2151,18 +2615,21 @@
             <div class="card-icon icon-blue">
               <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
             </div>
+            <div class="arch-tag">⚖️ הפרדה קשיחה: נשיא ⇄ קונגרס</div>
             <h3 class="card-title">דמוקרטיה נשיאותית</h3>
             <p class="card-desc">
-              הפרדה מוחלטת בין הרשויות. הנשיא נבחר בנפרד ישירות על ידי העם, אינו תלוי בפרלמנט לשם הישרדותו הפוליטית, ומחזיק בסמכויות ביצוע רחבות.
+              הפרדה מוחלטת בין הרשויות. הנשיא נבחר בנפרד ישירות ע"י העם, אינו תלוי בפרלמנט לשם הישרדותו הפוליטית, ומחזיק בסמכויות ביצועיות עצמאיות רחבות.
             </p>
-            <div class="card-list">
-              <li><strong>דוגמאות:</strong> ארצות הברית, ברזיל, מקסיקו, ארגנטינה</li>
-              <li><strong>יתרון:</strong> יציבות שלטונית ומנהיגות ביצועית חזקה</li>
-              <li><strong>אתגר:</strong> קיפאון חקיקתי במצב של פרלמנט לעומתי (Gridlock)</li>
-            </div>
+            <ul class="card-list">
+              <li><strong>יתרון מרכזי:</strong> יציבות שלטונית מובטחת לכל אורך תקופת הכהונה.</li>
+              <li><strong>מנגנון איזון:</strong> זכות וטו נשיאותית מול סמכות חקיקה ותקצוב של הקונגרס.</li>
+              <li><strong>אתגר:</strong> קיפאון חקיקתי חריף במצב של פרלמנט לעומתי (Gridlock).</li>
+            </ul>
             <div class="card-pill-row">
-              <span class="country-pill">זכות וטו נשיאותית</span>
-              <span class="country-pill">שימוע למינויים</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/us.png" alt="ארה"ב"> ארה"ב</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/br.png" alt="ברזיל"> ברזיל</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/mx.png" alt="מקסיקו"> מקסיקו</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ar.png" alt="ארגנטינה"> ארגנטינה</span>
             </div>
           </div>
 
@@ -2170,18 +2637,21 @@
             <div class="card-icon icon-blue">
               <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
+            <div class="arch-tag">🌐 מודל דואלי: נשיא (חוץ) + רה"מ (פנים)</div>
             <h3 class="card-title">דמוקרטיה חצי-נשיאותית</h3>
             <p class="card-desc">
-              מודל משולב המשלב נשיא בעל סמכויות משמעותיות במדיניות חוץ וביטחון, לצד ראש ממשלה ושרים האחראים על מדיניות הפנים וכפופים לפרלמנט.
+              מודל משולב המעניק לנשיא נבחר סמכויות ביטחון וחוץ מרחיקות לכת, לצד ראש ממשלה ושרים האמונים על ענייני הפנים והכלכלה וכפופים לאמון הפרלמנט.
             </p>
-            <div class="card-list">
-              <li><strong>דוגמאות:</strong> צרפת, פורטוגל, פולין, רומניה</li>
-              <li><strong>יתרון:</strong> איזון בין כושר תמרון בינלאומי לייצוג עממי</li>
-              <li><strong>אתגר:</strong> תופעת "מגורים משותפים" (Cohabitation) במחלוקת</li>
-            </div>
+            <ul class="card-list">
+              <li><strong>יתרון מרכזי:</strong> גמישות תגובה בזירה הבינלאומית לצד ייצוג פרלמנטרי.</li>
+              <li><strong>מנגנון איזון:</strong> סמכות הנשיא לפזר את הפרלמנט ולהכריז על בחירות.</li>
+              <li><strong>אתגר:</strong> תופעת "מגורים משותפים" (Cohabitation) כאשר הנשיא והפרלמנט ממחנות יריבים.</li>
+            </ul>
             <div class="card-pill-row">
-              <span class="country-pill">פיזור פרלמנט</span>
-              <span class="country-pill">סמכויות חירום</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/fr.png" alt="צרפת"> צרפת</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/pt.png" alt="פורטוגל"> פורטוגל</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/pl.png" alt="פולין"> פולין</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ro.png" alt="רומניה"> רומניה</span>
             </div>
           </div>
         </div>
@@ -2205,18 +2675,22 @@
             <div class="card-icon icon-gold">
               <svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>
             </div>
+            <div class="arch-tag">👑 המלך מולך אך אינו שולט • ניטרליות פוליטית מוחלטת</div>
             <h3 class="card-title">מונרכיה חוקתית (Constitutional Monarchy)</h3>
             <p class="card-desc">
-              "המלך מולך אך אינו שולט". המונרך משמש כראש מדינה סמלי ומאחד, ללא סמכויות פוליטיות ממשיות. כל החלטות השלטון מתקבלות על ידי הממשלה והפרלמנט הנבחר.
+              המונרך משמש כראש מדינה סמלי ומאחד, ללא סמכויות ביצועיות. כל החלטות השלטון, החקיקה והמדיניות הציבורית מתקבלות על ידי הממשלה הנבחרת והפרלמנט.
             </p>
             <ul class="card-list">
-              <li><strong>סמכויות:</strong> ייצוגיות, פתיחת מושבי פרלמנט, חתימה פורמלית על חוקים.</li>
-              <li><strong>ערך מוסף:</strong> מייצג רציפות היסטורית, מהווה עוגן של יציבות בזמני משבר ומעל לפוליטיקה המפלגתית.</li>
-              <li><strong>מדינות מובילות:</strong> בריטניה, נורווגיה, דנמרק, שוודיה, הולנד, בלגיה, יפן (קיסרות).</li>
+              <li><strong>מעמד המונרך:</strong> סמל האחדות הלאומית, עוגן של יציבות מוסדית מעל המאבקים המפלגתיים.</li>
+              <li><strong>סמכויות פורמליות:</strong> פתיחת מושבי פרלמנט, הטלת מלאכת הרכבת הממשלה, ומתן תוקף רשמי לחוקים.</li>
+              <li><strong>הפרדת רשויות:</strong> שלטון חוק מלא, בתי משפט עצמאיים לחלוטין ושירות ציבורי בלתי-תלוי.</li>
             </ul>
             <div class="card-pill-row">
-              <span class="country-pill">אמנה חוקתית בלתי-כתובה</span>
-              <span class="country-pill">ניטרליות פוליטית מוחלטת</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/gb.png" alt="בריטניה"> בריטניה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/no.png" alt="נורווגיה"> נורווגיה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/jp.png" alt="יפן"> יפן (קיסרות)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/dk.png" alt="דנמרק"> דנמרק</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/nl.png" alt="הולנד"> הולנד</span>
             </div>
           </div>
 
@@ -2224,18 +2698,22 @@
             <div class="card-icon icon-gold">
               <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
             </div>
+            <div class="arch-tag">⚔️ ריכוז סמכויות מוחלט • שושלת יוחסין ריבונית</div>
             <h3 class="card-title">מונרכיה אבסולוטית (Absolute Monarchy)</h3>
             <p class="card-desc">
-              המונרך מחזיק בסמכות שלטונית בלתי מוגבלת. הוא מקור החוק, ראש הרשות המבצעת, והערכאה השיפוטית העליונה. אין בחירות חופשיות ואין פרלמנט בעל סמכות חקיקה עצמאית.
+              המונרך והמשפחה השלטת מחזיקים בריכוז עוצמה בלתי-מוגבל. המלך הוא מקור החוק, ראש הרשות המבצעת, והערכאה השיפוטית העליונה. אין בחירות תחרותיות או פרלמנט עצמאי.
             </p>
             <ul class="card-list">
-              <li><strong>בסיס לגיטימציה:</strong> דין דתי, שושלת יוחסין מקודשת, ועוצמה כלכלית/ביטחונית.</li>
-              <li><strong>מנגנון ירושה:</strong> בתוך המשפחה המלכותית, לעיתים באמצעות מועצת ביעה או החלטת המלך.</li>
-              <li><strong>מדינות קיימות:</strong> ערב הסעודית, עומאן, איחוד האמירויות (פדרציה מונרכית), ברוניי, אסוואטיני, קריית הוותיקן (מונרכיה תיאוקרטית נבחרת).</li>
+              <li><strong>בסיס הלגיטימציה:</strong> דין דתי, שושלת יוחסין היסטורית מקודשת, והסכמה מסורתית.</li>
+              <li><strong>כלכלת רנטה:</strong> חלוקת הכנסות ממשאבי טבע (נפט וגז) לאזרחים בתמורה לשקט פוליטי והיעדר מיסוי.</li>
+              <li><strong>מנגנון ירושה:</strong> העברת שלטון בתוך שושלת המלוכה (מועצת נאמנות שושלתית).</li>
             </ul>
             <div class="card-pill-row">
-              <span class="country-pill">כלכלת רנטה (משאבי נפט)</span>
-              <span class="country-pill">היעדר מפלגות פוליטיות</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/sa.png" alt="ערב הסעודית"> ערב הסעודית</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ae.png" alt="איחוד האמירויות"> איחוד האמירויות</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/om.png" alt="עומאן"> עומאן</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/bn.png" alt="ברוניי"> ברוניי</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/va.png" alt="הוותיקן"> קריית הוותיקן</span>
             </div>
           </div>
         </div>
@@ -2256,19 +2734,30 @@
       <div class="slide-body">
         <div class="grid-2col">
           <div class="card-glass glow-red">
-            <h3 class="card-title">משטר סמכותני מול טוטליטרי</h3>
+            <div class="arch-tag">🛡️ ארכיטקטורת השליטה הרודנית</div>
+            <h3 class="card-title">טיפולוגיה של משטרי עריצות</h3>
             <p class="card-desc">
-              מדעי המדינה מבחינים בבירור בין עריצות שמרנית לטוטליטריזם רדיקלי:
+              מדעי המדינה מבחינים בין שלוש דרגות שונות של ריכוז כוח רודני והיקף חדירת השלטון לחיי הפרט:
             </p>
             <ul class="card-list">
-              <li><strong>משטר סמכותני (Authoritarian):</strong> שואף לציות פוליטי ופסיביות של האזרחים. השלטון משאיר מרחב מסוים לכלכלה פרטית וחיי משפחה, כל עוד אין איום על המשטר. (דוגמה: מצרים, בלרוס).</li>
-              <li><strong>משטר טוטליטרי (Totalitarian):</strong> אינו מסתפק בציות אלא דורש גיוס המונים נפשי ואידיאולוגי מלא. חודר לחינוך, למשפחה, למחשבה ולתרבות באמצעות טרור שיטתי. (דוגמה: צפון קוריאה, גרמניה הנאצית, ברה"מ הסטליניסטית).</li>
-              <li><strong>חונטה צבאית (Military Junta):</strong> שלטון קציני צבא התופסים את השלטון בהפיכה ומבטלים את החוקה. (דוגמה: מיאנמר, ניז'ר, מאלי).</li>
+              <li>
+                <strong>משטר סמכותני (Authoritarian):</strong>
+                שואף לציות פוליטי ופסיביות אזרחית. השלטון חוסם תחרות פוליטית אמיתית אך מותיר אוטונומיה יחסית בכלכלה ובחיי המשפחה.
+              </li>
+              <li>
+                <strong>משטר טוטליטרי (Totalitarian):</strong>
+                שליטה מוחלטת וחודרנית בכל ממדי הקיום האנושי. דורש גיוס המונים אידיאולוגי, פולחן אישיות, חינוך מחדש ומשטרת מחשבות.
+              </li>
+              <li>
+                <strong>חונטה צבאית (Military Junta):</strong>
+                תפיסת השלטון בהפיכה אלימה, השעיית החוקה והחלפת מוסדות המדינה בוועדה צבאית עליונה.
+              </li>
             </ul>
-            <div class="card-pill-row">
-              <span class="country-pill">צנזורה ממלכתית</span>
-              <span class="country-pill">פולחן אישיות</span>
-              <span class="country-pill">מעצרים שרירותיים</span>
+            <div class="card-pill-row" style="margin-top:14px;">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/eg.png" alt="מצרים"> מצרים (סמכותני)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/by.png" alt="בלארוס"> בלארוס (סמכותני)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/kp.png" alt="צפון קוריאה"> צפון קוריאה (טוטליטרי)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/mm.png" alt="מיאנמר"> מיאנמר (חונטה)</span>
             </div>
           </div>
 
@@ -2300,50 +2789,78 @@
         </p>
       </div>
       <div class="slide-body">
+        <!-- מד שחיקה דמוקרטית מעוצב -->
+        <div class="spectrum-bar-container">
+          <div class="spectrum-bar-track" style="background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 40%, #f59e0b 70%, #ef4444 100%);"></div>
+          <div class="spectrum-labels-row">
+            <span>1. דמוקרטיה ליברלית מלאה</span>
+            <span>2. שחיקת שומרי סף ופופוליזם</span>
+            <span>3. דמוקרטיה חלולה ולא-ליברלית</span>
+            <span>4. אלקטורליזם סמכותני מוחלט</span>
+          </div>
+        </div>
+
         <div class="grid-3col">
           <div class="card-glass glow-purple">
             <div class="card-icon icon-purple">
               <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
             </div>
+            <div class="arch-tag">🗳️ בחירות מתקיימות • המגרש מוטה</div>
             <h3 class="card-title">אלקטורליזם סמכותני</h3>
             <p class="card-desc">
-              משטרים המקיימים בחירות תקופתיות מרובות מפלגות, אך מגרש המשחקים מוטה לחלוטין לטובת מפלגת השלטון (שימוש במשאבי מדינה, חסימת תקשורת ורדיפת יריבים).
+              קיום בחירות מרובות מפלגות לצורכי לגיטימציה בינלאומית, אך תחת מגרש משחקים מוטה לחלוטין: השתלטות על ערוצי התקשורת, שימוש לרעה במשאבי מדינה ורדיפת מועמדי אופוזיציה.
             </p>
             <ul class="card-list">
-              <li>הבחירות משמשות ככלי להענקת לגיטימציה בינלאומית</li>
-              <li>האופוזיציה מתקיימת אך מנוטרלת סיכוייה לנצח</li>
-              <li>דוגמאות מובהקות: טורקיה, רוסיה (בתקופת המעבר), סינגפור</li>
+              <li><strong>לגיטימציה מזויפת:</strong> ניצחון בבחירות מוצג כהוכחה לתמיכה עממית.</li>
+              <li><strong>שליטה מוסדית:</strong> ועדות בחירות פוליטיות ופסילת יריבים מרכזיים.</li>
+              <li><strong>דוגמאות:</strong> טורקיה, רוסיה (בתקופת המעבר), סינגפור.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/tr.png" alt="טורקיה"> טורקיה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/sg.png" alt="סינגפור"> סינגפור</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ve.png" alt="ונצואלה"> ונצואלה</span>
+            </div>
           </div>
 
           <div class="card-glass glow-purple">
             <div class="card-icon icon-purple">
               <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 4.5l6 5.4v6.1H6v-6.1l6-5.4z"/></svg>
             </div>
+            <div class="arch-tag">🏛️ עריצות הרוב • פירוק שומרי הסף</div>
             <h3 class="card-title">דמוקרטיה חלולה (Illiberal)</h3>
             <p class="card-desc">
-              השלטון נבחר ברוב דמוקרטי, אך פועל מיד לפרק את מערכת האיזונים והבלמים, להחליש את הרשות השופטת, להשתלט על השידור הציבורי ולצמצם את זכויות המיעוטים.
+              השלטון נבחר בהליך דמוקרטי, אך מפרש את הניצחון כייפוי כוח מוחלט לפרק את מערכת האיזונים והבלמים, להכפיף את הרשות השופטת, ולהחליש ארגוני חברה אזרחית ותקשורת חופשית.
             </p>
             <ul class="card-list">
-              <li>עריצות הרוב: "העם בחר, לכן לשלטון מותר הכל"</li>
-              <li>דה-לגיטימציה של שומרי הסף וארגוני חברה אזרחית</li>
-              <li>דוגמה מרכזית באיחוד האירופי: הונגריה (ויקטור אורבן)</li>
+              <li><strong>טיעון מרכזי:</strong> "העם בחר בנו, לכן לשומרי הסף אין סמכות להגבילנו".</li>
+              <li><strong>פגיעה במיעוטים:</strong> כרסום שיטתי בהגנה החוקתית על זכויות אזרח.</li>
+              <li><strong>דוגמה מובילה:</strong> הונגריה (ממשלת אורבן - שינוי שיטת הבחירות והחוקה).</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/hu.png" alt="הונגריה"> הונגריה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/rs.png" alt="סרביה"> סרביה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ge.png" alt="גאורגיה"> גאורגיה</span>
+            </div>
           </div>
 
           <div class="card-glass glow-purple">
             <div class="card-icon icon-purple">
               <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
             </div>
-            <h3 class="card-title">נסיגה דמוקרטית (Democratic Backsliding)</h3>
+            <div class="arch-tag">📉 מגמה עולמית • 18 שנות נסיגה</div>
+            <h3 class="card-title">נסיגה דמוקרטית (Backsliding)</h3>
             <p class="card-desc">
-              לפי דוחות Freedom House ו-V-Dem, העולם מצוי זה השנה ה-18 ברציפות במגמה של נסיגה דמוקרטית. יותר מדינות נסוגות אל עבר סמכותנות מאשר מתקדמות לחופש.
+              לפי מדד V-Dem לשנת 2024, 72% מאוכלוסיית העולם חיה כיום תחת משטרים אוטוקרטיים. זוהי הנסיגה הגלובלית הארוכה ביותר מזה ארבעה עשורים.
             </p>
             <ul class="card-list">
-              <li>פילוג חברתי קיצוני וקיטוב רעיל (Polarization)</li>
-              <li>אובדן אמון הציבור במוסדות מסורתיים ובעיתונות</li>
-              <li>עליית תנועות פופוליסטיות המציעות פתרונות פשטניים</li>
+              <li><strong>קיטוב רעיל (Toxic Polarization):</strong> יריבים פוליטיים נתפסים כאויבי האומה.</li>
+              <li><strong>שחיקת אמון:</strong> פגיעה מכוונת באמינות העיתונות, האקדמיה והשפיטה.</li>
+              <li><strong>פופוליזם רדיקלי:</strong> הבטחות לפתרונות מיידיים תוך דריסת הליכים תקינים.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-pill">דו"ח V-Dem 2024</span>
+              <span class="country-pill">Freedom House</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2418,6 +2935,11 @@
                   לחץ על אחת מנקודות האור הצבעוניות על גבי הגלובוס כדי לראות פרופיל גיאופוליטי מעמיק, כולל מנגנוני בחירות, חופש עיתונות ויציבות שלטונית.
                 </p>
               </div>
+
+              <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle);">
+                <div style="font-weight: 600; font-size: 0.82rem; color: #fff; margin-bottom: 8px;">בחירה מהירה לפי מדינה:</div>
+                <div id="globe-quick-country-chips" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 110px; overflow-y: auto;"></div>
+              </div>
             </div>
 
             <div style="margin-top: 16px; font-size: 0.72rem; color: var(--text-dim); text-align: center;">
@@ -2445,42 +2967,62 @@
             <div class="card-icon icon-red">
               <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
             </div>
+            <div class="arch-tag">👁️ מעקב המונים • זיהוי פנים ודירוג חברתי</div>
             <h3 class="card-title">סמכותנות דיגיטלית (Digital Authoritarianism)</h3>
             <p class="card-desc">
-              שימוש במצלמות ביומטריות לזיהוי פנים, מערכות דירוג אשראי חברתי, ניטור שיחות בטלפונים חכמים, וסגירת רשת האינטרנט בעת מחאות עממיות.
+              שימוש במצלמות ביומטריות חכמות, מערכות דירוג אשראי חברתי, ניטור שיחות בטלפונים, וחומות אש לאומיות לסגירת האינטרנט בעת מחאות עממיות.
             </p>
             <ul class="card-list">
-              <li>ייצוא טכנולוגיות מעקב על ידי מעצמות למדינות עולם שלישי</li>
-              <li>מחיקת האנונימיות והפרטיות של פעילי אופוזיציה ועיתונאים</li>
+              <li><strong>ייצוא טכנולוגי:</strong> מכירת מערכות מעקב מתקדמות למשטרים רודניים בעולם השלישי.</li>
+              <li><strong>מחיקת הפרטיות:</strong> חיסול האנונימיות של עיתונאים, חוקרים ופעילי אופוזיציה.</li>
+              <li><strong>מדד מעקב:</strong> כ-400 מיליון מצלמות מעקב פעילות בערים המובילות במעקב.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/cn.png" alt="סין"> סין (מודל מוביל)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ru.png" alt="רוסיה"> רוסיה</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ir.png" alt="איראן"> איראן</span>
+            </div>
           </div>
 
           <div class="card-glass glow-blue">
             <div class="card-icon icon-blue">
               <svg viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H3V4h18v10z"/></svg>
             </div>
+            <div class="arch-tag">🤖 לוחמת תודעה • Deepfakes ורשתות בוטים</div>
             <h3 class="card-title">מלחמות מידע ו-AI מבוסס תודעה</h3>
             <p class="card-desc">
-              צבאות בוטים, זיופי עומק (Deepfakes), והפצת פייק ניוז ממוקד במטרה להעמיק שסעים חברתיים בתוך מדינות דמוקרטיות ולהשפיע על מערכות בחירות.
+              הפעלת צבאות בוטים, זיופי עומק (Deepfakes), והפצת דיסאינפורמציה ממוקדת ברשתות במטרה להעמיק שסעים חברתיים ולערער את הלגיטימציה של בחירות דמוקרטיות.
             </p>
             <ul class="card-list">
-              <li>התערבות זרה במערכות בחירות דרך רשתות חברתיות</li>
-              <li>ערעור האמון העממי בעצם קיומה של "אמת עובדתית"</li>
+              <li><strong>התערבות זרה:</strong> קמפיינים מתוחכמים של מעצמות זרות להשפעה על דעת הקהל.</li>
+              <li><strong>ערעור מושג האמת:</strong> שחיקת האמון הציבורי בעובדות ובכלי התקשורת המסורתיים.</li>
+              <li><strong>זיהוי וסיכול:</strong> פיתוח אלגוריתמים מבוססי בינה מלאכותית לזיהוי תעמולה וזיופים.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/us.png" alt="ארה"ב"> ארה"ב (יעד מרכזי)</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/eu.png" alt="האיחוד האירופי"> האיחוד האירופי</span>
+            </div>
           </div>
 
           <div class="card-glass glow-gold">
             <div class="card-icon icon-gold">
               <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
+            <div class="arch-tag">🌊 הגירת אקלים • מאבקי מים ומשאבים</div>
             <h3 class="card-title">משבר האקלים ויציבות משטרית</h3>
             <p class="card-desc">
-              מחסור במים ובמזון, גלי הגירה המוניים של פליטי אקלים, ואסונות טבע תכופים יוצרים עומס עצום על משטרים שבריריים ומגבירים פיתוי לשלטון חירום צבאי.
+              בצורות קשות, מחסור במים ובמזון וגלי הגירה המוניים של פליטי אקלים יוצרים עומס עצום על מערכות שלטון שבריריות ומעודדים תפיסת כוח צבאית לשם "החזרת הסדר".
             </p>
             <ul class="card-list">
-              <li>מאבקי שליטה על משאבי טבע נדירים ומינרלים קריטיים</li>
-              <li>סכנה מוחשית לקריסת מדינות נכשלות (Failed States)</li>
+              <li><strong>מדינות כושלות (Failed States):</strong> סכנה מוחשית להתפרקות מוסדות שלטוניים באזורי משבר.</li>
+              <li><strong>סכסוכי מים:</strong> מתחים גיאופוליטיים סביב סכרים ונהרות בינלאומיים חוצי גבולות.</li>
+              <li><strong>תחזית:</strong> עד שנת 2050 צפויים מעל מיליארד בני אדם להיות מושפעים מעקירה אקלימית.</li>
             </ul>
+            <div class="card-pill-row">
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/sd.png" alt="סודאן"> סודאן</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/ne.png" alt="ניז'ר"> ניז'ר</span>
+              <span class="country-flag-pill"><img src="https://flagcdn.com/w40/so.png" alt="סומליה"> סומליה</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2687,38 +3229,62 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
          ---------------------------------------------------------------------- -->
     <section class="slide" data-index="9" data-topic="סיום ותודות">
       <div class="slide-body">
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-          <div class="hero-badge-tag" style="margin-bottom: 16px;">
-            <span>✨</span> תודה על ההקשבה וההשתתפות
+        <div style="max-width: 960px; margin: 0 auto; text-align: center;">
+          <div class="hero-badge-tag" style="margin-bottom: 12px;">
+            <span>✨</span> סיכום אקדמי • תובנות מחקר ומקורות מידע
           </div>
-          <h2 class="hero-title" style="font-size: 2.8rem; margin-bottom: 16px;">
+          <h2 class="hero-title" style="font-size: 2.5rem; margin-bottom: 12px;">
             החירות אינה מובנת מאליה: <br>
             <span class="hero-highlight">עתיד המשטרים בידי אזרחיהם</span>
           </h2>
-          <p class="hero-subtitle" style="margin: 0 auto 18px; font-size: 1.1rem;">
-            משטרים פוליטיים אינם גזרת גורל קבועה. הם תוצר מתמיד של מאבקים היסטוריים, תרבות פוליטית ועירנות אזרחית. שמירה על הפרדת רשויות, שלטון החוק וחופש הביטוי היא תנאי הכרחי לקיומה של חברה חופשית ומשגשגת.
-          </p>
+          
+          <!-- ציטוט מפתח מעוצב -->
+          <div class="quote-box-elevated">
+            <p>
+              "החירות הפוליטית אינה גזרת גורל מובטחת, אלא מאבק יומיומי. דמוקרטיה שורדת לא רק בזכות מוסדותיה הפורמליים, אלא בזכות אזרחים הערניים להגן על שלטון החוק וזכויות האדם."
+            </p>
+            <span>— מונטסקייה, מתוך "רוח החוקים" (De l'esprit des lois)</span>
+          </div>
 
-          <div class="grid-3col" style="text-align: right; margin-bottom: 20px;">
-            <div class="card-glass glow-blue" style="padding: 16px;">
-              <h4 style="color:#fff; font-size: 1rem; margin-bottom: 6px;">EIU Democracy Index</h4>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">
-                מדד הדמוקרטיה השנתי של קבוצת האקונומיסט הבוחן תהליכי בחירות, תפקוד ממשלתי, השתתפות פוליטית ותרבות דמוקרטית ב-167 מדינות.
-              </p>
+          <!-- כרטיסי מוסדות ומאגרי מידע אקדמיים -->
+          <div class="grid-3col" style="text-align: right; margin-bottom: 18px;">
+            <div class="source-card-modern">
+              <div>
+                <div class="source-header">
+                  <span class="source-title">EIU Democracy Index</span>
+                  <span class="source-badge">167 מדינות</span>
+                </div>
+                <p class="source-desc">
+                  מדד הדמוקרטיה של קבוצת The Economist. מדרג מדינות ב-5 קטגוריות: הליך בחירות, חירויות אזרח, תפקוד שלטוני, השתתפות פוליטית ותרבות דמוקרטית.
+                </p>
+              </div>
+              <div style="margin-top:8px; font-size:0.75rem; color:#38bdf8; font-weight:600;">דירוג: 0 עד 10 נקודות</div>
             </div>
 
-            <div class="card-glass glow-purple" style="padding: 16px;">
-              <h4 style="color:#fff; font-size: 1rem; margin-bottom: 6px;">V-Dem Institute</h4>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">
-                מכון המחקר של אוניברסיטת גטבורג, המספק את מאגר הנתונים המעמיק בעולם לחקר דמוקרטיה ליברלית, שוויונית ואלקטורלית.
-              </p>
+            <div class="source-card-modern">
+              <div>
+                <div class="source-header">
+                  <span class="source-title">V-Dem Institute</span>
+                  <span class="source-badge">מאגר 2024</span>
+                </div>
+                <p class="source-desc">
+                  מכון Varieties of Democracy באוניברסיטת גטבורג. מסד הנתונים האקדמי המקיף והמדויק בעולם לחקר תהליכי אוטוקרטיזציה ודמוקרטיזציה היסטוריים.
+                </p>
+              </div>
+              <div style="margin-top:8px; font-size:0.75rem; color:#c084fc; font-weight:600;">450+ אינדיקטורים מוסדיים</div>
             </div>
 
-            <div class="card-glass glow-gold" style="padding: 16px;">
-              <h4 style="color:#fff; font-size: 1rem; margin-bottom: 6px;">Freedom House</h4>
-              <p style="font-size: 0.8rem; color: var(--text-muted);">
-                דוחות חופש עולמיים שנתיים המדרגים מדינות כ"חופשיות", "חופשיות חלקית" או "לא חופשיות" על בסיס זכויות פוליטיות וחירויות אזרח.
-              </p>
+            <div class="source-card-modern">
+              <div>
+                <div class="source-header">
+                  <span class="source-title">Freedom House</span>
+                  <span class="source-badge">210 טריטוריות</span>
+                </div>
+                <p class="source-desc">
+                  דו"ח Freedom in the World השנתי. מדרג את רמת החירות הפוליטית וזכויות האזרח ומסווג מדינות כ"חופשיות", "חופשיות חלקית" או "אינן חופשיות".
+                </p>
+              </div>
+              <div style="margin-top:8px; font-size:0.75rem; color:#fbbf24; font-weight:600;">מעקב רציף משנת 1973</div>
             </div>
           </div>
 
@@ -2730,6 +3296,10 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             <button class="btn-secondary" id="btn-print-presentation">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
               <span>הדפסה / שמירה ל-PDF</span>
+            </button>
+            <button class="btn-secondary" id="btn-footer-open-sound" onclick="window.presentation.openSoundArchiveModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/></svg>
+              <span>ארכיון צלילים היסטוריים</span>
             </button>
           </div>
         </div>
@@ -3002,6 +3572,22 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         // עדכון סטטוס UI של הפסקול כפעיל מראש
         this.updateAmbientUI();
+
+        // ניווט לשקף התחלתי לפי כתובת URL (למשל ?slide=6 או #slide-6)
+        const urlParams = new URLSearchParams(window.location.search);
+        const slideParam = urlParams.get('slide');
+        const hashMatch = window.location.hash.match(/slide[-_]?(\d+)/i);
+        if (slideParam !== null) {
+          const target = parseInt(slideParam, 10);
+          if (!isNaN(target) && target >= 0 && target < this.totalSlides) {
+            setTimeout(() => this.goToSlide(target), 60);
+          }
+        } else if (hashMatch) {
+          const target = parseInt(hashMatch[1], 10);
+          if (!isNaN(target) && target >= 0 && target < this.totalSlides) {
+            setTimeout(() => this.goToSlide(target), 60);
+          }
+        }
       }
 
       /* ----------------------------------------------------------------------
@@ -4524,21 +5110,21 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         // מאגר מדינות גיאופוליטיות מפורט עם קואורדינטות אמיתיות
         this.countriesData = [
-          { name: "ישראל", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇮🇱", lat: 31.0461, lon: 34.8516, capital: "ירושלים", structure: "דמוקרטיה פרלמנטרית", score: "7.80", pop: "9.8 מיליון", leader: "ראש ממשלה / נשיא", notes: "מערכת בחירות יחסית-ארצית, חברה אזרחית תוססת ובית משפט עליון עצמאי המהווה מוקד למאבקי איזונים ובלמים." },
-          { name: "נורווגיה", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇳🇴", lat: 60.4720, lon: 8.4689, capital: "אוסלו", structure: "מונרכיה חוקתית ודמוקרטיה", score: "9.81 (#1 בעולם)", pop: "5.4 מיליון", leader: "ראש ממשלה / מלך סמלי", notes: "מדורגת בקביעות במקום הראשון בעולם במדד הדמוקרטיה. שקיפות שלטונית מרבית, שוויון אזרחי עמוק וקרן עושר לאומית." },
-          { name: "קנדה", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇨🇦", lat: 56.1304, lon: -106.3468, capital: "אוטווה", structure: "פדרציה פרלמנטרית", score: "8.69", pop: "39 מיליון", leader: "ראש ממשלה", notes: "מוסדות חוקתיים איתנים, הגנה נרחבת על זכויות אדם ומבנה פדרלי המאזן בין מחוזות בעלי זהויות תרבותיות שונות." },
-          { name: "ארצות הברית", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇺🇸", lat: 37.0902, lon: -95.7129, capital: "וושינגטון די.סי", structure: "רפובליקה נשיאותית פדרלית", score: "7.85", pop: "335 מיליון", leader: "נשיא ארצות הברית", notes: "הפרדת רשויות נוקשה (חוקה מ-1787). האתגרים המרכזיים: קיטוב מפלגתי חריף (Polarization) וסוגיות במימון בחירות." },
-          { name: "בריטניה", regime: "מונרכיה חוקתית / דמוקרטיה", typeKey: "monarchy", flag: "🇬🇧", lat: 55.3781, lon: -3.4360, capital: "לונדון", structure: "מונרכיה חוקתית פרלמנטרית", score: "8.28", pop: "67.5 מיליון", leader: "ראש ממשלה / מלך צ'ארלס השלישי", notes: "ערש השיטה הפרלמנטרית (מודל וסטמינסטר). חוקה בלתי-כתובה המושתתת על אמנות היסטוריות, פסיקות שופטים ומסורת." },
-          { name: "יפן", regime: "מונרכיה חוקתית / דמוקרטיה", typeKey: "monarchy", flag: "🇯🇵", lat: 36.2048, lon: 138.2529, capital: "טוקיו", structure: "מונרכיה חוקתית פרלמנטרית", score: "8.40", pop: "124 מיליון", leader: "ראש ממשלה / הקיסר נרוהיטו", notes: "הקיסר מוגדר כ'סמל המדינה ואחדות העם' ללא סמכויות ממשל. חוקת השלום משנת 1947 מגבילה את תפקיד הצבא." },
-          { name: "ערב הסעודית", regime: "מונרכיה אבסולוטית", typeKey: "monarchy", flag: "🇸🇦", lat: 23.8859, lon: 45.0792, capital: "ריאד", structure: "מונרכיה אבסולוטית שושלתית", score: "2.08", pop: "36.4 מיליון", leader: "המלך סלמאן ויורש העצר MBS", notes: "ריכוז סמכויות מוחלט בידי בית סעוד. היעדר מפלגות פוליטיות או בחירות לפרלמנט. רפורמות חברתיות וכלכליות מלמעלה למטה." },
-          { name: "רוסיה", regime: "משטר סמכותני", typeKey: "authoritarian", flag: "🇷🇺", lat: 61.5240, lon: 105.3188, capital: "מוסקבה", structure: "אוטוריטריזם פרסונליסטי", score: "2.22", pop: "144 מיליון", leader: "ולדימיר פוטין", notes: "שליטה הדוקה של הקרמלין בערוצי התקשורת, חיסול האופוזיציה הפוליטית ודיכוי כל מחאה אזרחית על רקע המלחמה באוקראינה." },
-          { name: "סין", regime: "משטר חד-מפלגתי סמכותני", typeKey: "authoritarian", flag: "🇨🇳", lat: 35.8617, lon: 104.1954, capital: "בייג'ינג", structure: "מפלגה קומוניסטית יחידה", score: "2.12", pop: "1.41 מיליארד", leader: "שי ג'ינפינג", notes: "מונופול שלטוני של המפלגה (CCP). שימוש במערכת 'חומת האש הגדולה', דירוג אשראי חברתי ומעקב דיגיטלי מתקדם." },
-          { name: "צפון קוריאה", regime: "דיקטטורה טוטליטרית", typeKey: "authoritarian", flag: "🇰🇵", lat: 40.3399, lon: 127.5101, capital: "פיונגיאנג", structure: "טוטליטריזם תורשתי וצבאי", score: "1.08", pop: "26 מיליון", leader: "קים ג'ונג און", notes: "המשטר הסגור והמבודד בעולם. אידיאולוגיית ג'וצ'ה (הסתמכות עצמית), שליטה מלאה במידע ומחנות מאסר פוליטיים." },
-          { name: "טורקיה", regime: "משטר כלאיים", typeKey: "hybrid", flag: "🇹🇷", lat: 38.9637, lon: 35.2433, capital: "אנקרה", structure: "משטר נשיאותי ריכוזי (כלאיים)", score: "4.35", pop: "85 מיליון", leader: "רג'פ טאיפ ארדואן", notes: "בחירות תחרותיות אך תחת שליטה ממשלתית כמעט מוחלטת בערוצי התקשורת, כליאת עיתונאים והחלשת עצמאות השפיטה." },
-          { name: "הונגריה", regime: "משטר כלאיים / דמוקרטיה א-ליברלית", typeKey: "hybrid", flag: "🇭🇺", lat: 47.1625, lon: 19.5033, capital: "בודפשט", structure: "רפובליקה פרלמנטרית (כרסום)", score: "6.72", pop: "9.7 מיליון", leader: "ויקטור אורבן", notes: "האיחוד האירופי הגדיר את הונגריה כ'אוטוקרטיה אלקטורלית'. מפלגת פידס שינתה את חוקי הבחירות לטובתה והשתלטה על המדיה." },
-          { name: "ברזיל", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇧🇷", lat: -14.2350, lon: -51.9253, capital: "ברזיליה", structure: "רפובליקה נשיאותית פדרלית", score: "6.68", pop: "215 מיליון", leader: "לואיז אינאסיו דה סילבה (לולה)", notes: "דמוקרטיה תוססת אך מתמודדת עם פערים חברתיים קיצוניים, שחיתות פוליטית ואירועי המרדה נגד מוסדות השלטון." },
-          { name: "דרום אפריקה", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇿🇦", lat: -30.5595, lon: 22.9375, capital: "פרטוריה / קייפטאון", structure: "דמוקרטיה חוקתית פרלמנטרית", score: "7.05", pop: "60 מיליון", leader: "נשיא המדינה (נבחר בפרלמנט)", notes: "חוקה מהמתקדמות בעולם מאז סיום משטר האפרטהייד (1994). בית משפט חוקתי חזק מול אתגרי עוני ואבטלה מבנית." },
-          { name: "אוסטרליה", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇦🇺", lat: -25.2744, lon: 133.7751, capital: "קנברה", structure: "פדרציה ומונרכיה חוקתית", score: "8.66", pop: "26 מיליון", leader: "ראש ממשלה", notes: "השתתפות אזרחית ייחודית באמצעות חובת הצבעה בחוק (Compulsory Voting) והצבעה מדורגת (Preferential Voting)." }
+          { name: "ישראל", code: "il", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇮🇱", lat: 31.0461, lon: 34.8516, capital: "ירושלים", structure: "דמוקרטיה פרלמנטרית", score: "7.80", pop: "9.8 מיליון", leader: "ראש ממשלה / נשיא", notes: "מערכת בחירות יחסית-ארצית, חברה אזרחית תוססת ובית משפט עליון עצמאי המהווה מוקד למאבקי איזונים ובלמים." },
+          { name: "נורווגיה", code: "no", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇳🇴", lat: 60.4720, lon: 8.4689, capital: "אוסלו", structure: "מונרכיה חוקתית ודמוקרטיה", score: "9.81 (#1 בעולם)", pop: "5.4 מיליון", leader: "ראש ממשלה / מלך סמלי", notes: "מדורגת בקביעות במקום הראשון בעולם במדד הדמוקרטיה. שקיפות שלטונית מרבית, שוויון אזרחי עמוק וקרן עושר לאומית." },
+          { name: "קנדה", code: "ca", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇨🇦", lat: 56.1304, lon: -106.3468, capital: "אוטווה", structure: "פדרציה פרלמנטרית", score: "8.69", pop: "39 מיליון", leader: "ראש ממשלה", notes: "מוסדות חוקתיים איתנים, הגנה נרחבת על זכויות אדם ומבנה פדרלי המאזן בין מחוזות בעלי זהויות תרבותיות שונות." },
+          { name: "ארצות הברית", code: "us", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇺🇸", lat: 37.0902, lon: -95.7129, capital: "וושינגטון די.סי", structure: "רפובליקה נשיאותית פדרלית", score: "7.85", pop: "335 מיליון", leader: "נשיא ארצות הברית", notes: "הפרדת רשויות נוקשה (חוקה מ-1787). האתגרים המרכזיים: קיטוב מפלגתי חריף (Polarization) וסוגיות במימון בחירות." },
+          { name: "בריטניה", code: "gb", regime: "מונרכיה חוקתית / דמוקרטיה", typeKey: "monarchy", flag: "🇬🇧", lat: 55.3781, lon: -3.4360, capital: "לונדון", structure: "מונרכיה חוקתית פרלמנטרית", score: "8.28", pop: "67.5 מיליון", leader: "ראש ממשלה / מלך צ'ארלס השלישי", notes: "ערש השיטה הפרלמנטרית (מודל וסטמינסטר). חוקה בלתי-כתובה המושתתת על אמנות היסטוריות, פסיקות שופטים ומסורת." },
+          { name: "יפן", code: "jp", regime: "מונרכיה חוקתית / דמוקרטיה", typeKey: "monarchy", flag: "🇯🇵", lat: 36.2048, lon: 138.2529, capital: "טוקיו", structure: "מונרכיה חוקתית פרלמנטרית", score: "8.40", pop: "124 מיליון", leader: "ראש ממשלה / הקיסר נרוהיטו", notes: "הקיסר מוגדר כ'סמל המדינה ואחדות העם' ללא סמכויות ממשל. חוקת השלום משנת 1947 מגבילה את תפקיד הצבא." },
+          { name: "ערב הסעודית", code: "sa", regime: "מונרכיה אבסולוטית", typeKey: "monarchy", flag: "🇸🇦", lat: 23.8859, lon: 45.0792, capital: "ריאד", structure: "מונרכיה אבסולוטית שושלתית", score: "2.08", pop: "36.4 מיליון", leader: "המלך סלמאן ויורש העצר MBS", notes: "ריכוז סמכויות מוחלט בידי בית סעוד. היעדר מפלגות פוליטיות או בחירות לפרלמנט. רפורמות חברתיות וכלכליות מלמעלה למטה." },
+          { name: "רוסיה", code: "ru", regime: "משטר סמכותני", typeKey: "authoritarian", flag: "🇷🇺", lat: 61.5240, lon: 105.3188, capital: "מוסקבה", structure: "אוטוריטריזם פרסונליסטי", score: "2.22", pop: "144 מיליון", leader: "ולדימיר פוטין", notes: "שליטה הדוקה של הקרמלין בערוצי התקשורת, חיסול האופוזיציה הפוליטית ודיכוי כל מחאה אזרחית על רקע המלחמה באוקראינה." },
+          { name: "סין", code: "cn", regime: "משטר חד-מפלגתי סמכותני", typeKey: "authoritarian", flag: "🇨🇳", lat: 35.8617, lon: 104.1954, capital: "בייג'ינג", structure: "מפלגה קומוניסטית יחידה", score: "2.12", pop: "1.41 מיליארד", leader: "שי ג'ינפינג", notes: "מונופול שלטוני של המפלגה (CCP). שימוש במערכת 'חומת האש הגדולה', דירוג אשראי חברתי ומעקב דיגיטלי מתקדם." },
+          { name: "צפון קוריאה", code: "kp", regime: "דיקטטורה טוטליטרית", typeKey: "authoritarian", flag: "🇰🇵", lat: 40.3399, lon: 127.5101, capital: "פיונגיאנג", structure: "טוטליטריזם תורשתי וצבאי", score: "1.08", pop: "26 מיליון", leader: "קים ג'ונג און", notes: "המשטר הסגור והמבודד בעולם. אידיאולוגיית ג'וצ'ה (הסתמכות עצמית), שליטה מלאה במידע ומחנות מאסר פוליטיים." },
+          { name: "טורקיה", code: "tr", regime: "משטר כלאיים", typeKey: "hybrid", flag: "🇹🇷", lat: 38.9637, lon: 35.2433, capital: "אנקרה", structure: "משטר נשיאותי ריכוזי (כלאיים)", score: "4.35", pop: "85 מיליון", leader: "רג'פ טאיפ ארדואן", notes: "בחירות תחרותיות אך תחת שליטה ממשלתית כמעט מוחלטת בערוצי התקשורת, כליאת עיתונאים והחלשת עצמאות השפיטה." },
+          { name: "הונגריה", code: "hu", regime: "משטר כלאיים / דמוקרטיה א-ליברלית", typeKey: "hybrid", flag: "🇭🇺", lat: 47.1625, lon: 19.5033, capital: "בודפשט", structure: "רפובליקה פרלמנטרית (כרסום)", score: "6.72", pop: "9.7 מיליון", leader: "ויקטור אורבן", notes: "האיחוד האירופי הגדיר את הונגריה כ'אוטוקרטיה אלקטורלית'. מפלגת פידס שינתה את חוקי הבחירות לטובתה והשתלטה על המדיה." },
+          { name: "ברזיל", code: "br", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇧🇷", lat: -14.2350, lon: -51.9253, capital: "ברזיליה", structure: "רפובליקה נשיאותית פדרלית", score: "6.68", pop: "215 מיליון", leader: "לואיז אינאסיו דה סילבה (לולה)", notes: "דמוקרטיה תוססת אך מתמודדת עם פערים חברתיים קיצוניים, שחיתות פוליטית ואירועי המרדה נגד מוסדות השלטון." },
+          { name: "דרום אפריקה", code: "za", regime: "דמוקרטיה פגומה", typeKey: "democracy", flag: "🇿🇦", lat: -30.5595, lon: 22.9375, capital: "פרטוריה / קייפטאון", structure: "דמוקרטיה חוקתית פרלמנטרית", score: "7.05", pop: "60 מיליון", leader: "נשיא המדינה (נבחר בפרלמנט)", notes: "חוקה מהמתקדמות בעולם מאז סיום משטר האפרטהייד (1994). בית משפט חוקתי חזק מול אתגרי עוני ואבטלה מבנית." },
+          { name: "אוסטרליה", code: "au", regime: "דמוקרטיה מלאה", typeKey: "democracy", flag: "🇦🇺", lat: -25.2744, lon: 133.7751, capital: "קנברה", structure: "פדרציה ומונרכיה חוקתית", score: "8.66", pop: "26 מיליון", leader: "ראש ממשלה", notes: "השתתפות אזרחית ייחודית באמצעות חובת הצבעה בחוק (Compulsory Voting) והצבעה מדורגת (Preferential Voting)." }
         ];
 
         // פונקציית המרת קואורדינטות (רוחב ואורך) למיקום 3D על כדור
@@ -4589,6 +5175,27 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
           this.countryMarkers.push({ pin: pinMesh, ring: ringMesh, data: c });
         });
+
+        // יצירת לחצני בחירה מהירה לפי מדינה
+        const chipsContainer = document.getElementById('globe-quick-country-chips');
+        if (chipsContainer) {
+          chipsContainer.innerHTML = '';
+          this.countriesData.forEach(c => {
+            const chip = document.createElement('button');
+            chip.className = 'country-flag-pill';
+            chip.style.cursor = 'pointer';
+            chip.style.border = '1px solid rgba(255,255,255,0.15)';
+            chip.style.background = 'rgba(255,255,255,0.06)';
+            chip.style.transition = 'all 0.2s ease';
+            chip.innerHTML = `<img src="https://flagcdn.com/w40/${c.code}.png" alt="${c.name}"> ${c.name}`;
+            chip.onclick = () => {
+              this.showCountryDetails(c);
+              this.playSatelliteRadarPing();
+              if (this.orbitControls) this.orbitControls.autoRotate = false;
+            };
+            chipsContainer.appendChild(chip);
+          });
+        }
 
         // בקרת מצלמה אינטראקטיבית מלאה (OrbitControls)
         if (typeof THREE.OrbitControls !== 'undefined') {
@@ -4693,7 +5300,12 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       }
 
       showCountryDetails(c) {
-        document.getElementById('info-flag').innerText = c.flag;
+        const flagEl = document.getElementById('info-flag');
+        if (c.code) {
+          flagEl.innerHTML = `<img src="https://flagcdn.com/w160/${c.code.toLowerCase()}.png" alt="${c.name}" style="width: 48px; height: 32px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.25); display: inline-block; vertical-align: middle;">`;
+        } else {
+          flagEl.innerText = c.flag;
+        }
         document.getElementById('info-name').innerText = c.name;
         document.getElementById('info-capital').innerText = c.capital;
         document.getElementById('info-structure').innerText = c.structure;
