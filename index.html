@@ -3338,7 +3338,7 @@
               </div>
 
               <!-- אלמנט הוידאו הראשי -->
-              <video id="geo-3d-video" src="assets/geopolitics_3d_15s.webm" playsinline preload="auto" loop></video>
+              <video id="geo-3d-video" src="assets/geopolitics_3d_15s.webm" playsinline preload="auto" muted loop></video>
               <!-- קנבס 3D חי למצב אינטראקטיבי -->
               <canvas id="geo-3d-canvas"></canvas>
             </div>
@@ -3355,7 +3355,7 @@
               <span class="video-time-display" id="video-time-code" dir="ltr">00:00 / 00:15</span>
               <input type="range" class="video-scrubber" id="video-scrubber" min="0" max="15" step="0.05" value="0">
               <button class="video-btn" id="video-btn-mute" title="הפעל / השתק קול">
-                🔊
+                🔇
               </button>
               <button class="video-btn" id="video-btn-speed" title="מהירות ניגון">
                 1.0x
@@ -3701,7 +3701,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       <div class="slide-dots-container" id="slide-dots"></div>
 
       <div class="slide-counter" id="slide-counter-display">
-        שקף <strong>1</strong> מתוך <strong>10</strong>
+        שקף <strong>1</strong> מתוך <strong>11</strong>
       </div>
 
       <button class="btn-nav-circle" id="nav-btn-next" title="הבא (חץ שמאלה / רווח)">
@@ -3949,6 +3949,9 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         // עדכון סטטוס UI של הפסקול כפעיל מראש
         this.updateAmbientUI();
+
+        // עדכון מצב ראשוני מלא של השקפים (1 מתוך 11, פס התקדמות, כותרת ואינדיקטורים מהרגע הראשון)
+        this.updateSlideUI();
 
         // ניווט לשקף התחלתי לפי כתובת URL (למשל ?slide=6 או #slide-6)
         const urlParams = new URLSearchParams(window.location.search);
@@ -4591,6 +4594,34 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
       }
 
       /* ----------------------------------------------------------------------
+         עדכון ממשק השקפים (סרגל התקדמות, מונה, כותרת עליונה ותחתונה, נקודות)
+         ---------------------------------------------------------------------- */
+      updateSlideUI() {
+        const currentSlide = this.slides[this.currentSlideIndex];
+        if (!currentSlide) return;
+
+        // עדכון סרגל עליון ופס התקדמות
+        const progressPct = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) progressBar.style.width = `${progressPct}%`;
+        
+        const topic = currentSlide.getAttribute('data-topic') || 'גיאופוליטיקה';
+        const headerTopic = document.getElementById('header-active-topic');
+        if (headerTopic) headerTopic.innerText = topic;
+        const footerTopic = document.getElementById('footer-topic-title');
+        if (footerTopic) footerTopic.innerText = topic;
+
+        // עדכון מונה שקפים דינמי מהרגע הראשון (למשל שקף 1 מתוך 11)
+        const counter = document.getElementById('slide-counter-display');
+        if (counter) {
+          counter.innerHTML = `שקף <strong>${this.currentSlideIndex + 1}</strong> מתוך <strong>${this.totalSlides}</strong>`;
+        }
+
+        // עדכון נקודות וסקירה
+        this.updateActiveDot();
+      }
+
+      /* ----------------------------------------------------------------------
          בקרת מעבר שקפים
          ---------------------------------------------------------------------- */
       goToSlide(index) {
@@ -4601,21 +4632,8 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         const currentSlide = this.slides[this.currentSlideIndex];
         currentSlide.classList.add('active');
 
-        // עדכון סרגל עליון ופס התקדמות
-        const progressPct = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
-        document.getElementById('progress-bar').style.width = `${progressPct}%`;
-        
-        const topic = currentSlide.getAttribute('data-topic') || 'גיאופוליטיקה';
-        document.getElementById('header-active-topic').innerText = topic;
-        const footerTopic = document.getElementById('footer-topic-title');
-        if (footerTopic) footerTopic.innerText = topic;
-
-        // עדכון מונה שקפים
-        document.getElementById('slide-counter-display').innerHTML = 
-          `שקף <strong>${this.currentSlideIndex + 1}</strong> מתוך <strong>${this.totalSlides}</strong>`;
-
-        // עדכון נקודות וסקירה
-        this.updateActiveDot();
+        // עדכון מקיף של כל חיוויי הממשק (סרגל, מונה שקפים, כותרת, נקודות)
+        this.updateSlideUI();
         this.playSlideHistoricalTheme(this.currentSlideIndex);
 
         // התאמת גדלי קנבס במידת הצורך לפירמידת ה-3D (שקף 5, אינדקס 4)
@@ -5771,13 +5789,33 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           });
         }
 
+        video.addEventListener('play', () => {
+          if (iconPlay) iconPlay.innerText = '⏸';
+          if (textPlay) textPlay.innerText = 'השהה';
+        });
+
+        video.addEventListener('pause', () => {
+          if (iconPlay) iconPlay.innerText = '▶';
+          if (textPlay) textPlay.innerText = 'נגן';
+        });
+
+        video.addEventListener('ended', () => {
+          if (!video.loop) {
+            if (iconPlay) iconPlay.innerText = '▶';
+            if (textPlay) textPlay.innerText = 'נגן';
+          }
+        });
+
         video.addEventListener('timeupdate', () => {
           const cur = video.currentTime;
-          const dur = 15.0;
-          const curClamped = Math.min(cur, dur);
-          const sec = Math.floor(curClamped).toString().padStart(2, '0');
+          const dur = (video.duration && !isNaN(video.duration) && video.duration > 0) ? video.duration : 15.0;
+          const curClamped = Math.min(cur, 15.0);
+          const sec = Math.min(15, Math.floor(curClamped)).toString().padStart(2, '0');
           if (timeCode) timeCode.innerText = `00:${sec} / 00:15`;
-          if (scrubber) scrubber.value = curClamped;
+          if (scrubber) {
+            scrubber.max = 15.0;
+            scrubber.value = curClamped;
+          }
 
           // עדכון תדריך מודיעיני דינמי בזמן אמת לפי שלבי הסרטון
           const briefingBadge = document.getElementById('briefing-badge');
@@ -5821,9 +5859,8 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             }
           }
 
-          if (cur >= dur) {
+          if (!video.loop && cur >= dur - 0.15) {
             video.pause();
-            video.currentTime = 0;
             if (iconPlay) iconPlay.innerText = '▶';
             if (textPlay) textPlay.innerText = 'נגן';
           }
