@@ -986,26 +986,129 @@
       flex-direction: column;
       position: relative;
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: rgba(11, 15, 25, 0.85);
-      border: 1px solid rgba(0, 210, 255, 0.35);
+      overflow-y: auto;
+      background: rgba(11, 15, 25, 0.90);
+      border: 1px solid rgba(0, 210, 255, 0.40);
       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 210, 255, 0.15);
       width: 100%;
-      max-width: 1100px;
+      max-width: 1120px;
       height: 100%;
-      max-height: calc(100vh - 250px);
+      max-height: calc(100vh - 220px);
     }
 
     .video-player-wrapper {
       position: relative;
       flex: 1;
       width: 100%;
-      min-height: 300px;
+      min-height: 280px;
+      max-height: 460px;
       background: #060913;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+    }
+
+    .video-live-briefing {
+      background: linear-gradient(135deg, rgba(8, 14, 28, 0.96), rgba(15, 23, 42, 0.92));
+      border-top: 1px solid rgba(0, 210, 255, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .briefing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .briefing-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      transition: all 0.3s ease;
+    }
+
+    .briefing-stat {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .briefing-title {
+      font-size: 0.94rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .briefing-desc {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .video-intel-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 10px 18px 12px;
+      background: rgba(6, 10, 20, 0.75);
+    }
+
+    .intel-pillar-card {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .intel-pillar-card:hover {
+      background: rgba(0, 210, 255, 0.10);
+      border-color: rgba(0, 210, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .pillar-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pillar-text h5 {
+      margin: 0 0 3px 0;
+      font-size: 0.82rem;
+      color: #f1f5f9;
+      font-weight: 700;
+    }
+
+    .pillar-text p {
+      margin: 0;
+      font-size: 0.74rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 900px) {
+      .video-intel-pillars {
+        grid-template-columns: 1fr;
+      }
     }
 
     #geo-3d-video, #geo-3d-canvas {
@@ -3260,6 +3363,45 @@
               <button class="video-btn" id="video-btn-fullscreen" title="מסך מלא לוידאו">
                 ⛶
               </button>
+            </div>
+
+            <!-- תדריך מודיעיני דינמי המסונכרן לסרטון בזמן אמת -->
+            <div class="video-live-briefing" id="video-live-briefing">
+              <div class="briefing-header">
+                <span class="briefing-badge" id="briefing-badge">שלב 1 • פריסת תשתית גלובלית (0-4 שניות)</span>
+                <span class="briefing-stat" id="briefing-stat">מדד: 95%+ מתעבורת המידע בכבלים תת-ימיים</span>
+              </div>
+              <div class="briefing-content">
+                <strong class="briefing-title" id="briefing-title">עורקי המידע של העולם החופשי: כבלים תת-ימיים ורשת האינטרנט הפתוחה</strong>
+                <p class="briefing-desc" id="briefing-desc">
+                  דמוקרטיות מערביות מובילות את מודל ה-Open Internet: חיבוריות חופשית, שקיפות והגנה חוקתית על פרטיות. צמתים מרכזיים (ניו יורק, לונדון, טוקיו) מהווים עורקי מסחר ונתונים קריטיים המוגנים בהסכמים בינלאומיים.
+                </p>
+              </div>
+            </div>
+
+            <!-- 3 עמודי תווך גיאופוליטיים אינפורמטיביים (ניתנים ללחיצה לקפיצה בשניות) -->
+            <div class="video-intel-pillars">
+              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(0)" title="לחץ לצפייה בקטע זה בסרטון">
+                <div class="pillar-icon">🌐</div>
+                <div class="pillar-text">
+                  <h5>ריבונות רשת מול מרחב פתוח (Splinternet)</h5>
+                  <p>השוואה בין פתיחות דמוקרטית ו-GDPR לבין "חומות אש לאומיות" ומשטרי בידוד רשת (Runet ברוסיה).</p>
+                </div>
+              </div>
+              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(3.8)" title="לחץ לצפייה בקטע זה בסרטון">
+                <div class="pillar-icon">🛰️</div>
+                <div class="pillar-text">
+                  <h5>עליונות לוויינית ב-LEO וסמכותנות דיגיטלית</h5>
+                  <p>מאבק המעצמות בחלל הקרוב (Starlink מול BeiDou), מעקב המונים ב-AI וסנסורי ביון מסלוליים.</p>
+                </div>
+              </div>
+              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(11.5)" title="לחץ לצפייה בקטע זה בסרטון">
+                <div class="pillar-icon">🛡️</div>
+                <div class="pillar-text">
+                  <h5>חוסן דמוקרטי ובריתות סייבר בינלאומיות</h5>
+                  <p>שיתוף מודיעין בזמן אמת (Five Eyes, NATO Cyber) להגנה על תהליכי בחירות ותשתיות אזרחיות קריטיות.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -5637,6 +5779,48 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           if (timeCode) timeCode.innerText = `00:${sec} / 00:15`;
           if (scrubber) scrubber.value = curClamped;
 
+          // עדכון תדריך מודיעיני דינמי בזמן אמת לפי שלבי הסרטון
+          const briefingBadge = document.getElementById('briefing-badge');
+          const briefingStat = document.getElementById('briefing-stat');
+          const briefingTitle = document.getElementById('briefing-title');
+          const briefingDesc = document.getElementById('briefing-desc');
+
+          if (briefingBadge && briefingTitle && briefingDesc) {
+            if (curClamped < 3.8) {
+              briefingBadge.innerText = 'שלב 1 • פריסת תשתית גלובלית (0-4 שניות)';
+              briefingBadge.style.color = '#38bdf8';
+              briefingBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+              briefingBadge.style.background = 'rgba(56, 189, 248, 0.15)';
+              if (briefingStat) briefingStat.innerText = 'מדד: 95%+ מתעבורת המידע בכבלים תת-ימיים';
+              briefingTitle.innerText = 'עורקי המידע של העולם החופשי: כבלים תת-ימיים ורשת האינטרנט הפתוחה';
+              briefingDesc.innerText = 'דמוקרטיות מערביות מובילות את מודל ה-Open Internet: חיבוריות חופשית, שקיפות והגנה חוקתית על פרטיות. צמתים מרכזיים (ניו יורק, לונדון, טוקיו) מהווים עורקי מסחר ונתונים קריטיים המוגנים בהסכמים בינלאומיים.';
+            } else if (curClamped < 7.5) {
+              briefingBadge.innerText = 'שלב 2 • סמכותנות דיגיטלית (4-8 שניות)';
+              briefingBadge.style.color = '#ff3366';
+              briefingBadge.style.borderColor = 'rgba(255, 51, 102, 0.4)';
+              briefingBadge.style.background = 'rgba(255, 51, 102, 0.15)';
+              if (briefingStat) briefingStat.innerText = 'מדד: 70+ מדינות מפעילות מעקב המונים';
+              briefingTitle.innerText = 'מעקב לווייני וסמכותנות דיגיטלית: שימוש משטרי בבינה מלאכותית וסנסורים';
+              briefingDesc.innerText = 'משטרים סמכותניים עושים שימוש נרחב בלווייני מסלול נמוך (LEO), מצלמות זיהוי פנים ומערכות בינה מלאכותית לניטור אזרחים, דיכוי מחאות וסינון תכנים. "חומת האש הגדולה" בסין ומערכת SORM ברוסיה מהוות דוגמה מובהקת לטוטליטריזם טכנולוגי.';
+            } else if (curClamped < 11.5) {
+              briefingBadge.innerText = 'שלב 3 • לוחמת סייבר ופיצול הרשת (8-12 שניות)';
+              briefingBadge.style.color = '#f59e0b';
+              briefingBadge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+              briefingBadge.style.background = 'rgba(245, 158, 11, 0.15)';
+              if (briefingStat) briefingStat.innerText = 'מדד: 3.4B נפש תחת ניתוקי רשת וצנזורה';
+              briefingTitle.innerText = 'התנגשות סייבר ופיצול רשתות (Splinternet): דוקטרינת "ריבונות הרשת"';
+              briefingDesc.innerText = 'מתקפות סייבר מדינתיות ממוקדות בתשתיות קריטיות (אנרגיה, מים, פיננסים ומערכות בחירות). בד בבד, אוטוקרטיות שואפות לבודד את המרחב הקיברנטי המקומי (פרויקט RuNet לניתוק רשת) במטרה לחסום רעיונות דמוקרטיים ולמנוע זרימת מידע חופשי.';
+            } else {
+              briefingBadge.innerText = 'שלב 4 • מגן דמוקרטי ובריתות סייבר (12-15 שניות)';
+              briefingBadge.style.color = '#10b981';
+              briefingBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+              briefingBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+              if (briefingStat) briefingStat.innerText = 'מדד: 84% מהדמוקרטיות חיזקו שת"פ סייבר';
+              briefingTitle.innerText = 'חוסן דמוקרטי ובריתות סייבר בינלאומיות: הגנה על מוסדות החירות';
+              briefingDesc.innerText = 'דמוקרטיות מגיבות בבניית "כיפת ברזל דיגיטלית" באמצעות שיתוף פעולה מודיעיני רב-לאומי (NATO Cyber Defense, Five Eyes, שיתופי סייבר עם ישראל). המטרה: הגנה על תהליכים דמוקרטיים, טוהר הבחירות ותשתיות אזרחיות מפני התערבות זרה.';
+            }
+          }
+
           if (cur >= dur) {
             video.pause();
             video.currentTime = 0;
@@ -5700,6 +5884,19 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
               video.play().catch(() => {});
             }
           });
+        }
+      }
+
+      seekVideoPhase(seconds) {
+        const video = document.getElementById('geo-3d-video');
+        if (video) {
+          video.currentTime = seconds;
+          video.play().catch(() => {});
+          const iconPlay = document.getElementById('video-icon-play');
+          const textPlay = document.getElementById('video-text-play');
+          if (iconPlay) iconPlay.innerText = '⏸';
+          if (textPlay) textPlay.innerText = 'השהה';
+          this.playSound(640, 'sine', 0.05);
         }
       }
 
