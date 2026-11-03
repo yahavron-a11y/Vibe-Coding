@@ -3823,6 +3823,13 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             setTimeout(() => this.goToSlide(target), 60);
           }
         }
+
+        const modalParam = urlParams.get('modal');
+        if (modalParam === 'sound') {
+          setTimeout(() => this.toggleSoundArchiveModal(true), 250);
+        } else if (modalParam === 'overview') {
+          setTimeout(() => this.toggleOverviewModal(true), 250);
+        }
       }
 
       /* ----------------------------------------------------------------------
