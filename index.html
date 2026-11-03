@@ -969,6 +969,239 @@
     .detail-val { color: #fff; font-weight: 500; }
 
     /* ==========================================================================
+       שקף 9: סרטון תלת-ממדי קולנועי (15 שניות) - 3D Cinematic Cyber & Space Video
+       ========================================================================== */
+    .video-slide-layout {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 22px;
+      height: 100%;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .video-main-card {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: rgba(11, 15, 25, 0.78);
+      border: 1px solid rgba(0, 210, 255, 0.28);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 210, 255, 0.12);
+      min-height: 0;
+      height: 100%;
+    }
+
+    .video-player-wrapper {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      min-height: 280px;
+      background: #060913;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #geo-3d-video, #geo-3d-canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    #geo-3d-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .video-hud-overlay {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      left: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .video-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(6, 12, 24, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .video-badge-live {
+      border-color: rgba(239, 68, 68, 0.6);
+      color: #f87171;
+    }
+
+    .video-badge-live .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+      animation: pulseRecord 1.5s infinite;
+    }
+
+    @keyframes pulseRecord {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .video-controls-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: rgba(6, 12, 24, 0.94);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 15;
+    }
+
+    .video-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .video-btn:hover {
+      background: rgba(0, 210, 255, 0.18);
+      border-color: rgba(0, 210, 255, 0.5);
+      color: #38bdf8;
+      transform: translateY(-1px);
+    }
+
+    .video-btn-play {
+      background: linear-gradient(135deg, #0284c7, #00d2ff);
+      border-color: #38bdf8;
+      color: #05101a;
+      font-weight: 700;
+      padding: 7px 15px;
+    }
+
+    .video-btn-play:hover {
+      background: linear-gradient(135deg, #00d2ff, #38bdf8);
+      color: #05101a;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.5);
+    }
+
+    .video-time-display {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #f59e0b;
+      white-space: nowrap;
+      min-width: 95px;
+      text-align: center;
+    }
+
+    .video-scrubber {
+      flex: 1;
+      accent-color: #00d2ff;
+      cursor: pointer;
+      height: 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      transition: all 0.15s ease;
+    }
+
+    .video-scrubber:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* פאנל שלבי הסימולציה בצד */
+    .video-timeline-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 18px;
+    }
+
+    .video-phase-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .video-phase-item {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .video-phase-item.active {
+      background: rgba(0, 210, 255, 0.09);
+      border-color: rgba(0, 210, 255, 0.45);
+      box-shadow: 0 4px 18px rgba(0, 210, 255, 0.12);
+      transform: translateX(-4px);
+    }
+
+    .video-phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .video-phase-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .video-phase-time {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f59e0b;
+      font-weight: 600;
+    }
+
+    .video-phase-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ==========================================================================
        שקף 10: סימולטור פייתון ותלת-ממד למדינה אקראית (Random Country 3D Simulator)
        ========================================================================== */
     .simulator-layout {
@@ -3031,7 +3264,124 @@
     <!-- ----------------------------------------------------------------------
          שקף 9: סימולטור גיאופוליטי אינטראקטיבי: פייתון ותלת-ממד למדינה אקראית
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="8" data-topic="סימולטור גיאופוליטי">
+        <!-- ----------------------------------------------------------------------
+         שקף 9: סרטון תלת-ממדי: עתיד הגיאופוליטיקה ומרחב הסייבר (15 שניות)
+         ---------------------------------------------------------------------- -->
+    <section class="slide" data-index="8" data-topic="סרטון 3D">
+      <div class="slide-header">
+        <span class="slide-category-tag tag-blue">וידאו תלת-ממדי • 15 שניות</span>
+        <h2 class="slide-title">המרחב הדיגיטלי והסייבר: סימולציה תלת-ממדית (15 שניות)</h2>
+        <p class="slide-subtitle">
+          סימולציה תלת-ממדית קולנועית באורך 15 שניות הממחישה את התנגשות הכוחות הגלובלית: רשתות מעקב דיגיטליות, לווייני ביון ומרחב הסייבר המעצבים מחדש את משטרי העתיד.
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="video-slide-layout">
+          <!-- כרטיס נגן הוידאו הראשי -->
+          <div class="video-main-card">
+            <div class="video-player-wrapper">
+              <!-- תגיות HUD צפות בראש הנגן -->
+              <div class="video-hud-overlay">
+                <div class="video-badge video-badge-live">
+                  <span class="pulse-dot"></span>
+                  <span>סרטון 3D קולנועי</span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <span class="video-badge">⏱️ 15.00s</span>
+                  <span class="video-badge">4K 60FPS</span>
+                  <button class="video-btn" id="video-btn-mode-toggle" style="pointer-events:auto; padding:4px 10px; font-size:0.75rem;">
+                    🌐 מצב 3D חי
+                  </button>
+                </div>
+              </div>
+
+              <!-- אלמנט הוידאו הראשי -->
+              <video id="geo-3d-video" src="assets/geopolitics_3d_15s.webm" playsinline preload="auto" loop></video>
+              <!-- קנבס 3D חי למצב אינטראקטיבי או פולבק -->
+              <canvas id="geo-3d-canvas"></canvas>
+            </div>
+
+            <!-- סרגל בקרה מתקדם לוידאו -->
+            <div class="video-controls-bar">
+              <button class="video-btn video-btn-play" id="video-btn-play-pause">
+                <span id="video-icon-play">▶</span>
+                <span id="video-text-play">נגן</span>
+              </button>
+              <button class="video-btn" id="video-btn-replay" title="נגן מחדש מתחילת 15 השניות">
+                🔄 התחל מחדש
+              </button>
+              <span class="video-time-display" id="video-time-code" dir="ltr">00:00.0 / 00:15.0</span>
+              <input type="range" class="video-scrubber" id="video-scrubber" min="0" max="15" step="0.05" value="0">
+              <button class="video-btn" id="video-btn-mute" title="הפעל / השתק קול">
+                🔊
+              </button>
+              <button class="video-btn" id="video-btn-speed" title="מהירות ניגון">
+                1.0x
+              </button>
+              <button class="video-btn" id="video-btn-fullscreen" title="מסך מלא לוידאו">
+                ⛶
+              </button>
+            </div>
+          </div>
+
+          <!-- כרטיס ניתוח וציר זמנים של 15 השניות -->
+          <div class="video-timeline-card card-glass glow-purple">
+            <div class="card-icon icon-purple">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+            </div>
+            <div class="arch-tag">⏱️ ציר התרחשות • 15 שניות של הכרעה</div>
+            <h3 class="card-title">ניתוח ארבעת שלבי הסימולציה</h3>
+            <p class="card-desc">
+              הסימולציה התלת-ממדית פורסת כרונולוגיה דחוסה של מאבק השליטה במרחב הקיברנטי והלווייני של המאה ה-21:
+            </p>
+
+            <div class="video-phase-list">
+              <div class="video-phase-item" id="phase-item-1">
+                <div class="video-phase-header">
+                  <span class="video-phase-title">1. פריסת רשת הסייבר הגלובלית</span>
+                  <span class="video-phase-time">00:00 – 00:04</span>
+                </div>
+                <p class="video-phase-desc">
+                  סריקה לוויינית היקפית והתעוררות קווי סיבים אופטיים תת-ימיים המחברים 30 צמתי מפתח עולמיים מניו יורק ועד טוקיו.
+                </p>
+              </div>
+
+              <div class="video-phase-item" id="phase-item-2">
+                <div class="video-phase-header">
+                  <span class="video-phase-title">2. מעקב לווייני וסמכותנות דיגיטלית</span>
+                  <span class="video-phase-time">00:04 – 00:09</span>
+                </div>
+                <p class="video-phase-desc">
+                  לווייני מסלול נמוך (LEO) משגרים אלומות מכ"ם ממוקדות אל מוקדי שליטה של משטרים אוטוקרטיים, המציגות איסוף מודיעין בזמן אמת.
+                </p>
+              </div>
+
+              <div class="video-phase-item" id="phase-item-3">
+                <div class="video-phase-header">
+                  <span class="video-phase-title">3. התנגשות סייבר ופיצול רשתות (Splinternet)</span>
+                  <span class="video-phase-time">00:09 – 00:13</span>
+                </div>
+                <p class="video-phase-desc">
+                  פעימות מתקפת סייבר ארגמניות מתנגשות ברשתות הגנה כחולות של מדינות דמוקרטיות, תוך הדגמת סכנת בידוד האינטרנט הלאומי.
+                </p>
+              </div>
+
+              <div class="video-phase-item" id="phase-item-4">
+                <div class="video-phase-header">
+                  <span class="video-phase-title">4. הכרעה גיאופוליטית ומגן דמוקרטי</span>
+                  <span class="video-phase-time">00:13 – 00:15</span>
+                </div>
+                <p class="video-phase-desc">
+                  נעילת מגן הולוגרפי דמוקרטי והתכנסות הנתונים לתמונת מצב אסטרטגית סופית ב-15.00 שניות בדיוק לקראת סימולציית המדינות.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="slide" data-index="9" data-topic="סימולטור גיאופוליטי">
       <div class="slide-header">
         <span class="slide-category-tag tag-blue">סימולציית Python & מודל 3D</span>
         <h2 class="slide-title">סימולטור גיאופוליטי: ניתוח מדינה אקראית באמצעות פייתון</h2>
@@ -3227,7 +3577,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
     <!-- ----------------------------------------------------------------------
          שקף 10: שקף סיום, תודות ומקורות (Thank You & Summary)
          ---------------------------------------------------------------------- -->
-    <section class="slide" data-index="9" data-topic="סיום ותודות">
+    <section class="slide" data-index="10" data-topic="סיום ותודות">
       <div class="slide-body">
         <div style="max-width: 960px; margin: 0 auto; text-align: center;">
           <div class="hero-badge-tag" style="margin-bottom: 12px;">
@@ -3569,6 +3919,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         // אתחול מנוע Python ברקע
         this.initPyodideEngine();
         this.setupSimulatorSlide();
+        this.initVideoSlidePlayer();
 
         // עדכון סטטוס UI של הפסקול כפעיל מראש
         this.updateAmbientUI();
@@ -4062,8 +4413,9 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           case 5: this.playEspionageWire(); break;
           case 6: this.playSatelliteRadarPing(); break;
           case 7: this.playCyberPulse(); break;
-          case 8: this.playTeletypeTicker(6); break;
-          case 9: this.playPeaceChime(); break;
+          case 8: this.playCinematicCyberTheme(); break;
+          case 9: this.playTeletypeTicker(6); break;
+          case 10: this.playPeaceChime(); break;
           default: this.playSound(440 + index * 35, 'triangle', 0.08); break;
         }
       }
@@ -4243,8 +4595,26 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           this.onGlobeResize();
         }
 
-        // אם הגענו לשקף סימולטור פייתון ותלת-ממד למדינה אקראית (שקף 9, אינדקס 8)
+        // שקף 9: סרטון תלת-ממדי קולנועי (אינדקס 8)
         if (this.currentSlideIndex === 8) {
+          const video = document.getElementById('geo-3d-video');
+          if (video) {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+            const iconPlay = document.getElementById('video-icon-play');
+            const textPlay = document.getElementById('video-text-play');
+            if (iconPlay) iconPlay.innerText = '⏸';
+            if (textPlay) textPlay.innerText = 'השהה';
+          }
+        } else {
+          const video = document.getElementById('geo-3d-video');
+          if (video && !video.paused) {
+            video.pause();
+          }
+        }
+
+        // שקף 10: סימולטור פייתון ותלת-ממד למדינה אקראית (אינדקס 9)
+        if (this.currentSlideIndex === 9) {
           if (this.simRenderer) this.onSimResize();
           if (!this.hasAutoRunSimulator) {
             this.runRandomCountrySimulation();
@@ -5298,6 +5668,223 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         };
         animateGlobe();
       }
+
+      // 10. פסקול סינמטי סייבר ותלת-ממד לשקף הסרטון
+      playCinematicCyberTheme() {
+        if (!this.soundEnabled || !this.audioCtx) return;
+        this.resumeAudio();
+        const now = this.audioCtx.currentTime;
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(65.41, now);
+        osc.frequency.exponentialRampToValueAtTime(130.81, now + 1.2);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+        osc.connect(gain);
+        gain.connect(this.sfxGain || this.masterGain);
+        osc.start(now);
+        osc.stop(now + 1.55);
+        setTimeout(() => this.playSatelliteRadarPing(), 280);
+      }
+
+      /* ----------------------------------------------------------------------
+         ניהול נגן הסרטון התלת-ממדי (שקף 9 - 15 שניות)
+         ---------------------------------------------------------------------- */
+      initVideoSlidePlayer() {
+        const video = document.getElementById('geo-3d-video');
+        const canvas = document.getElementById('geo-3d-canvas');
+        const btnPlay = document.getElementById('video-btn-play-pause');
+        const iconPlay = document.getElementById('video-icon-play');
+        const textPlay = document.getElementById('video-text-play');
+        const btnReplay = document.getElementById('video-btn-replay');
+        const timeCode = document.getElementById('video-time-code');
+        const scrubber = document.getElementById('video-scrubber');
+        const btnMute = document.getElementById('video-btn-mute');
+        const btnSpeed = document.getElementById('video-btn-speed');
+        const btnFs = document.getElementById('video-btn-fullscreen');
+        const btnMode = document.getElementById('video-btn-mode-toggle');
+
+        if (!video) return;
+
+        let isLive3DMode = false;
+
+        const togglePlay = () => {
+          if (video.paused || video.ended) {
+            if (video.currentTime >= 15.0) video.currentTime = 0;
+            video.play().then(() => {
+              if (iconPlay) iconPlay.innerText = '⏸';
+              if (textPlay) textPlay.innerText = 'השהה';
+            }).catch(() => {});
+          } else {
+            video.pause();
+            if (iconPlay) iconPlay.innerText = '▶';
+            if (textPlay) textPlay.innerText = 'נגן';
+          }
+          this.playSound(600, 'sine', 0.05);
+        };
+
+        if (btnPlay) btnPlay.addEventListener('click', togglePlay);
+        video.addEventListener('click', togglePlay);
+
+        if (btnReplay) {
+          btnReplay.addEventListener('click', () => {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+            if (iconPlay) iconPlay.innerText = '⏸';
+            if (textPlay) textPlay.innerText = 'השהה';
+            this.playCinematicCyberTheme();
+          });
+        }
+
+        video.addEventListener('timeupdate', () => {
+          const cur = video.currentTime;
+          const dur = 15.0;
+          const sec = Math.floor(cur).toString().padStart(2, '0');
+          const ms = Math.floor((cur % 1) * 10).toString();
+          if (timeCode) timeCode.innerText = `00:${sec}.${ms} / 00:15.0`;
+          if (scrubber) scrubber.value = cur;
+
+          const p1 = document.getElementById('phase-item-1');
+          const p2 = document.getElementById('phase-item-2');
+          const p3 = document.getElementById('phase-item-3');
+          const p4 = document.getElementById('phase-item-4');
+
+          if (p1) p1.classList.toggle('active', cur < 4.0);
+          if (p2) p2.classList.toggle('active', cur >= 4.0 && cur < 9.0);
+          if (p3) p3.classList.toggle('active', cur >= 9.0 && cur < 13.0);
+          if (p4) p4.classList.toggle('active', cur >= 13.0);
+
+          if (cur >= dur) {
+            video.pause();
+            video.currentTime = dur;
+            if (iconPlay) iconPlay.innerText = '▶';
+            if (textPlay) textPlay.innerText = 'נגן';
+          }
+        });
+
+        if (scrubber) {
+          scrubber.addEventListener('input', (e) => {
+            video.currentTime = parseFloat(e.target.value);
+          });
+        }
+
+        if (btnMute) {
+          btnMute.addEventListener('click', () => {
+            video.muted = !video.muted;
+            btnMute.innerText = video.muted ? '🔇' : '🔊';
+            this.playSound(500, 'sine', 0.04);
+          });
+        }
+
+        const speeds = [1.0, 1.5, 2.0];
+        let speedIdx = 0;
+        if (btnSpeed) {
+          btnSpeed.addEventListener('click', () => {
+            speedIdx = (speedIdx + 1) % speeds.length;
+            video.playbackRate = speeds[speedIdx];
+            btnSpeed.innerText = `${speeds[speedIdx].toFixed(1)}x`;
+            this.playSound(700, 'sine', 0.04);
+          });
+        }
+
+        if (btnFs) {
+          btnFs.addEventListener('click', () => {
+            const card = document.querySelector('.video-main-card');
+            if (document.fullscreenElement) {
+              document.exitFullscreen().catch(() => {});
+            } else if (card && card.requestFullscreen) {
+              card.requestFullscreen().catch(() => {});
+            }
+          });
+        }
+
+        if (btnMode) {
+          btnMode.addEventListener('click', () => {
+            isLive3DMode = !isLive3DMode;
+            if (isLive3DMode) {
+              video.pause();
+              video.style.display = 'none';
+              canvas.style.display = 'block';
+              btnMode.innerText = '🎥 סרטון 15 שניות';
+              btnMode.style.borderColor = 'var(--gold)';
+              this.initLiveCinematic3D();
+            } else {
+              if (this.cinematic3DAnimId) cancelAnimationFrame(this.cinematic3DAnimId);
+              canvas.style.display = 'none';
+              video.style.display = 'block';
+              btnMode.innerText = '🌐 מצב 3D חי';
+              btnMode.style.borderColor = 'rgba(255,255,255,0.16)';
+              video.play().catch(() => {});
+            }
+          });
+        }
+      }
+
+      initLiveCinematic3D() {
+        const canvas = document.getElementById('geo-3d-canvas');
+        if (!canvas) return;
+        const w = canvas.clientWidth || 800;
+        const h = canvas.clientHeight || 450;
+        
+        if (!this.cinematic3DScene) {
+          const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+          renderer.setSize(w, h);
+          renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+          const scene = new THREE.Scene();
+          scene.background = new THREE.Color(0x060913);
+
+          const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+          camera.position.set(0, 20, 200);
+
+          const light1 = new THREE.AmbientLight(0xffffff, 0.7);
+          scene.add(light1);
+          const light2 = new THREE.DirectionalLight(0x00d2ff, 1.5);
+          light2.position.set(100, 50, 100);
+          scene.add(light2);
+
+          const globe = new THREE.Mesh(
+            new THREE.SphereGeometry(60, 36, 36),
+            new THREE.MeshStandardMaterial({
+              color: 0x0f2b48,
+              roughness: 0.6,
+              wireframe: false
+            })
+          );
+          scene.add(globe);
+
+          const wire = new THREE.Mesh(
+            new THREE.SphereGeometry(60.8, 24, 16),
+            new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.25 })
+          );
+          scene.add(wire);
+
+          let controls = null;
+          if (typeof THREE.OrbitControls !== 'undefined') {
+            controls = new THREE.OrbitControls(camera, canvas);
+            controls.enableDamping = true;
+          }
+
+          this.cinematic3DScene = scene;
+          this.cinematic3DCamera = camera;
+          this.cinematic3DRenderer = renderer;
+          this.cinematic3DGlobe = globe;
+          this.cinematic3DWire = wire;
+          this.cinematic3DControls = controls;
+        }
+
+        const render = () => {
+          this.cinematic3DAnimId = requestAnimationFrame(render);
+          if (this.cinematic3DGlobe) this.cinematic3DGlobe.rotation.y += 0.005;
+          if (this.cinematic3DWire) this.cinematic3DWire.rotation.y += 0.003;
+          if (this.cinematic3DControls) this.cinematic3DControls.update();
+          this.cinematic3DRenderer.render(this.cinematic3DScene, this.cinematic3DCamera);
+        };
+        render();
+      }
+
 
       showCountryDetails(c) {
         const flagEl = document.getElementById('info-flag');
