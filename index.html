@@ -1000,114 +1000,77 @@
       position: relative;
       flex: 1;
       width: 100%;
-      min-height: 280px;
-      max-height: 460px;
+      min-height: 320px;
+      max-height: 520px;
       background: #060913;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      transform: translateZ(0);
+      will-change: transform;
     }
 
-    .video-live-briefing {
-      background: linear-gradient(135deg, rgba(8, 14, 28, 0.96), rgba(15, 23, 42, 0.92));
-      border-top: 1px solid rgba(0, 210, 255, 0.25);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 10px 18px;
+    /* סרגל 4 שלבים מינימליסטי ונקי - ללא עומס מלל */
+    .video-phase-strip {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .briefing-header {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-    }
-
-    .briefing-badge {
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 6px;
-      background: rgba(56, 189, 248, 0.18);
-      color: #38bdf8;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      transition: all 0.3s ease;
-    }
-
-    .briefing-stat {
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #94a3b8;
-      background: rgba(255, 255, 255, 0.06);
-      padding: 3px 10px;
-      border-radius: 6px;
-    }
-
-    .briefing-title {
-      font-size: 0.94rem;
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .briefing-desc {
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      margin: 0;
-      line-height: 1.45;
-    }
-
-    .video-intel-pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      justify-content: space-between;
       gap: 10px;
-      padding: 10px 18px 12px;
-      background: rgba(6, 10, 20, 0.75);
+      padding: 10px 18px;
+      background: rgba(6, 12, 24, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
     }
 
-    .intel-pillar-card {
+    .phase-chip {
+      flex: 1;
+      min-width: 180px;
       display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 8px 12px;
-      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 14px;
       background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.82rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      user-select: none;
     }
 
-    .intel-pillar-card:hover {
-      background: rgba(0, 210, 255, 0.10);
-      border-color: rgba(0, 210, 255, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .pillar-icon {
-      font-size: 1.3rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .pillar-text h5 {
-      margin: 0 0 3px 0;
-      font-size: 0.82rem;
+    .phase-chip:hover {
+      background: rgba(255, 255, 255, 0.08);
       color: #f1f5f9;
-      font-weight: 700;
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
     }
 
-    .pillar-text p {
-      margin: 0;
-      font-size: 0.74rem;
-      color: #94a3b8;
-      line-height: 1.35;
+    .phase-chip.active {
+      background: rgba(0, 210, 255, 0.14);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(0, 210, 255, 0.25);
+    }
+
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
     @media (max-width: 900px) {
-      .video-intel-pillars {
-        grid-template-columns: 1fr;
+      .video-phase-strip {
+        gap: 6px;
+      }
+      .phase-chip {
+        min-width: calc(50% - 6px);
+        font-size: 0.76rem;
+        padding: 6px 10px;
       }
     }
 
@@ -3365,43 +3328,24 @@
               </button>
             </div>
 
-            <!-- תדריך מודיעיני דינמי המסונכרן לסרטון בזמן אמת -->
-            <div class="video-live-briefing" id="video-live-briefing">
-              <div class="briefing-header">
-                <span class="briefing-badge" id="briefing-badge">שלב 1 • פריסת תשתית גלובלית (0-4 שניות)</span>
-                <span class="briefing-stat" id="briefing-stat">מדד: 95%+ מתעבורת המידע בכבלים תת-ימיים</span>
-              </div>
-              <div class="briefing-content">
-                <strong class="briefing-title" id="briefing-title">עורקי המידע של העולם החופשי: כבלים תת-ימיים ורשת האינטרנט הפתוחה</strong>
-                <p class="briefing-desc" id="briefing-desc">
-                  דמוקרטיות מערביות מובילות את מודל ה-Open Internet: חיבוריות חופשית, שקיפות והגנה חוקתית על פרטיות. צמתים מרכזיים (ניו יורק, לונדון, טוקיו) מהווים עורקי מסחר ונתונים קריטיים המוגנים בהסכמים בינלאומיים.
-                </p>
-              </div>
-            </div>
-
-            <!-- 3 עמודי תווך גיאופוליטיים אינפורמטיביים (ניתנים ללחיצה לקפיצה בשניות) -->
-            <div class="video-intel-pillars">
-              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(0)" title="לחץ לצפייה בקטע זה בסרטון">
-                <div class="pillar-icon">🌐</div>
-                <div class="pillar-text">
-                  <h5>ריבונות רשת מול מרחב פתוח (Splinternet)</h5>
-                  <p>השוואה בין פתיחות דמוקרטית ו-GDPR לבין "חומות אש לאומיות" ומשטרי בידוד רשת (Runet ברוסיה).</p>
-                </div>
-              </div>
-              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(3.8)" title="לחץ לצפייה בקטע זה בסרטון">
-                <div class="pillar-icon">🛰️</div>
-                <div class="pillar-text">
-                  <h5>עליונות לוויינית ב-LEO וסמכותנות דיגיטלית</h5>
-                  <p>מאבק המעצמות בחלל הקרוב (Starlink מול BeiDou), מעקב המונים ב-AI וסנסורי ביון מסלוליים.</p>
-                </div>
-              </div>
-              <div class="intel-pillar-card" onclick="window.presentation && window.presentation.seekVideoPhase(11.5)" title="לחץ לצפייה בקטע זה בסרטון">
-                <div class="pillar-icon">🛡️</div>
-                <div class="pillar-text">
-                  <h5>חוסן דמוקרטי ובריתות סייבר בינלאומיות</h5>
-                  <p>שיתוף מודיעין בזמן אמת (Five Eyes, NATO Cyber) להגנה על תהליכי בחירות ותשתיות אזרחיות קריטיות.</p>
-                </div>
-              </div>
+            <!-- סרגל 4 שלבים מינימליסטי ונקי (הרבה פחות מלל, ניווט ישיר בלחיצה) -->
+            <div class="video-phase-strip" id="video-phase-strip">
+              <button class="phase-chip active" id="chip-phase-1" onclick="window.presentation && window.presentation.seekVideoPhase(0)" title="לחץ לקפיצה לשלב 1">
+                <span class="chip-dot" style="background:#38bdf8; box-shadow:0 0 6px #38bdf8;"></span>
+                <span>01. כבלים תת-ימיים ורשת פתוחה</span>
+              </button>
+              <button class="phase-chip" id="chip-phase-2" onclick="window.presentation && window.presentation.seekVideoPhase(3.8)" title="לחץ לקפיצה לשלב 2">
+                <span class="chip-dot" style="background:#ff3366; box-shadow:0 0 6px #ff3366;"></span>
+                <span>02. מעקב לווייני וסמכותנות</span>
+              </button>
+              <button class="phase-chip" id="chip-phase-3" onclick="window.presentation && window.presentation.seekVideoPhase(7.5)" title="לחץ לקפיצה לשלב 3">
+                <span class="chip-dot" style="background:#f59e0b; box-shadow:0 0 6px #f59e0b;"></span>
+                <span>03. לוחמת סייבר ופיצול רשתות</span>
+              </button>
+              <button class="phase-chip" id="chip-phase-4" onclick="window.presentation && window.presentation.seekVideoPhase(11.5)" title="לחץ לקפיצה לשלב 4">
+                <span class="chip-dot" style="background:#10b981; box-shadow:0 0 6px #10b981;"></span>
+                <span>04. חוסן דמוקרטי ובריתות הגנה</span>
+              </button>
             </div>
           </div>
         </div>
@@ -5260,9 +5204,10 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           prevMouseY = e.clientY;
         });
 
-        // אנימציית סיבוב רציפה
+        // אנימציית סיבוב רציפה (מותאמת ביצועים - רינדור רק כשהשקף פעיל)
         const animateHero = () => {
           requestAnimationFrame(animateHero);
+          if (this.currentSlideIndex !== 0) return;
           if (!isDragging) {
             heroGroup.rotation.y += 0.0035;
             heroGroup.rotation.x += 0.0008;
@@ -5393,6 +5338,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
 
         const animatePyramid = () => {
           requestAnimationFrame(animatePyramid);
+          if (this.currentSlideIndex !== 4) return;
           if (!isPyramidDragging) {
             pyramidGroup.rotation.y += 0.006;
             // שיכוך עדין להחזרת הטיה אופקית יציבה
@@ -5710,9 +5656,10 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
           });
         });
 
-        // לולאת אנימציה
+        // לולאת אנימציה (מותאמת ביצועים - רינדור רק כשהשקף פעיל)
         const animateGlobe = () => {
           requestAnimationFrame(animateGlobe);
+          if (this.currentSlideIndex !== 6) return;
           if (this.orbitControls) this.orbitControls.update();
           if (this.cloudMesh) this.cloudMesh.rotation.y += 0.0003;
           renderer.render(scene, camera);
@@ -5817,47 +5764,21 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
             scrubber.value = curClamped;
           }
 
-          // עדכון תדריך מודיעיני דינמי בזמן אמת לפי שלבי הסרטון
-          const briefingBadge = document.getElementById('briefing-badge');
-          const briefingStat = document.getElementById('briefing-stat');
-          const briefingTitle = document.getElementById('briefing-title');
-          const briefingDesc = document.getElementById('briefing-desc');
+          // עדכון אינדיקטור שלבי הסרטון (קל משקל, ביצועים גבוהים, ללא עומס מלל)
+          let activePhase = 1;
+          if (curClamped < 3.8) activePhase = 1;
+          else if (curClamped < 7.5) activePhase = 2;
+          else if (curClamped < 11.5) activePhase = 3;
+          else activePhase = 4;
 
-          if (briefingBadge && briefingTitle && briefingDesc) {
-            if (curClamped < 3.8) {
-              briefingBadge.innerText = 'שלב 1 • פריסת תשתית גלובלית (0-4 שניות)';
-              briefingBadge.style.color = '#38bdf8';
-              briefingBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
-              briefingBadge.style.background = 'rgba(56, 189, 248, 0.15)';
-              if (briefingStat) briefingStat.innerText = 'מדד: 95%+ מתעבורת המידע בכבלים תת-ימיים';
-              briefingTitle.innerText = 'עורקי המידע של העולם החופשי: כבלים תת-ימיים ורשת האינטרנט הפתוחה';
-              briefingDesc.innerText = 'דמוקרטיות מערביות מובילות את מודל ה-Open Internet: חיבוריות חופשית, שקיפות והגנה חוקתית על פרטיות. צמתים מרכזיים (ניו יורק, לונדון, טוקיו) מהווים עורקי מסחר ונתונים קריטיים המוגנים בהסכמים בינלאומיים.';
-            } else if (curClamped < 7.5) {
-              briefingBadge.innerText = 'שלב 2 • סמכותנות דיגיטלית (4-8 שניות)';
-              briefingBadge.style.color = '#ff3366';
-              briefingBadge.style.borderColor = 'rgba(255, 51, 102, 0.4)';
-              briefingBadge.style.background = 'rgba(255, 51, 102, 0.15)';
-              if (briefingStat) briefingStat.innerText = 'מדד: 70+ מדינות מפעילות מעקב המונים';
-              briefingTitle.innerText = 'מעקב לווייני וסמכותנות דיגיטלית: שימוש משטרי בבינה מלאכותית וסנסורים';
-              briefingDesc.innerText = 'משטרים סמכותניים עושים שימוש נרחב בלווייני מסלול נמוך (LEO), מצלמות זיהוי פנים ומערכות בינה מלאכותית לניטור אזרחים, דיכוי מחאות וסינון תכנים. "חומת האש הגדולה" בסין ומערכת SORM ברוסיה מהוות דוגמה מובהקת לטוטליטריזם טכנולוגי.';
-            } else if (curClamped < 11.5) {
-              briefingBadge.innerText = 'שלב 3 • לוחמת סייבר ופיצול הרשת (8-12 שניות)';
-              briefingBadge.style.color = '#f59e0b';
-              briefingBadge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-              briefingBadge.style.background = 'rgba(245, 158, 11, 0.15)';
-              if (briefingStat) briefingStat.innerText = 'מדד: 3.4B נפש תחת ניתוקי רשת וצנזורה';
-              briefingTitle.innerText = 'התנגשות סייבר ופיצול רשתות (Splinternet): דוקטרינת "ריבונות הרשת"';
-              briefingDesc.innerText = 'מתקפות סייבר מדינתיות ממוקדות בתשתיות קריטיות (אנרגיה, מים, פיננסים ומערכות בחירות). בד בבד, אוטוקרטיות שואפות לבודד את המרחב הקיברנטי המקומי (פרויקט RuNet לניתוק רשת) במטרה לחסום רעיונות דמוקרטיים ולמנוע זרימת מידע חופשי.';
-            } else {
-              briefingBadge.innerText = 'שלב 4 • מגן דמוקרטי ובריתות סייבר (12-15 שניות)';
-              briefingBadge.style.color = '#10b981';
-              briefingBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-              briefingBadge.style.background = 'rgba(16, 185, 129, 0.15)';
-              if (briefingStat) briefingStat.innerText = 'מדד: 84% מהדמוקרטיות חיזקו שת"פ סייבר';
-              briefingTitle.innerText = 'חוסן דמוקרטי ובריתות סייבר בינלאומיות: הגנה על מוסדות החירות';
-              briefingDesc.innerText = 'דמוקרטיות מגיבות בבניית "כיפת ברזל דיגיטלית" באמצעות שיתוף פעולה מודיעיני רב-לאומי (NATO Cyber Defense, Five Eyes, שיתופי סייבר עם ישראל). המטרה: הגנה על תהליכים דמוקרטיים, טוהר הבחירות ותשתיות אזרחיות מפני התערבות זרה.';
-            }
-          }
+          const c1 = document.getElementById('chip-phase-1');
+          const c2 = document.getElementById('chip-phase-2');
+          const c3 = document.getElementById('chip-phase-3');
+          const c4 = document.getElementById('chip-phase-4');
+          if (c1) c1.classList.toggle('active', activePhase === 1);
+          if (c2) c2.classList.toggle('active', activePhase === 2);
+          if (c3) c3.classList.toggle('active', activePhase === 3);
+          if (c4) c4.classList.toggle('active', activePhase === 4);
 
           if (!video.loop && cur >= dur - 0.15) {
             video.pause();
@@ -7223,6 +7144,7 @@ js.onPythonCountrySelected(chosen['id'])</code></pre>
         let radarScale = 1;
         const animateSim = () => {
           requestAnimationFrame(animateSim);
+          if (this.currentSlideIndex !== 9) return;
           if (controls) controls.update();
           cloudMesh.rotation.y += 0.0004;
 
